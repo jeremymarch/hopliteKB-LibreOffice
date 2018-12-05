@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# from repo: zip -r ../python_example.oxt * 
 
 import uno
 import unohelper
@@ -24,6 +25,9 @@ class Example( unohelper.Base, XJobExecutor ):
             newString=theString.upper()
         return newString;
 
+    def getBlah(self):
+        return "BlAh"        
+
     def trigger( self, args ):
         desktop = self.ctx.ServiceManager.createInstanceWithContext(
             "com.sun.star.frame.Desktop", self.ctx )
@@ -40,7 +44,7 @@ class Example( unohelper.Base, XJobExecutor ):
             cursor = text.createTextCursor()
 
             xIndexAccess = doc.getCurrentSelection()
-            
+
             count = xIndexAccess.getCount();
             for i in range(count) :
                 xTextRange = xIndexAccess.getByIndex(i);
@@ -55,16 +59,16 @@ class Example( unohelper.Base, XJobExecutor ):
                         xWordCursor.gotoStartOfWord(False);
                     xWordCursor.gotoNextWord(True);
                     theString = xWordCursor.getString();
-                    newString = theString.upper() #getNewString(theString);
+                    newString = self.getBlah(); #theString.upper() #getNewString(theString);
                     if newString :
                         xWordCursor.setString(newString);
-                        cur.select(xWordCursor);
+                        #cur.select(xWordCursor);
                     #text.insertString( cursor, "Hello World1", 0 )
                 else :
                      newString = theString.upper() #getNewString( theString );
                      if newString:
                         xTextRange.setString( newString );
-                        cur.select(xTextRange);
+                        #cur.select(xTextRange);
                     #text.insertString( cursor, "Hello World2", 0 )
         except Exception as e:
             text.insertString( cursor, str(e), 6 )
