@@ -55,8 +55,7 @@ class Example( unohelper.Base, XJobExecutor ):
     def trigger( self, args ):
         
         try:
-            desktop = self.ctx.ServiceManager.createInstanceWithContext(
-            "com.sun.star.frame.Desktop", self.ctx )
+            desktop = self.ctx.ServiceManager.createInstanceWithContext( "com.sun.star.frame.Desktop", self.ctx )
  
             doc = desktop.getCurrentComponent()
             text = doc.Text;
@@ -68,7 +67,7 @@ class Example( unohelper.Base, XJobExecutor ):
             xWordCursor = xText.createTextCursorByRange(xTextRange);
             xWordCursor.collapseToEnd();
 
-            #go to right until no more combining chars
+            #go right to be sure the cursor we don't miss any combining chars, in case cursor is between them and letter; max 6
             n = 0
             for i in range(0, 6):
                 xWordCursor.goRight(1, True);
