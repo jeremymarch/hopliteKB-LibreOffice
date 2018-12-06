@@ -40,7 +40,7 @@ from com.sun.star.task import XJobExecutor
 #gamma = b'\\u03b3' #just for testing
 combiningAccents = [ b'\\u0304', b'\\u0306', b'\\u0308', b'\\u0314', b'\\u0313', b'\\u0301', b'\\u0300', b'\\u0342', b'\\u0342' ];
  
-def accentLetter(letter):
+def accentLetter(letter, diacritic):
         if letter == "ά":
             return "α"
         elif letter == "α":
@@ -53,8 +53,13 @@ class Example( unohelper.Base, XJobExecutor ):
         self.ctx = ctx    
 
     def trigger( self, args ):
-        
+
         try:
+            if args is None or len(args) < 1:
+                return
+
+            diacriticToAdd = args
+
             desktop = self.ctx.ServiceManager.createInstanceWithContext( "com.sun.star.frame.Desktop", self.ctx )
  
             doc = desktop.getCurrentComponent()
@@ -88,7 +93,7 @@ class Example( unohelper.Base, XJobExecutor ):
             #get letter with any following combining chars, we decide what to do inside accentLetter
             letterToAccent = xWordCursor.getString();
             if letterToAccent is not None and len(letterToAccent) > 0:
-                newLetter = accentLetter(letterToAccent)
+                newLetter = accentLetter(letterToAccent, diacriticToAdd)
                 if newLetter is not None:
                     xWordCursor.setString(newLetter);
 
