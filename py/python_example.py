@@ -63,20 +63,27 @@ class Example( unohelper.Base, XJobExecutor ):
             xWordCursor = xText.createTextCursorByRange(xTextRange);
             xWordCursor.collapseToEnd();
 
+            # a is a comb char, b is a vowel
+
             #go to right until no more combining chars
+            n = 0
             for i in range(0, 6):
                 xWordCursor.goRight(1, True);
-                if xWordCursor.getString() != "a":
+                s = xWordCursor.getString();
+                if s is not None and len(s) > 0 and s[-1] != "a":
                     xWordCursor.collapseToStart(); #roll back one
                     break;
+                n = n + 1
                 xWordCursor.collapseToEnd(); #go one by one
 
+            #theString = xWordCursor.getString();
+            #xWordCursor.setString(theString.upper());
+
             #leave right fixed and go left until no more combining chars
-            for i in range(0, 10):
+            for j in range(0, 6 + n):
                 xWordCursor.goLeft(1, True);
                 s = xWordCursor.getString();
-                if s is not None and len(s) > 0 and s[0] != "a":
-                    xWordCursor.goLeft(1, True); #one char further
+                if s is not None and len(s) > 0 and s[0] != "a": #when != "a" this puts us one further past the comb. chars.
                     break;
 
             #if first char is a vowel, then we proceed
@@ -84,7 +91,7 @@ class Example( unohelper.Base, XJobExecutor ):
             if s is not None and len(s) > 0 and s[0] == "b":
                 theString = xWordCursor.getString();
                 xWordCursor.setString(theString.upper());
-        
+            
             #text.insertString( cursor, theString, 6 )
 
             # #count = xIndexAccess.getCount();
