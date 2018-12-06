@@ -37,8 +37,10 @@ import unohelper
 from com.sun.star.task import XJobExecutor
  
 def accentLetter(letter):
-        if letter[0] == "φ":
-            return letter.upper()
+        if letter == "ά":
+            return "α"
+        elif letter == "α":
+            return "ά"
         else:
             return None
 
@@ -57,14 +59,14 @@ class Example( unohelper.Base, XJobExecutor ):
             cursor = text.createTextCursor();
 
             xIndexAccess = doc.getCurrentSelection();
-            xTextRange = xIndexAccess.getByIndex(0);
+            xTextRange = xIndexAccess.getByIndex(0); #just the first selection
             xText = xTextRange.getText();
             xWordCursor = xText.createTextCursorByRange(xTextRange);
             xWordCursor.collapseToEnd();
 
             # gamma is a comb char, delta is a vowel
-            gamma = b'\\u03b3' #just for testing
-            combiningAccents = [gamma, b'\\u0304', b'\\u0306', b'\\u0308', b'\\u0314', b'\\u0313', b'\\u0301', b'\\u0300', b'\\u0342', b'\\u0342' ];
+            #gamma = b'\\u03b3' #just for testing
+            combiningAccents = [ b'\\u0304', b'\\u0306', b'\\u0308', b'\\u0314', b'\\u0313', b'\\u0301', b'\\u0300', b'\\u0342', b'\\u0342' ];
 
             #go to right until no more combining chars
             n = 0
