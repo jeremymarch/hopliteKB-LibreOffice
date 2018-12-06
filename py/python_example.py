@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# from repo: zip -r ../python_example.oxt * 
+# make extension from repo directory: zip -r ../python_example.oxt * 
 
 #get char to right
 #if combining, move right until not combining char
@@ -35,6 +35,10 @@ import uno
 import unohelper
 
 from com.sun.star.task import XJobExecutor
+
+# gamma is a comb char, delta is a vowel
+#gamma = b'\\u03b3' #just for testing
+combiningAccents = [ b'\\u0304', b'\\u0306', b'\\u0308', b'\\u0314', b'\\u0313', b'\\u0301', b'\\u0300', b'\\u0342', b'\\u0342' ];
  
 def accentLetter(letter):
         if letter == "ά":
@@ -64,10 +68,6 @@ class Example( unohelper.Base, XJobExecutor ):
             xWordCursor = xText.createTextCursorByRange(xTextRange);
             xWordCursor.collapseToEnd();
 
-            # gamma is a comb char, delta is a vowel
-            #gamma = b'\\u03b3' #just for testing
-            combiningAccents = [ b'\\u0304', b'\\u0306', b'\\u0308', b'\\u0314', b'\\u0313', b'\\u0301', b'\\u0300', b'\\u0342', b'\\u0342' ];
-
             #go to right until no more combining chars
             n = 0
             for i in range(0, 6):
@@ -86,7 +86,7 @@ class Example( unohelper.Base, XJobExecutor ):
                 if s is not None and len(s) > 0 and s[0].encode("unicode_escape") not in combiningAccents: #when != "a" this puts us one further past the comb. chars.
                     break;
 
-            #if first char is a vowel, then we proceed
+            #get letter with any following combining chars, we decide what to do inside accentLetter
             letterToAccent = xWordCursor.getString();
             if letterToAccent is not None and len(letterToAccent) > 0:
                 newLetter = accentLetter(letterToAccent)
@@ -94,8 +94,8 @@ class Example( unohelper.Base, XJobExecutor ):
                     xWordCursor.setString(newLetter);
 
         except Exception as e:
-            text.insertString( cursor, str(e), 6 )
-            print('hello python to console')
+            text.insertString( cursor, str(e), 0 ) #print exception
+            #print('hello python to console')
             pass
 
         
