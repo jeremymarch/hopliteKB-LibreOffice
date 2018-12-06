@@ -39,6 +39,16 @@ class Example( unohelper.Base, XJobExecutor ):
 #select left until not combining
 #if it's a vowel or rho, this is our string.
 
+#these two are the main basis of this extension
+#https://forum.openoffice.org/en/forum/viewtopic.php?t=70633
+#https://wiki.openoffice.org/wiki/PyUNO_samples
+
+#https://ask.libreoffice.org/en/question/12614/python-macro-to-insert-text-at-gui-cursor-position/
+#https://stackoverflow.com/questions/49728663/enumerate-fieldmarks-in-a-libreoffice-document#49735882
+
+#https://github.com/slgobinath/libreoffice-code-highlighter/blob/master/codehighlighter/python/highlight.py
+#https://github.com/kelsa-pi/unodit
+
 #com sun star text XTextCursor : https://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1text_1_1XTextCursor.html
 #keyboard stuff: https://github.com/XRoemer/Organon/blob/master/source/py/shortcuts.py
 
@@ -49,7 +59,7 @@ class Example( unohelper.Base, XJobExecutor ):
 #useful c++ guide: https://wiki.openoffice.org/wiki/Writer/API/Overview#The_XTextCursor_Interface
 #and this: https://wiki.openoffice.org/wiki/Uno/Cpp/Tutorials/Introduction_to_Cpp_Uno
 
-
+#https://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1text_1_1XTextCursor.html
 
 #we'll need to go one by one and then save end loc in a range, then create new range if vowel is found
 #this is because we can't shrink the range once we find the right end of the combining chars.
@@ -63,14 +73,16 @@ class Example( unohelper.Base, XJobExecutor ):
             xWordCursor = xText.createTextCursorByRange(xTextRange);
             xWordCursor.collapseToEnd();
 
-            # a is a comb char, b is a vowel
+            # gamma is a comb char, delda is a vowel
+            gamma = b'\\u03b3' #just for testing
+            combiningAccents = [gamma, b'\\u0304', b'\\u0306', b'\\u0308', b'\\u0314', b'\\u0313', b'\\u0301', b'\\u0300', b'\\u0342', b'\\u0342' ];
 
             #go to right until no more combining chars
             n = 0
             for i in range(0, 6):
                 xWordCursor.goRight(1, True);
                 s = xWordCursor.getString();
-                if s is not None and len(s) > 0 and s[-1] != "a":
+                if s is not None and len(s) > 0 and s[-1].encode("unicode_escape") not in combiningAccents:
                     xWordCursor.collapseToStart(); #roll back one
                     break;
                 n = n + 1
@@ -83,12 +95,12 @@ class Example( unohelper.Base, XJobExecutor ):
             for j in range(0, 6 + n):
                 xWordCursor.goLeft(1, True);
                 s = xWordCursor.getString();
-                if s is not None and len(s) > 0 and s[0] != "a": #when != "a" this puts us one further past the comb. chars.
+                if s is not None and len(s) > 0 and s[0].encode("unicode_escape") not in combiningAccents: #when != "a" this puts us one further past the comb. chars.
                     break;
 
             #if first char is a vowel, then we proceed
             s = xWordCursor.getString();
-            if s is not None and len(s) > 0 and s[0] == "b":
+            if s is not None and len(s) > 0 and s[0] == "δ":
                 theString = xWordCursor.getString();
                 xWordCursor.setString(theString.upper());
             
