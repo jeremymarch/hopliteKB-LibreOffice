@@ -7,14 +7,56 @@
       <node oor:name="com.sun.star.text.TextDocument">
         <node oor:name="1_MOD1" oor:op="replace">
           <prop oor:name="Command">
+            <value xml:lang="en-US">service:simple.example.identifier?rough</value>
+          </prop>
+        </node>
+        
+        <node oor:name="2_MOD1" oor:op="replace">
+          <prop oor:name="Command">
+            <value xml:lang="en-US">service:simple.example.identifier?smooth</value>
+          </prop>
+        </node>
+
+        <node oor:name="3_MOD1" oor:op="replace">
+          <prop oor:name="Command">
             <value xml:lang="en-US">service:simple.example.identifier?acute</value>
           </prop>
         </node>
-        <node oor:name="2_MOD1" oor:op="replace">
+
+        <node oor:name="4_MOD1" oor:op="replace">
           <prop oor:name="Command">
             <value xml:lang="en-US">service:simple.example.identifier?grave</value>
           </prop>
         </node>
+
+        <node oor:name="5_MOD1" oor:op="replace">
+          <prop oor:name="Command">
+            <value xml:lang="en-US">service:simple.example.identifier?circumflex</value>
+          </prop>
+        </node>
+        <node oor:name="6_MOD1" oor:op="replace">
+          <prop oor:name="Command">
+            <value xml:lang="en-US">service:simple.example.identifier?macron</value>
+          </prop>
+        </node>  
+
+        <node oor:name="7_MOD1" oor:op="replace">
+          <prop oor:name="Command">
+            <value xml:lang="en-US">service:simple.example.identifier?breve</value>
+          </prop>
+        </node>
+        <node oor:name="8_MOD1" oor:op="replace">
+          <prop oor:name="Command">
+            <value xml:lang="en-US">service:simple.example.identifier?iotasub</value>
+          </prop>
+        </node>    
+
+        <node oor:name="9_MOD1" oor:op="replace">
+          <prop oor:name="Command">
+            <value xml:lang="en-US">service:simple.example.identifier?diaeresis</value>
+          </prop>
+        </node>
+                 
       </node>
     </node>
   </node>
