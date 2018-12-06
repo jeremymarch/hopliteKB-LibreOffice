@@ -1,39 +1,6 @@
 # -*- coding: utf-8 -*-
 # from repo: zip -r ../python_example.oxt * 
 
-import uno
-import unohelper
-
-
-from com.sun.star.task import XJobExecutor
- 
-class Example( unohelper.Base, XJobExecutor ):
-    def __init__( self, ctx ):
-        self.ctx = ctx
-
-    def getNewString( theString ) :
-        if not theString or len(theString) ==0 :
-            return ""
-        # should we tokenize on "."?
-        if theString[0].isupper() and len(theString)>=2 and theString[1].isupper() :
-        # first two chars are UC => first UC, rest LC
-            newString=theString.capitalize();
-        elif theString[0].isupper():
-        # first char UC => all to LC
-            newString=theString.lower()
-        else: # all to UC.
-            newString=theString.upper()
-        return newString;
-
-    def getBlah(self):
-        return "BlAh"        
-
-    def trigger( self, args ):
-        desktop = self.ctx.ServiceManager.createInstanceWithContext(
-            "com.sun.star.frame.Desktop", self.ctx )
- 
-        doc = desktop.getCurrentComponent()
-
 #get char to right
 #if combining, move right until not combining char
 #select left until not combining
@@ -63,7 +30,29 @@ class Example( unohelper.Base, XJobExecutor ):
 
 #we'll need to go one by one and then save end loc in a range, then create new range if vowel is found
 #this is because we can't shrink the range once we find the right end of the combining chars.
+
+import uno
+import unohelper
+
+from com.sun.star.task import XJobExecutor
+ 
+def accentLetter(letter):
+        if letter[0] == "φ":
+            return letter.upper()
+        else:
+            return None
+
+class Example( unohelper.Base, XJobExecutor ):
+    def __init__( self, ctx ):
+        self.ctx = ctx    
+
+    def trigger( self, args ):
+        
         try:
+            desktop = self.ctx.ServiceManager.createInstanceWithContext(
+            "com.sun.star.frame.Desktop", self.ctx )
+ 
+            doc = desktop.getCurrentComponent()
             text = doc.Text;
             cursor = text.createTextCursor();
 
@@ -73,7 +62,7 @@ class Example( unohelper.Base, XJobExecutor ):
             xWordCursor = xText.createTextCursorByRange(xTextRange);
             xWordCursor.collapseToEnd();
 
-            # gamma is a comb char, delda is a vowel
+            # gamma is a comb char, delta is a vowel
             gamma = b'\\u03b3' #just for testing
             combiningAccents = [gamma, b'\\u0304', b'\\u0306', b'\\u0308', b'\\u0314', b'\\u0313', b'\\u0301', b'\\u0300', b'\\u0342', b'\\u0342' ];
 
@@ -85,11 +74,8 @@ class Example( unohelper.Base, XJobExecutor ):
                 if s is not None and len(s) > 0 and s[-1].encode("unicode_escape") not in combiningAccents:
                     xWordCursor.collapseToStart(); #roll back one
                     break;
-                n = n + 1
+                n = n + 1;
                 xWordCursor.collapseToEnd(); #go one by one
-
-            #theString = xWordCursor.getString();
-            #xWordCursor.setString(theString.upper());
 
             #leave right fixed and go left until no more combining chars
             for j in range(0, 6 + n):
@@ -99,38 +85,12 @@ class Example( unohelper.Base, XJobExecutor ):
                     break;
 
             #if first char is a vowel, then we proceed
-            s = xWordCursor.getString();
-            if s is not None and len(s) > 0 and s[0] == "δ":
-                theString = xWordCursor.getString();
-                xWordCursor.setString(theString.upper());
-            
-            #text.insertString( cursor, theString, 6 )
+            letterToAccent = xWordCursor.getString();
+            if letterToAccent is not None and len(letterToAccent) > 0:
+                newLetter = accentLetter(letterToAccent)
+                if newLetter is not None:
+                    xWordCursor.setString(newLetter);
 
-            # #count = xIndexAccess.getCount();
-            # #for i in range(count) :
-            # xTextRange = xIndexAccess.getByIndex(0);
-            # #print "string: " + xTextRange.getString();
-            # theString = xTextRange.getString();
-            # if len(theString)==0 :
-            #     # sadly we can have a selection where nothing is selected
-            #     # in this case we get the XWordCursor and make a selection!
-            #     xText = xTextRange.getText();
-            #     xWordCursor = xText.createTextCursorByRange(xTextRange);
-            #     if not xWordCursor.isStartOfWord():
-            #         xWordCursor.gotoStartOfWord(False);
-            #     xWordCursor.gotoNextWord(True);
-            #     theString = xWordCursor.getString();
-            #     newString = self.getBlah(); #theString.upper() #getNewString(theString);
-            #     if newString :
-            #         xWordCursor.setString(newString);
-            #         #cur.select(xWordCursor);
-            #     #text.insertString( cursor, "Hello World1", 0 )
-            # else :
-            #      newString = theString.upper() #getNewString( theString );
-            #      if newString:
-            #         xTextRange.setString( newString );
-            #         #cur.select(xTextRange);
-            #     #text.insertString( cursor, "Hello World2", 0 )
         except Exception as e:
             text.insertString( cursor, str(e), 6 )
             print('hello python to console')
@@ -141,4 +101,4 @@ g_ImplementationHelper = unohelper.ImplementationHelper()
 g_ImplementationHelper.addImplementation(
         Example,
         "simple.example.identifier",
-        ("com.sun.star.task.Job",),)             
+        ("com.sun.star.task.Job",),)
