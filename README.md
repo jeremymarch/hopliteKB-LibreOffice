@@ -20,7 +20,7 @@ For best results, use a polytonic Greek font such as:
 ## Installation:
 The extension is contained in the file hoplitekb.oxt.  Download this file from the [**release**](https://github.com/jeremymarch/HopliteKB-LibreOffice/releases) tab above.  From LibreOffice, add the extension by going to Tools -> Extension Manager and clicking Add; select the file hoplitekb.oxt and restart LibreOffice.
 
-To create the extension from source code, clone this repository.  Now zip the contents of the **hoplitekb-ext** folder into a zip file and rename the zip **hoplitekb.oxt**.  Be sure not to include the enclosing folder itself, i.e. hoplitekb-ext, in the zip file or the extension will fail to load.  From the terminal, these steps can be easily combined by running **_zip -r ../hoplitekb.oxt \*_** from inside the hoplite-ext folder.  Install hoplitekb.oxt in LibreOffice as above.
+If you want to build the extension from source code, clone this repository.  Now zip the contents of the **hoplitekb-ext** folder into a zip file and rename the zip **hoplitekb.oxt**.  Be sure not to include the enclosing folder itself, i.e. hoplitekb-ext, in the zip file or the extension will fail to load.  From the terminal, these steps can be easily combined by running **_zip -r ../hoplitekb.oxt \*_** from inside the hoplite-ext folder.  Install hoplitekb.oxt in LibreOffice as above.
 
 ## Use:
 Add polytonic Greek diacritics by first typing a Greek vowel (or rho).  Next, while holding Control (Command on Mac), press a key 1-9 to toggle on/off diacritics.  The 1-9 keys are bound to: 
