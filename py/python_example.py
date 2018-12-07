@@ -280,7 +280,6 @@ def makeLetter(letterCodeAndBitMask, unicodeMode):
     if (unicodeMode == PRECOMPOSED_MODE and (letterCodeAndBitMask[1] & _MACRON) == _MACRON) or (unicodeMode == PRECOMPOSED_WITH_PUA_MODE and (letterCodeAndBitMask[1] & (_MACRON | _DIAERESIS)) == (_MACRON | _DIAERESIS)):
         if (letterCodeAndBitMask[1] & ~_MACRON) != 0: #if any other bits set besides macron
             precomposingFallbackToComposing = True
-        
     elif (letterCodeAndBitMask[1] & _BREVE) == _BREVE:
         precomposingFallbackToComposing = True
     elif unicodeMode == PRECOMPOSED_HC_MODE and (letterCodeAndBitMask[1] & _MACRON) == _MACRON:
@@ -311,7 +310,7 @@ def makeLetter(letterCodeAndBitMask, unicodeMode):
                 newLetter += k
             elif k == COMBINING_DIAERESIS and (letterCodeAndBitMask[1] & _DIAERESIS) == _DIAERESIS:
                 newLetter += k
-        return True    
+        return newLetter.decode("unicode_escape")    
     else:
         if unicodeMode == PRECOMPOSED_WITH_PUA_MODE and (letterCodeAndBitMask[1] & (_IOTA_SUB | _MACRON)) == (_IOTA_SUB | _MACRON):
             letterCodeAndBitMask[1] &= ~_IOTA_SUB #so we don't get two iota subscripts
@@ -534,7 +533,7 @@ def analyzeLetter(letter, letterCodeAndBitMask):
 def accentLetter(letter, diacritic):
     bToggleOff = True
     bAddSpacingDiacriticIfNotLegal = False #for now
-    vUnicodeMode = 0 #0 for precomposed, 1 for precomposed with pua, 2 for combining-only, 3 for legacy hc challenge mode
+    vUnicodeMode = PRECOMPOSED_WITH_PUA_MODE #0 for precomposed, 1 for precomposed with pua, 2 for combining-only, 3 for legacy hc challenge mode
 
     #handle rho
 
