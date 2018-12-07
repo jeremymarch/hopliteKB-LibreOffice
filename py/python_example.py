@@ -78,10 +78,10 @@ MACRON_AND_SMOOTH_AND_GRAVE = 31
 MACRON_AND_ROUGH = 32
 MACRON_AND_ROUGH_AND_ACUTE = 33
 MACRON_AND_ROUGH_AND_GRAVE = 34
-MACRON_AND_ACUTE = 36
-MACRON_AND_GRAVE = 37
+MACRON_AND_ACUTE = 35
+MACRON_AND_GRAVE = 36
 #endif
-NUM_ACCENT_CODES = 38
+NUM_ACCENT_CODES = 37
 
 
 #letterCodes
@@ -410,8 +410,8 @@ def isLegalDiacriticForLetter(letterCode, accentToAdd):
 
 
 def analyzePrecomposedLetter(letter, letterCodeAndBitMask):
-    for vidx in range(0, NUM_VOWEL_CODES - 1):
-        for aidx in range(0, NUM_ACCENT_CODES - 1):
+    for vidx in range(0, NUM_VOWEL_CODES):
+        for aidx in range(0, NUM_ACCENT_CODES):
             if letter[0] == letters[vidx][aidx].decode("unicode_escape"):
                 letterCodeAndBitMask[0] = vidx
                 return aidx
@@ -540,11 +540,11 @@ def accentLetter(letter, diacritic):
 
     #letters
     letterCodeAndBitMask = [0,0] #list so we can mutate the members
-    if analyzeLetter(letter, letterCodeAndBitMask) == None:
-        return
+    if analyzeLetter(letter, letterCodeAndBitMask) is None:
+        return None
 
     if isLegalDiacriticForLetter(letterCodeAndBitMask[0], diacritic) == False:
-        return
+        return None
 
     #3. this changes old letter analysis to the one we want
     updateDiacritics(letterCodeAndBitMask, diacritic, bToggleOff)
@@ -554,13 +554,6 @@ def accentLetter(letter, diacritic):
         return None
     else:
         return newLetter
-
-    # if letter == "ά":
-    #     return "α"
-    # elif letter == "α":
-    #     return "ά"
-    # else:
-    #     return None
 
 class Example( unohelper.Base, XJobExecutor ):
     def __init__( self, ctx ):
