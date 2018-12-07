@@ -1,35 +1,16 @@
 # -*- coding: utf-8 -*-
-# make extension from repo directory: zip -r ../python_example.oxt * 
 
-#get char to right
-#if combining, move right until not combining char
-#select left until not combining
-#if it's a vowel or rho, this is our string.
-
-#these two are the main basis of this extension
-#https://forum.openoffice.org/en/forum/viewtopic.php?t=70633
-#https://wiki.openoffice.org/wiki/PyUNO_samples
-
-#https://ask.libreoffice.org/en/question/12614/python-macro-to-insert-text-at-gui-cursor-position/
-#https://stackoverflow.com/questions/49728663/enumerate-fieldmarks-in-a-libreoffice-document#49735882
-
-#https://github.com/slgobinath/libreoffice-code-highlighter/blob/master/codehighlighter/python/highlight.py
-#https://github.com/kelsa-pi/unodit
-
-#com sun star text XTextCursor : https://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1text_1_1XTextCursor.html
-#keyboard stuff: https://github.com/XRoemer/Organon/blob/master/source/py/shortcuts.py
-
-#chart: https://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1frame_1_1XModel.html#a1ee3a9fe564e0757381e23ef1a401eef
-
-#iterate by char (java) https://stackoverflow.com/questions/38124658/how-to-navigate-through-each-character-in-open-office
-
-#useful c++ guide: https://wiki.openoffice.org/wiki/Writer/API/Overview#The_XTextCursor_Interface
-#and this: https://wiki.openoffice.org/wiki/Uno/Cpp/Tutorials/Introduction_to_Cpp_Uno
-
-#https://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1text_1_1XTextCursor.html
-
-#we'll need to go one by one and then save end loc in a range, then create new range if vowel is found
-#this is because we can't shrink the range once we find the right end of the combining chars.
+#
+#  hoplitekb.py
+#  HopliteKB-LibreOffice
+#
+#  Created by Jeremy March on 12/06/18.
+#  Copyright (c) 2018 Jeremy March. All rights reserved.
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
 
 import uno
 import unohelper
@@ -44,7 +25,7 @@ PRECOMPOSED_HC_MODE = 3
 #accent enum, these are the precomposed indices in letters array
 NORMAL = 0
 PSILI  = 1                               #smooth
-DASIA  = 2                                  #rough
+DASIA  = 2                               #rough
 OXIA   = 3
 PSILI_AND_OXIA = 4
 DASIA_AND_OXIA = 5
@@ -605,7 +586,7 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
                     xWordCursor.setString(newLetter);
 
         except Exception as e:
-            text.insertString( cursor, str(e), 0 ) #print exception
+            #for debugging: text.insertString( cursor, str(e), 0 ) #print exception
             #print('hello python to console')
             pass
 
