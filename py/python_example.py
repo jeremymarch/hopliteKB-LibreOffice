@@ -310,7 +310,7 @@ def makeLetter(letterCodeAndBitMask, unicodeMode):
                 newLetter += k
             elif k == COMBINING_DIAERESIS and (letterCodeAndBitMask[1] & _DIAERESIS) == _DIAERESIS:
                 newLetter += k
-        return newLetter.decode("unicode_escape")    
+        return newLetter.decode("unicode_escape")
     else:
         if unicodeMode == PRECOMPOSED_WITH_PUA_MODE and (letterCodeAndBitMask[1] & (_IOTA_SUB | _MACRON)) == (_IOTA_SUB | _MACRON):
             letterCodeAndBitMask[1] &= ~_IOTA_SUB #so we don't get two iota subscripts
@@ -500,23 +500,23 @@ def analyzeLetter(letter, letterCodeAndBitMask):
     letterLen = len(letter)
     if letterLen > 1:
         for l in letter: # (int j = 1; j <= MAX_COMBINING && i + j < len; j++)
-            if l == COMBINING_ROUGH_BREATHING:
+            if l == COMBINING_ROUGH_BREATHING.decode("unicode_escape"):
                 letterCodeAndBitMask[1] |= _ROUGH
-            elif l == COMBINING_SMOOTH_BREATHING:
+            elif l == COMBINING_SMOOTH_BREATHING.decode("unicode_escape"):
                 letterCodeAndBitMask[1] |= _SMOOTH
-            elif l == COMBINING_ACUTE:
+            elif l == COMBINING_ACUTE.decode("unicode_escape"):
                 letterCodeAndBitMask[1] |= _ACUTE
-            elif l == COMBINING_GRAVE:
+            elif l == COMBINING_GRAVE.decode("unicode_escape"):
                 letterCodeAndBitMask[1] |= _GRAVE
-            elif l == COMBINING_CIRCUMFLEX:
+            elif l == COMBINING_CIRCUMFLEX.decode("unicode_escape"):
                 letterCodeAndBitMask[1] |= _CIRCUMFLEX;
-            elif l == COMBINING_MACRON:
+            elif l == COMBINING_MACRON.decode("unicode_escape"):
                 letterCodeAndBitMask[1] |= _MACRON
-            elif l == COMBINING_BREVE:
+            elif l == COMBINING_BREVE.decode("unicode_escape"):
                 letterCodeAndBitMask[1] |= _BREVE
-            elif l == COMBINING_IOTA_SUBSCRIPT:
+            elif l == COMBINING_IOTA_SUBSCRIPT.decode("unicode_escape"):
                 letterCodeAndBitMask[1] |= _IOTA_SUB
-            elif l == COMBINING_DIAERESIS:
+            elif l == COMBINING_DIAERESIS.decode("unicode_escape"):
                 letterCodeAndBitMask[1] |= _DIAERESIS
             else:
                 continue
@@ -533,7 +533,7 @@ def analyzeLetter(letter, letterCodeAndBitMask):
 def accentLetter(letter, diacritic):
     bToggleOff = True
     bAddSpacingDiacriticIfNotLegal = False #for now
-    vUnicodeMode = PRECOMPOSED_WITH_PUA_MODE #0 for precomposed, 1 for precomposed with pua, 2 for combining-only, 3 for legacy hc challenge mode
+    vUnicodeMode = COMBINING_ONLY_MODE  #PRECOMPOSED_WITH_PUA_MODE #0 for precomposed, 1 for precomposed with pua, 2 for combining-only, 3 for legacy hc challenge mode
 
     #handle rho
 
