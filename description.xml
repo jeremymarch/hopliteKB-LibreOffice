@@ -3,15 +3,15 @@
 							xmlns:xlink="http://www.w3.org/1999/xlink"
 							xmlns:d="http://openoffice.org/extensions/description/2006">
 							
-		<identifier value="simple.example.identifier" />
-		<version value="0.1b" />
+		<identifier value="com.philolog.hoplitekb" />
+		<version value="0.1c" />
 
 		<dependencies>
 				<d:OpenOffice.org-minimal-version value="3.4" d:name="OpenOffice.org 3.4" />
 		</dependencies>
 		
 		<display-name>
-				<name lang="de">Example</name>
+				<name lang="en">Hoplite KB</name>
 		</display-name>
 	
 </description>

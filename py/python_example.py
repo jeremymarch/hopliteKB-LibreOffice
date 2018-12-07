@@ -555,7 +555,7 @@ def accentLetter(letter, diacritic):
     else:
         return newLetter
 
-class Example( unohelper.Base, XJobExecutor ):
+class HopliteKB( unohelper.Base, XJobExecutor ):
     def __init__( self, ctx ):
         self.ctx = ctx    
 
@@ -612,6 +612,6 @@ class Example( unohelper.Base, XJobExecutor ):
         
 g_ImplementationHelper = unohelper.ImplementationHelper()
 g_ImplementationHelper.addImplementation(
-        Example,
-        "simple.example.identifier",
+        HopliteKB,
+        "com.philolog.hoplitekb",
         ("com.sun.star.task.Job",),)

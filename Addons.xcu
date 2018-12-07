@@ -5,10 +5,10 @@
  
     <node oor:name="AddonUI">
         <node oor:name="OfficeMenuBar">
-            <node oor:name="simple.example.identifier" oor:op="replace">
+            <node oor:name="com.philolog.hoplitekb" oor:op="replace">
                 <prop oor:name="Title" oor:type="xs:string">
                     <value/>
-                    <value xml:lang="en-US">Example</value>
+                    <value xml:lang="en-US">Hoplite KB</value>
                 </prop>
                 <prop oor:name="Target" oor:type="xs:string">
                     <value>_self</value>
@@ -19,7 +19,7 @@
                 <node oor:name="Submenu">
                     <node oor:name="m1" oor:op="replace">
                         <prop oor:name="URL" oor:type="xs:string">
-                            <value>service:simple.example.identifier?execute</value>
+                            <value>service:com.philolog.hoplitekb?execute</value>
                         </prop>
                         <prop oor:name="Title" oor:type="xs:string">
                             <value/>
