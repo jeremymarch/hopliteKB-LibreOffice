@@ -113,7 +113,7 @@ COMBINING_IOTA_SUBSCRIPT        = b'\\u0345'
 # gamma is a comb char, delta is a vowel
 #gamma = b'\\u03b3' #just for testing
 
-combiningAccents = [ COMBINING_MACRON, COMBINING_BREVE, COMBINING_DIAERESIS, COMBINING_ROUGH_BREATHING, COMBINING_SMOOTH_BREATHING, COMBINING_ACUTE, COMBINING_GRAVE, COMBINING_CIRCUMFLEX, COMBINING_IOTA_SUBSCRIPT ];
+combiningAccents = [ COMBINING_MACRON, COMBINING_BREVE, COMBINING_DIAERESIS, COMBINING_ROUGH_BREATHING, COMBINING_SMOOTH_BREATHING, COMBINING_ACUTE, COMBINING_GRAVE, COMBINING_CIRCUMFLEX, COMBINING_IOTA_SUBSCRIPT ]
 
 letters = [ [ b'\\u03B1', b'\\u1F00', b'\\u1F01', b'\\u1F71', b'\\u1F04', b'\\u1F05', b'\\u1F70', b'\\u1F02', b'\\u1F03', b'\\u1FB6', b'\\u1F06', b'\\u1F07', b'\\u1FB3', b'\\u1F80', b'\\u1F81', b'\\u1FB4', b'\\u1F84', b'\\u1F85', b'\\u1FB2', b'\\u1F82', b'\\u1F83', b'\\u1FB7', b'\\u1F86', b'\\u1F87', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u1FB1', b'\\uEB04', b'\\uEB07', b'\\uEAF3', b'\\uEB05', b'\\uEB09', b'\\uEAF4', b'\\uEB00', b'\\uEAF0' ], 
 [ b'\\u03B5', b'\\u1F10', b'\\u1F11', b'\\u1F73', b'\\u1F14', b'\\u1F15', b'\\u1F72', b'\\u1F12', b'\\u1F13', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ], 
@@ -128,7 +128,7 @@ letters = [ [ b'\\u03B1', b'\\u1F00', b'\\u1F01', b'\\u1F71', b'\\u1F04', b'\\u1
 [ b'\\u0399', b'\\u1F38', b'\\u1F39', b'\\u1FDB', b'\\u1F3C', b'\\u1F3D', b'\\u1FDA', b'\\u1F3A', b'\\u1F3B', b'\\u0000', b'\\u1F3E', b'\\u1F3F', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u03AA', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u1FD9', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ], 
 [ b'\\u039F', b'\\u1F48', b'\\u1F49', b'\\u1FF9', b'\\u1F4C', b'\\u1F4D', b'\\u1FF8', b'\\u1F4A', b'\\u1F4B', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ], 
 [ b'\\u03A5', b'\\u0000', b'\\u1F59', b'\\u1FEB', b'\\u0000', b'\\u1F5D', b'\\u1FEA', b'\\u0000', b'\\u1F5B', b'\\u0000', b'\\u0000', b'\\u1F5F', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u03AB', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u1FE9', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ],
-[ b'\\u03A9', b'\\u1F68', b'\\u1F69', b'\\u1FFB', b'\\u1F6C', b'\\u1F6D', b'\\u1FFA', b'\\u1F6A', b'\\u1F6B', b'\\u0000', b'\\u1F6E', b'\\u1F6F', b'\\u1FFC', b'\\u1FA8', b'\\u1FA9', b'\\u0000', b'\\u1FAC', b'\\u1FAD', b'\\u0000', b'\\u1FAA', b'\\u1FAB', b'\\u0000', b'\\u1FAE', b'\\u1FAF', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ] ];
+[ b'\\u03A9', b'\\u1F68', b'\\u1F69', b'\\u1FFB', b'\\u1F6C', b'\\u1F6D', b'\\u1FFA', b'\\u1F6A', b'\\u1F6B', b'\\u0000', b'\\u1F6E', b'\\u1F6F', b'\\u1FFC', b'\\u1FA8', b'\\u1FA9', b'\\u0000', b'\\u1FAC', b'\\u1FAD', b'\\u0000', b'\\u1FAA', b'\\u1FAB', b'\\u0000', b'\\u1FAE', b'\\u1FAF', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ] ]
 
 def getPrecomposedLetter(letterCodeAndBitMask):
     accentIndex = 0
@@ -216,38 +216,7 @@ def getPrecomposedLetter(letterCodeAndBitMask):
 
 
 def letterCodeToUCS2(l):
-    return letters[l][0]
-    # if l == ALPHA:
-    #     return letters[ALPHA][0] #GREEK_SMALL_LETTER_ALPHA;
-    # elif l == EPSILON:
-    #     return letters[EPSILON][0] #GREEK_SMALL_LETTER_EPSILON;
-    # elif l == ETA:
-    #     return letters[ETA][0] #GREEK_SMALL_LETTER_ETA;
-    # elif l == IOTA:
-    #     return letters[IOTA][0] #GREEK_SMALL_LETTER_IOTA;
-    # elif l == OMICRON:
-    #     return letters[OMICRON][0] #GREEK_SMALL_LETTER_OMICRON;
-    # elif l == UPSILON:
-    #     return letters[0][0] #GREEK_SMALL_LETTER_UPSILON;
-    # elif l == OMEGA:
-    #     return letters[0][0] #GREEK_SMALL_LETTER_OMEGA;
-    # elif l == ALPHA_CAP:
-    #     return letters[0][0] #GREEK_CAPITAL_LETTER_ALPHA;
-    # elif l == EPSILON_CAP:
-    #     return letters[0][0] #GREEK_CAPITAL_LETTER_EPSILON;
-    # elif l == ETA_CAP:
-    #     return letters[0][0] #GREEK_CAPITAL_LETTER_ETA;
-    # elif l == IOTA_CAP:
-    #     return letters[0][0] #GREEK_CAPITAL_LETTER_IOTA;
-    # elif l == OMICRON_CAP:
-    #     return letters[0][0] #GREEK_CAPITAL_LETTER_OMICRON;
-    # elif l == UPSILON_CAP:
-    #     return letters[0][0] #GREEK_CAPITAL_LETTER_UPSILON;
-    # elif l == OMEGA_CAP:
-    #     return letters[0][0] #GREEK_CAPITAL_LETTER_OMEGA;
-    # else:
-    #     return ""
-
+    return letters[l][0] #first col of each row has base vowels
 
 
 def makeLetter(letterCodeAndBitMask, unicodeMode):
@@ -491,7 +460,7 @@ def analyzeLetter(letter, letterCodeAndBitMask):
             elif l == COMBINING_GRAVE.decode("unicode_escape"):
                 letterCodeAndBitMask[1] |= _GRAVE
             elif l == COMBINING_CIRCUMFLEX.decode("unicode_escape"):
-                letterCodeAndBitMask[1] |= _CIRCUMFLEX;
+                letterCodeAndBitMask[1] |= _CIRCUMFLEX
             elif l == COMBINING_MACRON.decode("unicode_escape"):
                 letterCodeAndBitMask[1] |= _MACRON
             elif l == COMBINING_BREVE.decode("unicode_escape"):
@@ -517,7 +486,38 @@ def accentLetter(letter, diacritic):
     bAddSpacingDiacriticIfNotLegal = False #for now
     vUnicodeMode = PRECOMPOSED_WITH_PUA_MODE #COMBINING_ONLY_MODE #0 for precomposed, 1 for precomposed with pua, 2 for combining-only, 3 for legacy hc challenge mode
 
-    #handle rho
+    #handle rho 
+    rho = b'\\u03c1'
+    rho_with_dasia = b'\\u1fe5'
+    rho_with_psili = b'\\u1fe4'
+    rho_cap = b'\\u03a1'
+    rho_cap_with_dasia = b'\\u1fec'
+
+    if letter.encode("unicode_escape") == rho and diacritic == "rough":
+        return rho_with_dasia.decode("unicode_escape")
+    elif letter.encode("unicode_escape") == rho_with_dasia and diacritic == "rough":
+        return rho.decode("unicode_escape")
+    elif letter.encode("unicode_escape") == rho_cap and diacritic == "rough":
+        return rho_cap_with_dasia.decode("unicode_escape")
+    elif letter.encode("unicode_escape") == rho_cap_with_dasia and diacritic == "rough":
+        return rho_cap.decode("unicode_escape")
+    elif letter.encode("unicode_escape") == rho_with_psili and diacritic == "rough":
+        return rho_with_dasia.decode("unicode_escape")
+#ifdef ALLOW_RHO_WITH_PSILI
+    elif letter.encode("unicode_escape") == rho and diacritic == "smooth":
+        return rho_with_psili.decode("unicode_escape")
+    elif letter.encode("unicode_escape") == rho_with_psili and diacritic == "smooth":
+        return rho.decode("unicode_escape")
+    elif letter.encode("unicode_escape") == rho_with_dasia and diacritic == "smooth":
+        return rho_with_psili.decode("unicode_escape")
+#endif
+    # else if (letter == GREEK_SMALL_LETTER_NU && accentToAdd == SURROUNDING_PARENTHESES)
+    # {
+    #     rightShiftFromOffsetSteps(ucs2String, i, 2, len);
+    #     ucs2String[i] = LEFT_PARENTHESIS;
+    #     ucs2String[i+1] = GREEK_SMALL_LETTER_NU;
+    #     ucs2String[i+2] = RIGHT_PARENTHESIS;
+    #     return
 
     #letters
     letterCodeAndBitMask = [0,0] #list so we can mutate the members
@@ -551,39 +551,39 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
             desktop = self.ctx.ServiceManager.createInstanceWithContext( "com.sun.star.frame.Desktop", self.ctx )
  
             doc = desktop.getCurrentComponent()
-            text = doc.Text;
-            cursor = text.createTextCursor();
+            text = doc.Text
+            cursor = text.createTextCursor()
 
-            xIndexAccess = doc.getCurrentSelection();
-            xTextRange = xIndexAccess.getByIndex(0); #just the first selection
-            xText = xTextRange.getText();
-            xWordCursor = xText.createTextCursorByRange(xTextRange);
-            xWordCursor.collapseToEnd();
+            xIndexAccess = doc.getCurrentSelection()
+            xTextRange = xIndexAccess.getByIndex(0) #just the first selection
+            xText = xTextRange.getText()
+            xWordCursor = xText.createTextCursorByRange(xTextRange)
+            xWordCursor.collapseToEnd()
 
             #go right to be sure the cursor we don't miss any combining chars, in case cursor is between them and letter; max 6
             n = 0
             for i in range(0, 6):
-                xWordCursor.goRight(1, True);
-                s = xWordCursor.getString();
+                xWordCursor.goRight(1, True)
+                s = xWordCursor.getString()
                 if s is not None and len(s) > 0 and s[-1].encode("unicode_escape") not in combiningAccents:
-                    xWordCursor.collapseToStart(); #roll back one
-                    break;
-                n = n + 1;
-                xWordCursor.collapseToEnd(); #go one by one
+                    xWordCursor.collapseToStart() #roll back one
+                    break
+                n = n + 1
+                xWordCursor.collapseToEnd() #go one by one
 
             #leave right fixed and go left until no more combining chars
             for j in range(0, 6 + n):
-                xWordCursor.goLeft(1, True);
-                s = xWordCursor.getString();
+                xWordCursor.goLeft(1, True)
+                s = xWordCursor.getString()
                 if s is not None and len(s) > 0 and s[0].encode("unicode_escape") not in combiningAccents: #when != "a" this puts us one further past the comb. chars.
-                    break;
+                    break
 
             #get letter with any following combining chars, we decide what to do inside accentLetter
-            letterToAccent = xWordCursor.getString();
+            letterToAccent = xWordCursor.getString()
             if letterToAccent is not None and len(letterToAccent) > 0:
                 newLetter = accentLetter(letterToAccent, diacriticToAdd)
                 if newLetter is not None:
-                    xWordCursor.setString(newLetter);
+                    xWordCursor.setString(newLetter)
 
         except Exception as e:
             #for debugging: text.insertString( cursor, str(e), 0 ) #print exception
