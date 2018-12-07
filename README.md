@@ -18,7 +18,7 @@ For best results, use a Polytonic Greek font such as:
 * [IFAOGrec Unicode](http://www.ifao.egnet.net/publications/publier/outils-ed/polices/#grec)
 
 ## Installation:
-The extension is contained in the file hoplitekb.oxt.  Download this file to your computer.  From LibreOffice, add the extension by going to Tools -> Extension Manager and clicking Add; select the file hoplitekb.oxt and restart LibreOffice.
+The extension is contained in the file hoplitekb.oxt.  Download this file from the Releases tab above.  From LibreOffice, add the extension by going to Tools -> Extension Manager and clicking Add; select the file hoplitekb.oxt and restart LibreOffice.
 
 To create the extension from source code, clone this repository.  Now zip the contents of the **hoplitekb-ext** folder into a zip file and rename the zip **hoplitekb.oxt**.  Be sure not to include the enclosing folder itself, i.e. hoplitekb-ext, in the zip file or the extension will fail to load.  From the terminal, these steps can be easily combined by running **_zip -r ../hoplitekb.oxt \*_** from inside the hoplite-ext folder.  Install hoplitekb.oxt in LibreOffice as above.
 
