@@ -312,19 +312,20 @@ def makeLetter(letterCodeAndBitMask, unicodeMode):
                 newLetter += k
         return newLetter.decode("unicode_escape")
     else:
+        addIotaSubscript = False
         if unicodeMode == PRECOMPOSED_WITH_PUA_MODE and (letterCodeAndBitMask[1] & (_IOTA_SUB | _MACRON)) == (_IOTA_SUB | _MACRON):
             letterCodeAndBitMask[1] &= ~_IOTA_SUB #so we don't get two iota subscripts
+            addIotaSubscript = True
 
         newLetter = getPrecomposedLetter(letterCodeAndBitMask)
 
-        if unicodeMode == PRECOMPOSED_WITH_PUA_MODE and (letterCodeAndBitMask[1] & (_IOTA_SUB | _MACRON)) == (_IOTA_SUB | _MACRON):
+        if addIotaSubscript == True:
             newLetter += COMBINING_IOTA_SUBSCRIPT
         
         if len(newLetter) > 0:
             return newLetter.decode("unicode_escape")
         else:
             return None
-
 
 #adjusts diacritics based on one being added
 def updateDiacritics(letterCodeAndBitMask, accentToAdd, toggleOff):
@@ -334,13 +335,13 @@ def updateDiacritics(letterCodeAndBitMask, accentToAdd, toggleOff):
             letterCodeAndBitMask[1] &= ~_ACUTE
         else:
             letterCodeAndBitMask[1] |= _ACUTE
-        letterCodeAndBitMask[1] &= ~(_GRAVE | _CIRCUMFLEX) #turn off...
+        letterCodeAndBitMask[1] &= ~(_GRAVE | _CIRCUMFLEX) #turn off
     elif accentToAdd == "circumflex":
         if toggleOff and (letterCodeAndBitMask[1] & _CIRCUMFLEX) == _CIRCUMFLEX:
             letterCodeAndBitMask[1] &= ~_CIRCUMFLEX
         else:
             letterCodeAndBitMask[1] |= _CIRCUMFLEX
-        letterCodeAndBitMask[1] &= ~(_ACUTE | _GRAVE | _MACRON | _BREVE) #turn off
+        letterCodeAndBitMask[1] &= ~(_ACUTE | _GRAVE | _MACRON | _BREVE) #turn off. fix me in c version, replace breve
     elif accentToAdd == "grave":
         if toggleOff and (letterCodeAndBitMask[1] & _GRAVE) == _GRAVE:
             letterCodeAndBitMask[1] &= ~_GRAVE
@@ -533,7 +534,7 @@ def analyzeLetter(letter, letterCodeAndBitMask):
 def accentLetter(letter, diacritic):
     bToggleOff = True
     bAddSpacingDiacriticIfNotLegal = False #for now
-    vUnicodeMode = COMBINING_ONLY_MODE  #PRECOMPOSED_WITH_PUA_MODE #0 for precomposed, 1 for precomposed with pua, 2 for combining-only, 3 for legacy hc challenge mode
+    vUnicodeMode = PRECOMPOSED_WITH_PUA_MODE #COMBINING_ONLY_MODE #0 for precomposed, 1 for precomposed with pua, 2 for combining-only, 3 for legacy hc challenge mode
 
     #handle rho
 
