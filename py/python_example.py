@@ -340,7 +340,7 @@ def updateDiacritics(letterCodeAndBitMask, accentToAdd, toggleOff):
             letterCodeAndBitMask[1] &= ~_CIRCUMFLEX
         else:
             letterCodeAndBitMask[1] |= _CIRCUMFLEX
-        letterCodeAndBitMask[1] &= ~(_ACUTE | _GRAVE | _MACRON) #turn off
+        letterCodeAndBitMask[1] &= ~(_ACUTE | _GRAVE | _MACRON | _BREVE) #turn off
     elif accentToAdd == "grave":
         if toggleOff and (letterCodeAndBitMask[1] & _GRAVE) == _GRAVE:
             letterCodeAndBitMask[1] &= ~_GRAVE
@@ -379,7 +379,7 @@ def updateDiacritics(letterCodeAndBitMask, accentToAdd, toggleOff):
         else:
             letterCodeAndBitMask[1] |= _IOTA_SUB
     elif accentToAdd == "diaeresis":
-        if letterCode == IOTA_CAP or letterCode == UPSILON_CAP:
+        if letterCodeAndBitMask[0] == IOTA_CAP or letterCodeAndBitMask[0] == UPSILON_CAP:
             letterCodeAndBitMask[1] &= ~(_ACUTE | _GRAVE | _CIRCUMFLEX | _MACRON)
 
         if toggleOff and (letterCodeAndBitMask[1] & _DIAERESIS) == _DIAERESIS:
