@@ -120,7 +120,7 @@ COMBINING_BREVE                 = b'\\u0306'
 COMBINING_DIAERESIS             = b'\\u0308'
 COMBINING_SMOOTH_BREATHING      = b'\\u0313'
 COMBINING_ROUGH_BREATHING       = b'\\u0314'
-COMBINING_IOTA_SUBSCRIPT        = b'\\u0342'
+COMBINING_IOTA_SUBSCRIPT        = b'\\u0345'
 # EM_DASH                         0x2014
 # LEFT_PARENTHESIS                0x0028
 # RIGHT_PARENTHESIS               0x0029
