@@ -26,7 +26,7 @@ If you want to build the extension from source code, clone this repository.  Now
 from inside the hoplite-ext folder.  Install hoplitekb.oxt in LibreOffice as above.
 
 ## Use:
-Add polytonic Greek diacritics by first typing a Greek vowel (or rho).  Next, while holding Control (Command on Mac), press a key 1-9 to toggle on/off diacritics.  The 1-9 keys are bound to: 
+Use your usual Greek keyboard to type base letters.  Use this extension to add diacritics.  After typing a vowel, while holding Control (Command on Mac), press a key 1-9 to toggle on/off diacritics.  The 1-9 keys are bound to: 
 1. rough breathing 
 2. smooth breathing
 3. acute
