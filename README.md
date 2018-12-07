@@ -23,9 +23,9 @@ The extension is contained in the file hoplitekb.oxt.  Download this file to you
 To create the extension from source code, clone this repository.  Now zip the contents of the **hoplitekb-ext** folder into a zip file and rename the zip **hoplitekb.oxt**.  Be sure not to include the enclosing folder itself, i.e. hoplitekb-ext, in the zip file or the extension will fail to load.  From the terminal, these steps can be easily combined by running **_zip -r ../hoplitekb.oxt \*_** from inside the hoplite-ext folder.  Install hoplitekb.oxt in LibreOffice as above.
 
 ## Use:
-Add polytonic Greek diacritics by first typing a Greek vowel (or rho).  Next while holding Control (Command on Mac), press a key 1-9 to toggle on/off diacritics.  Respectively, the 1-9 keys are bound to: rough breathing, smooth breathing, acute, grave, circumflex, macron, breve, iota subscript, and diaeresis.  The key bindings can be changed in the file Accelerators.xcu.  Then rezip the extension and reinstall.
+Add polytonic Greek diacritics by first typing a Greek vowel (or rho).  Next, while holding Control (Command on Mac), press a key 1-9 to toggle on/off diacritics.  Respectively, the 1-9 keys are bound to: rough breathing, smooth breathing, acute, grave, circumflex, macron, breve, iota subscript, and diaeresis.  The key bindings can be changed in the file Accelerators.xcu; then rezip the extension and reinstall.
 
 ## Why a LibreOffice extension?  Why not offer this functionality system-wide?:
 The Windows, Mac, and Linux opererating systems do not provide the keyboard with the information necessary to toggle on/off diacritics.  
-The Hoplite Keyboard started on iOS and Android where this information *is* provided to the keyboard.  So for Windows, Mac, and Linux the only way to implement this is inside applications. Hence a LibreOffice extension seemed the way to go.
+The Hoplite Keyboard started on iOS and Android where this information *is* provided to the keyboard.  So for Windows, Mac, and Linux the only way to implement this is inside applications: hence a LibreOffice extension.
 
