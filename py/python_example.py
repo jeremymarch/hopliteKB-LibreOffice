@@ -36,6 +36,67 @@ import unohelper
 
 from com.sun.star.task import XJobExecutor
 
+#accent enum, these are the precomposed indices in letters array
+NORMAL = 0
+PSILI  = 1                               #smooth
+DASIA  = 2                                  #rough
+OXIA   = 3
+PSILI_AND_OXIA = 4
+DASIA_AND_OXIA = 5
+VARIA = 6
+PSILI_AND_VARIA = 7
+DASIA_AND_VARIA = 8
+PERISPOMENI = 9
+PSILI_AND_PERISPOMENI = 10
+DASIA_AND_PERISPOMENI = 11
+YPOGEGRAMMENI = 12
+PSILI_AND_YPOGEGRAMMENI = 13
+DASIA_AND_YPOGEGRAMMENI = 14
+OXIA_AND_YPOGEGRAMMENI = 15
+PSILI_AND_OXIA_AND_YPOGEGRAMMENI = 16
+DASIA_AND_OXIA_AND_YPOGEGRAMMENI = 17
+VARIA_AND_YPOGEGRAMMENI = 18
+PSILI_AND_VARIA_AND_YPOGEGRAMMENI = 19
+DASIA_AND_VARIA_AND_YPOGEGRAMMENI = 20
+PERISPOMENI_AND_YPOGEGRAMMENI = 21
+PSILI_AND_PERISPOMENI_AND_YPOGEGRAMMENI = 22
+DASIA_AND_PERISPOMENI_AND_YPOGEGRAMMENI = 23
+DIALYTIKA = 24
+DIALYTIKA_AND_OXIA = 25
+DIALYTIKA_AND_VARIA = 26
+DIALYTIKA_AND_PERISPOMENON = 27
+MACRON_PRECOMPOSED = 28
+#ifdef ALLOW_PRIVATE_USE_AREA
+MACRON_AND_SMOOTH = 29
+MACRON_AND_SMOOTH_AND_ACUTE = 30
+MACRON_AND_SMOOTH_AND_GRAVE = 31
+MACRON_AND_ROUGH = 32
+MACRON_AND_ROUGH_AND_ACUTE = 33
+MACRON_AND_ROUGH_AND_GRAVE = 34
+MACRON_AND_ACUTE = 36
+MACRON_AND_GRAVE = 37
+#endif
+NUM_ACCENT_CODES = 38
+
+
+#letterCodes
+ALPHA = 0
+EPSILON = 1
+ETA = 2
+IOTA = 3
+OMICRON = 4
+UPSILON = 5
+OMEGA = 6
+ALPHA_CAP = 7
+EPSILON_CAP = 8
+ETA_CAP = 9
+IOTA_CAP = 10
+OMICRON_CAP = 11
+UPSILON_CAP = 12
+OMEGA_CAP = 13
+NUM_VOWEL_CODES = 14
+
+
 _MACRON     = 1 << 0
 _SMOOTH     = 1 << 1
 _ROUGH      = 1 << 2
@@ -65,11 +126,8 @@ COMBINING_IOTA_SUBSCRIPT        = b'\\u0342'
 
 # gamma is a comb char, delta is a vowel
 #gamma = b'\\u03b3' #just for testing
+
 combiningAccents = [ COMBINING_MACRON, COMBINING_BREVE, COMBINING_DIAERESIS, COMBINING_ROUGH_BREATHING, COMBINING_SMOOTH_BREATHING, COMBINING_ACUTE, COMBINING_GRAVE, COMBINING_CIRCUMFLEX, COMBINING_IOTA_SUBSCRIPT ];
-
-
-vowels = 14
-accents = 37
 
 letters = [ [ b'\\u03B1', b'\\u1F00', b'\\u1F01', b'\\u1F71', b'\\u1F04', b'\\u1F05', b'\\u1F70', b'\\u1F02', b'\\u1F03', b'\\u1FB6', b'\\u1F06', b'\\u1F07', b'\\u1FB3', b'\\u1F80', b'\\u1F81', b'\\u1FB4', b'\\u1F84', b'\\u1F85', b'\\u1FB2', b'\\u1F82', b'\\u1F83', b'\\u1FB7', b'\\u1F86', b'\\u1F87', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u1FB1', b'\\uEB04', b'\\uEB07', b'\\uEAF3', b'\\uEB05', b'\\uEB09', b'\\uEAF4', b'\\uEB00', b'\\uEAF0' ], 
 [ b'\\u03B5', b'\\u1F10', b'\\u1F11', b'\\u1F73', b'\\u1F14', b'\\u1F15', b'\\u1F72', b'\\u1F12', b'\\u1F13', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ], 
@@ -86,10 +144,29 @@ letters = [ [ b'\\u03B1', b'\\u1F00', b'\\u1F01', b'\\u1F71', b'\\u1F04', b'\\u1
 [ b'\\u03A5', b'\\u0000', b'\\u1F59', b'\\u1FEB', b'\\u0000', b'\\u1F5D', b'\\u1FEA', b'\\u0000', b'\\u1F5B', b'\\u0000', b'\\u0000', b'\\u1F5F', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u03AB', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u1FE9', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ],
 [ b'\\u03A9', b'\\u1F68', b'\\u1F69', b'\\u1FFB', b'\\u1F6C', b'\\u1F6D', b'\\u1FFA', b'\\u1F6A', b'\\u1F6B', b'\\u0000', b'\\u1F6E', b'\\u1F6F', b'\\u1FFC', b'\\u1FA8', b'\\u1FA9', b'\\u0000', b'\\u1FAC', b'\\u1FAD', b'\\u0000', b'\\u1FAA', b'\\u1FAB', b'\\u0000', b'\\u1FAE', b'\\u1FAF', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ] ];
 
+def isLegalDiacriticForLetter(letterCode, accentToAdd):
+    #match these strings to the arguments in the accelerators
+    if accentToAdd == "circumflex":
+        if letterCode != ALPHA and letterCode != ETA and letterCode != IOTA and letterCode != UPSILON and letterCode != OMEGA and letterCode != ALPHA_CAP and letterCode != ETA_CAP and letterCode != IOTA_CAP and letterCode != UPSILON_CAP and letterCode != OMEGA_CAP:
+            return False
+    elif accentToAdd == "macron":
+        if letterCode != ALPHA and letterCode != IOTA and letterCode != UPSILON and letterCode != ALPHA_CAP and letterCode != IOTA_CAP and letterCode != UPSILON_CAP:
+            return False
+    elif accentToAdd == "breve":
+        if letterCode != ALPHA and letterCode != IOTA and letterCode != UPSILON and letterCode != ALPHA_CAP and letterCode != IOTA_CAP and letterCode != UPSILON_CAP:
+            return False
+    elif accentToAdd == "iotasub":
+        if letterCode != ALPHA and letterCode != ETA and letterCode != OMEGA and letterCode != ALPHA_CAP and letterCode != ETA_CAP and letterCode != OMEGA_CAP:
+            return False
+    elif accentToAdd == "diaeresis":
+        if letterCode != IOTA and letterCode != UPSILON and letterCode != IOTA_CAP and letterCode != UPSILON_CAP:
+            return False
+    return True
+
 
 def analyzePrecomposedLetter(letter, letterCodeAndBitMask):
-    for vidx in range(0, vowels):
-        for aidx in range(0, accents):
+    for vidx in range(0, NUM_VOWEL_CODES - 1):
+        for aidx in range(0, NUM_ACCENT_CODES - 1):
             if letter[0].encode("unicode_escape") == letters[vidx][aidx]:
                 letterCodeAndBitMask[0] = vidx
                 return aidx
@@ -218,6 +295,9 @@ def accentLetter(letter, diacritic):
     #letters
     letterCodeAndBitMask = [0,0] #list so we can mutate the members
     analyzeLetter(letter, letterCodeAndBitMask)
+
+    if isLegalDiacriticForLetter(letterCodeAndBitMask[0], diacritic) == False:
+        return
 
     if letter == "ά":
         return "α"
