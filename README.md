@@ -6,7 +6,10 @@ LibreOffice Extension implementing the Hoplite Polytonic Greek Keyboard
 * Add diacritics _after_ the vowel
 * Add diacritics in any order
 * Toggle diacritics on/off
-* breathings, accents, subscripts, macrons, breves, diaereses: no problem!
+* breathings, accents, subscripts, macrons, breves, diaereses: no problem!\*
+* (coming soon: chose precombined, precombined with private use area, or combining-only modes)
+
+\* as long as your font supports it.
 
 ## Installation:
 Zip the contents of the **hoplitekb-ext** folder into a zip file and rename the zip **hoplitekb.oxt**.  Be sure not to include any enclosing folder in the zip file or the extension will fail to load.  From the terminal, these steps can be combined by running **_zip -r ../hoplitekb.oxt \*_** from inside the hoplite-ext folder.  Now from LibreOffice, add the extension by going to Tools -> Extension Manager and clicking Add; select the file hoplitekb.oxt and restart LibreOffice.
