@@ -13,7 +13,7 @@ Type polytonic Greek diacritics with ease.
 
 \* as long as your font supports it.
 
-For best results, use a Polytonic Greek font such as: 
+For best results, use a polytonic Greek font such as: 
 * [New Athena Unicode](https://apagreekkeys.org/NAUdownload.html)
 * [IFAOGrec Unicode](http://www.ifao.egnet.net/publications/publier/outils-ed/polices/#grec)
 
@@ -25,6 +25,6 @@ To create the extension from source code, clone this repository.  Now zip the co
 ## Use:
 Add polytonic Greek diacritics by first typing a Greek vowel (or rho).  Next, while holding Control (Command on Mac), press a key 1-9 to toggle on/off diacritics.  Respectively, the 1-9 keys are bound to: rough breathing, smooth breathing, acute, grave, circumflex, macron, breve, iota subscript, and diaeresis.  The key bindings can be changed in the file Accelerators.xcu; then rezip the extension and reinstall.
 
-## Why a LibreOffice extension?  Why not offer this functionality system-wide?:
-The Windows, Mac, and Linux opererating systems do not provide the keyboard with the information necessary to toggle on/off diacritics.  The Hoplite Keyboard started on iOS and Android where this information *is* provided to the keyboard.  So for Windows, Mac, and Linux the only way to implement this is inside applications. Hence a LibreOffice extension.
+## Why a LibreOffice extension?  Why not offer this functionality system-wide?
+The Windows, Mac, and Linux opererating systems do not provide the keyboard with the information necessary to toggle on/off diacritics.  The Hoplite Keyboard started on iOS and Android where this information *is* provided to the keyboard.  So for Windows, Mac, and Linux the only way to implement this is inside applications--hence a LibreOffice extension.
 
