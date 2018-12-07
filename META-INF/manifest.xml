@@ -2,7 +2,7 @@
 <manifest:manifest>
 
 		<manifest:file-entry manifest:media-type="application/vnd.sun.star.uno-component;type=Python" 
-    manifest:full-path="py/python_example.py"/>
+    manifest:full-path="py/hoplitekb.py"/>
 				
 <!--	 <manifest:file-entry manifest:full-path="factory/WindowContentFactories.xcu" 
 		manifest:media-type="application/vnd.sun.star.configuration-data"/>
