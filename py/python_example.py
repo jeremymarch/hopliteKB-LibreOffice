@@ -95,12 +95,87 @@ def analyzePrecomposedLetter(letter, letterCodeAndBitMask):
                 return aidx
     return None
 
-
 def precomposedIndexToBitMask(precomposedIndex, letterCodeAndBitMask):
-    return 0
+    #don't initialize to false here because diacriticMask could have combining accents already set to true
+    #make sure this is in order of enum so compiler can optimize switch
+    if precomposedIndex == PSILI:
+        letterCodeAndBitMask[1] |= _SMOOTH
+    elif precomposedIndex == DASIA:
+        letterCodeAndBitMask[1] |= _ROUGH
+    elif precomposedIndex == OXIA:
+        letterCodeAndBitMask[1] |= _ACUTE
+    elif precomposedIndex == PSILI_AND_OXIA:
+        letterCodeAndBitMask[1] |= (_SMOOTH | _ACUTE)
+    elif precomposedIndex == DASIA_AND_OXIA:
+        letterCodeAndBitMask[1] |= (_ROUGH | _ACUTE)
+    elif precomposedIndex == VARIA:
+        letterCodeAndBitMask[1] |= _GRAVE
+    elif precomposedIndex == PSILI_AND_VARIA:
+        letterCodeAndBitMask[1] |= (_SMOOTH | _GRAVE)
+    elif precomposedIndex == DASIA_AND_VARIA:
+        letterCodeAndBitMask[1] |= (_ROUGH | _GRAVE)
+    elif precomposedIndex == PERISPOMENI:
+        letterCodeAndBitMask[1] |= _CIRCUMFLEX
+    elif precomposedIndex == PSILI_AND_PERISPOMENI:
+        letterCodeAndBitMask[1] |= (_SMOOTH | _CIRCUMFLEX)
+    elif precomposedIndex == DASIA_AND_PERISPOMENI:
+        letterCodeAndBitMask[1] |= (_ROUGH | _CIRCUMFLEX)
+    elif precomposedIndex == YPOGEGRAMMENI:
+        letterCodeAndBitMask[1] |= _IOTA_SUB
+    elif precomposedIndex == PSILI_AND_YPOGEGRAMMENI:
+        letterCodeAndBitMask[1] |= (_SMOOTH | _IOTA_SUB)
+    elif precomposedIndex == DASIA_AND_YPOGEGRAMMENI:
+        letterCodeAndBitMask[1] |= (_ROUGH | _IOTA_SUB)
+    elif precomposedIndex == OXIA_AND_YPOGEGRAMMENI:
+        letterCodeAndBitMask[1] |= (_ACUTE | _IOTA_SUB)
+    elif precomposedIndex == PSILI_AND_OXIA_AND_YPOGEGRAMMENI:
+        letterCodeAndBitMask[1] |= (_SMOOTH | _ACUTE | _IOTA_SUB)
+    elif precomposedIndex == DASIA_AND_OXIA_AND_YPOGEGRAMMENI:
+        letterCodeAndBitMask[1] |= (_ROUGH | _ACUTE | _IOTA_SUB)
+    elif precomposedIndex == VARIA_AND_YPOGEGRAMMENI:
+        letterCodeAndBitMask[1] |= (_GRAVE | _IOTA_SUB)
+    elif precomposedIndex == PSILI_AND_VARIA_AND_YPOGEGRAMMENI:
+        letterCodeAndBitMask[1] |= (_SMOOTH | _GRAVE | _IOTA_SUB)
+    elif precomposedIndex == DASIA_AND_VARIA_AND_YPOGEGRAMMENI:
+        letterCodeAndBitMask[1] |= (_ROUGH | _GRAVE | _IOTA_SUB)
+    elif precomposedIndex == PERISPOMENI_AND_YPOGEGRAMMENI:
+        letterCodeAndBitMask[1] |= (_CIRCUMFLEX | _IOTA_SUB)
+    elif precomposedIndex == PSILI_AND_PERISPOMENI_AND_YPOGEGRAMMENI:
+        letterCodeAndBitMask[1] |= (_SMOOTH | _CIRCUMFLEX | _IOTA_SUB)
+    elif precomposedIndex == DASIA_AND_PERISPOMENI_AND_YPOGEGRAMMENI:
+        letterCodeAndBitMask[1] |= (_ROUGH | _CIRCUMFLEX | _IOTA_SUB)
+    elif precomposedIndex == DIALYTIKA:
+        letterCodeAndBitMask[1] |= _DIAERESIS
+    elif precomposedIndex == DIALYTIKA_AND_OXIA:
+        letterCodeAndBitMask[1] |= (_DIAERESIS | _ACUTE)
+    elif precomposedIndex == DIALYTIKA_AND_VARIA:
+        letterCodeAndBitMask[1] |= (_DIAERESIS | _GRAVE)
+    elif precomposedIndex == DIALYTIKA_AND_PERISPOMENON:
+        letterCodeAndBitMask[1] |= (_DIAERESIS | _CIRCUMFLEX)
+    elif precomposedIndex == MACRON_PRECOMPOSED:
+        letterCodeAndBitMask[1] |= _MACRON
+#ifdef ALLOW_PRIVATE_USE_AREA
+    elif precomposedIndex == MACRON_AND_SMOOTH:
+        letterCodeAndBitMask[1] |= (_MACRON | _SMOOTH)
+    elif precomposedIndex == MACRON_AND_SMOOTH_AND_ACUTE:
+        letterCodeAndBitMask[1] |= (_MACRON | _SMOOTH | _ACUTE)
+    elif precomposedIndex == MACRON_AND_SMOOTH_AND_GRAVE:
+        letterCodeAndBitMask[1] |= (_MACRON | _SMOOTH | _GRAVE)
+    elif precomposedIndex == MACRON_AND_ROUGH:
+        letterCodeAndBitMask[1] |= (_MACRON | _ROUGH)
+    elif precomposedIndex == MACRON_AND_ROUGH_AND_ACUTE:
+        letterCodeAndBitMask[1] |= (_MACRON | _ROUGH | _ACUTE)
+    elif precomposedIndex == MACRON_AND_ROUGH_AND_GRAVE:
+        letterCodeAndBitMask[1] |= (_MACRON | _ROUGH | _GRAVE)
+    elif precomposedIndex == MACRON_AND_ACUTE:
+        letterCodeAndBitMask[1] |= (_MACRON | _ACUTE)
+    elif precomposedIndex == MACRON_AND_GRAVE:
+        letterCodeAndBitMask[1] |= (_MACRON | _GRAVE)
+#endif
+    #return letterCodeAndBitMask
 
 def analyzeLetter(letter, letterCodeAndBitMask):
-    #fix me in c version, better done here
+    #fix me in c version, better here
     letterLen = len(letter)
     if letterLen > 1:
         for l in letter: # (int j = 1; j <= MAX_COMBINING && i + j < len; j++)
@@ -131,7 +206,7 @@ def analyzeLetter(letter, letterCodeAndBitMask):
     
     precomposedIndexToBitMask(precomposedIndex, letterCodeAndBitMask)
 
-    return letterCodeAndBitMask #why return it, it's a ref variable?
+    #return letterCodeAndBitMask #why return it, it's a ref variable?
 
 def accentLetter(letter, diacritic):
     bToggleOff = True
