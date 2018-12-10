@@ -10,8 +10,9 @@
 	 <manifest:file-entry manifest:full-path="factory/WriterWindowState.xcu" 
 		manifest:media-type="application/vnd.sun.star.configuration-data"/>     -->
 		
+<!--	comment out for now, jwm	
 		<manifest:file-entry manifest:full-path="Addons.xcu" 
-		manifest:media-type="application/vnd.sun.star.configuration-data"/>
+		manifest:media-type="application/vnd.sun.star.configuration-data"/> -->
 		
 		<manifest:file-entry manifest:full-path="Accelerators.xcu" 
 		manifest:media-type="application/vnd.sun.star.configuration-data"/>
