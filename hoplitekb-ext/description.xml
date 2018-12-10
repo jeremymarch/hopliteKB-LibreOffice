@@ -4,7 +4,7 @@
 							xmlns:d="http://openoffice.org/extensions/description/2006">
 							
 		<identifier value="com.philolog.hoplitekb" />
-		<version value="0.2" />
+		<version value="0.2.1" />
 
 		<dependencies>
 				<d:OpenOffice.org-minimal-version value="3.4" d:name="OpenOffice.org 3.4" />

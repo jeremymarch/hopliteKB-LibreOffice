@@ -93,15 +93,15 @@ _IOTA_SUB   = 1 << 6
 _DIAERESIS  = 1 << 7
 _BREVE      = 1 << 8 
 
-COMBINING_GRAVE                 = b'\\u0300'
-COMBINING_ACUTE                 = b'\\u0301'
-COMBINING_CIRCUMFLEX            = b'\\u0342' #0x0302
-COMBINING_MACRON                = b'\\u0304'
-COMBINING_BREVE                 = b'\\u0306'
-COMBINING_DIAERESIS             = b'\\u0308'
-COMBINING_SMOOTH_BREATHING      = b'\\u0313'
-COMBINING_ROUGH_BREATHING       = b'\\u0314'
-COMBINING_IOTA_SUBSCRIPT        = b'\\u0345'
+COMBINING_GRAVE                 = '\u0300'
+COMBINING_ACUTE                 = '\u0301'
+COMBINING_CIRCUMFLEX            = '\u0342' #0x0302
+COMBINING_MACRON                = '\u0304'
+COMBINING_BREVE                 = '\u0306'
+COMBINING_DIAERESIS             = '\u0308'
+COMBINING_SMOOTH_BREATHING      = '\u0313'
+COMBINING_ROUGH_BREATHING       = '\u0314'
+COMBINING_IOTA_SUBSCRIPT        = '\u0345'
 # EM_DASH                         0x2014
 # LEFT_PARENTHESIS                0x0028
 # RIGHT_PARENTHESIS               0x0029
@@ -115,20 +115,20 @@ COMBINING_IOTA_SUBSCRIPT        = b'\\u0345'
 
 combiningAccents = [ COMBINING_MACRON, COMBINING_BREVE, COMBINING_DIAERESIS, COMBINING_ROUGH_BREATHING, COMBINING_SMOOTH_BREATHING, COMBINING_ACUTE, COMBINING_GRAVE, COMBINING_CIRCUMFLEX, COMBINING_IOTA_SUBSCRIPT ]
 
-letters = [ [ b'\\u03B1', b'\\u1F00', b'\\u1F01', b'\\u1F71', b'\\u1F04', b'\\u1F05', b'\\u1F70', b'\\u1F02', b'\\u1F03', b'\\u1FB6', b'\\u1F06', b'\\u1F07', b'\\u1FB3', b'\\u1F80', b'\\u1F81', b'\\u1FB4', b'\\u1F84', b'\\u1F85', b'\\u1FB2', b'\\u1F82', b'\\u1F83', b'\\u1FB7', b'\\u1F86', b'\\u1F87', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u1FB1', b'\\uEB04', b'\\uEB07', b'\\uEAF3', b'\\uEB05', b'\\uEB09', b'\\uEAF4', b'\\uEB00', b'\\uEAF0' ], 
-[ b'\\u03B5', b'\\u1F10', b'\\u1F11', b'\\u1F73', b'\\u1F14', b'\\u1F15', b'\\u1F72', b'\\u1F12', b'\\u1F13', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ], 
-[ b'\\u03B7', b'\\u1F20', b'\\u1F21', b'\\u1F75', b'\\u1F24', b'\\u1F25', b'\\u1F74', b'\\u1F22', b'\\u1F23', b'\\u1FC6', b'\\u1F26', b'\\u1F27', b'\\u1FC3', b'\\u1F90', b'\\u1F91', b'\\u1FC4', b'\\u1F94', b'\\u1F95', b'\\u1FC2', b'\\u1F92', b'\\u1F93', b'\\u1FC7', b'\\u1F96', b'\\u1F97', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ], 
-[ b'\\u03B9', b'\\u1F30', b'\\u1F31', b'\\u1F77', b'\\u1F34', b'\\u1F35', b'\\u1F76', b'\\u1F32', b'\\u1F33', b'\\u1FD6', b'\\u1F36', b'\\u1F37', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u03CA', b'\\u1FD3', b'\\u1FD2', b'\\u1FD7', b'\\u1FD1', b'\\uEB3C', b'\\uEB3D', b'\\uEB54', b'\\uEB3E', b'\\uEB3F', b'\\uEB55', b'\\uEB39', b'\\uEB38' ], 
-[ b'\\u03BF', b'\\u1F40', b'\\u1F41', b'\\u1F79', b'\\u1F44', b'\\u1F45', b'\\u1F78', b'\\u1F42', b'\\u1F43', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ], 
-[ b'\\u03C5', b'\\u1F50', b'\\u1F51', b'\\u1F7B', b'\\u1F54', b'\\u1F55', b'\\u1F7A', b'\\u1F52', b'\\u1F53', b'\\u1FE6', b'\\u1F56', b'\\u1F57', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u03CB', b'\\u1FE3', b'\\u1FE2', b'\\u1FE7', b'\\u1FE1', b'\\uEB7D', b'\\uEB7F', b'\\uEB71', b'\\uEB7E', b'\\uEB80', b'\\uEB75', b'\\uEB7A', b'\\uEB6F' ], 
-[ b'\\u03C9', b'\\u1F60', b'\\u1F61', b'\\u1F7D', b'\\u1F64', b'\\u1F65', b'\\u1F7C', b'\\u1F62', b'\\u1F63', b'\\u1FF6', b'\\u1F66', b'\\u1F67', b'\\u1FF3', b'\\u1FA0', b'\\u1FA1', b'\\u1FF4', b'\\u1FA4', b'\\u1FA5', b'\\u1FF2', b'\\u1FA2', b'\\u1FA3', b'\\u1FF7', b'\\u1FA6', b'\\u1FA7', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ], 
-[ b'\\u0391', b'\\u1F08', b'\\u1F09', b'\\u1FBB', b'\\u1F0C', b'\\u1F0D', b'\\u1FBA', b'\\u1F0A', b'\\u1F0B', b'\\u0000', b'\\u1F0E', b'\\u1F0F', b'\\u1FBC', b'\\u1F88', b'\\u1F89', b'\\u0000', b'\\u1F8C', b'\\u1F8D', b'\\u0000', b'\\u1F8A', b'\\u1F8B', b'\\u0000', b'\\u1F8E', b'\\u1F8F', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u1FB9', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ], 
-[ b'\\u0395', b'\\u1F18', b'\\u1F19', b'\\u1FC9', b'\\u1F1C', b'\\u1F1D', b'\\u1FC8', b'\\u1F1A', b'\\u1F1B', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ], 
-[ b'\\u0397', b'\\u1F28', b'\\u1F29', b'\\u1FCB', b'\\u1F2C', b'\\u1F2D', b'\\u1FCA', b'\\u1F2A', b'\\u1F2B', b'\\u0000', b'\\u1F2E', b'\\u1F2F', b'\\u1FCC', b'\\u1F98', b'\\u1F99', b'\\u0000', b'\\u1F9C', b'\\u1F9D', b'\\u0000', b'\\u1F9A', b'\\u1F9B', b'\\u0000', b'\\u1F9E', b'\\u1F9F', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ], 
-[ b'\\u0399', b'\\u1F38', b'\\u1F39', b'\\u1FDB', b'\\u1F3C', b'\\u1F3D', b'\\u1FDA', b'\\u1F3A', b'\\u1F3B', b'\\u0000', b'\\u1F3E', b'\\u1F3F', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u03AA', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u1FD9', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ], 
-[ b'\\u039F', b'\\u1F48', b'\\u1F49', b'\\u1FF9', b'\\u1F4C', b'\\u1F4D', b'\\u1FF8', b'\\u1F4A', b'\\u1F4B', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ], 
-[ b'\\u03A5', b'\\u0000', b'\\u1F59', b'\\u1FEB', b'\\u0000', b'\\u1F5D', b'\\u1FEA', b'\\u0000', b'\\u1F5B', b'\\u0000', b'\\u0000', b'\\u1F5F', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u03AB', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u1FE9', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ],
-[ b'\\u03A9', b'\\u1F68', b'\\u1F69', b'\\u1FFB', b'\\u1F6C', b'\\u1F6D', b'\\u1FFA', b'\\u1F6A', b'\\u1F6B', b'\\u0000', b'\\u1F6E', b'\\u1F6F', b'\\u1FFC', b'\\u1FA8', b'\\u1FA9', b'\\u0000', b'\\u1FAC', b'\\u1FAD', b'\\u0000', b'\\u1FAA', b'\\u1FAB', b'\\u0000', b'\\u1FAE', b'\\u1FAF', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000', b'\\u0000' ] ]
+letters = [ [ '\u03B1', '\u1F00', '\u1F01', '\u1F71', '\u1F04', '\u1F05', '\u1F70', '\u1F02', '\u1F03', '\u1FB6', '\u1F06', '\u1F07', '\u1FB3', '\u1F80', '\u1F81', '\u1FB4', '\u1F84', '\u1F85', '\u1FB2', '\u1F82', '\u1F83', '\u1FB7', '\u1F86', '\u1F87', '\u0000', '\u0000', '\u0000', '\u0000', '\u1FB1', '\uEB04', '\uEB07', '\uEAF3', '\uEB05', '\uEB09', '\uEAF4', '\uEB00', '\uEAF0' ], 
+[ '\u03B5', '\u1F10', '\u1F11', '\u1F73', '\u1F14', '\u1F15', '\u1F72', '\u1F12', '\u1F13', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000' ], 
+[ '\u03B7', '\u1F20', '\u1F21', '\u1F75', '\u1F24', '\u1F25', '\u1F74', '\u1F22', '\u1F23', '\u1FC6', '\u1F26', '\u1F27', '\u1FC3', '\u1F90', '\u1F91', '\u1FC4', '\u1F94', '\u1F95', '\u1FC2', '\u1F92', '\u1F93', '\u1FC7', '\u1F96', '\u1F97', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000' ], 
+[ '\u03B9', '\u1F30', '\u1F31', '\u1F77', '\u1F34', '\u1F35', '\u1F76', '\u1F32', '\u1F33', '\u1FD6', '\u1F36', '\u1F37', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u03CA', '\u1FD3', '\u1FD2', '\u1FD7', '\u1FD1', '\uEB3C', '\uEB3D', '\uEB54', '\uEB3E', '\uEB3F', '\uEB55', '\uEB39', '\uEB38' ], 
+[ '\u03BF', '\u1F40', '\u1F41', '\u1F79', '\u1F44', '\u1F45', '\u1F78', '\u1F42', '\u1F43', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000' ], 
+[ '\u03C5', '\u1F50', '\u1F51', '\u1F7B', '\u1F54', '\u1F55', '\u1F7A', '\u1F52', '\u1F53', '\u1FE6', '\u1F56', '\u1F57', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u03CB', '\u1FE3', '\u1FE2', '\u1FE7', '\u1FE1', '\uEB7D', '\uEB7F', '\uEB71', '\uEB7E', '\uEB80', '\uEB75', '\uEB7A', '\uEB6F' ], 
+[ '\u03C9', '\u1F60', '\u1F61', '\u1F7D', '\u1F64', '\u1F65', '\u1F7C', '\u1F62', '\u1F63', '\u1FF6', '\u1F66', '\u1F67', '\u1FF3', '\u1FA0', '\u1FA1', '\u1FF4', '\u1FA4', '\u1FA5', '\u1FF2', '\u1FA2', '\u1FA3', '\u1FF7', '\u1FA6', '\u1FA7', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000' ], 
+[ '\u0391', '\u1F08', '\u1F09', '\u1FBB', '\u1F0C', '\u1F0D', '\u1FBA', '\u1F0A', '\u1F0B', '\u0000', '\u1F0E', '\u1F0F', '\u1FBC', '\u1F88', '\u1F89', '\u0000', '\u1F8C', '\u1F8D', '\u0000', '\u1F8A', '\u1F8B', '\u0000', '\u1F8E', '\u1F8F', '\u0000', '\u0000', '\u0000', '\u0000', '\u1FB9', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000' ], 
+[ '\u0395', '\u1F18', '\u1F19', '\u1FC9', '\u1F1C', '\u1F1D', '\u1FC8', '\u1F1A', '\u1F1B', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000' ], 
+[ '\u0397', '\u1F28', '\u1F29', '\u1FCB', '\u1F2C', '\u1F2D', '\u1FCA', '\u1F2A', '\u1F2B', '\u0000', '\u1F2E', '\u1F2F', '\u1FCC', '\u1F98', '\u1F99', '\u0000', '\u1F9C', '\u1F9D', '\u0000', '\u1F9A', '\u1F9B', '\u0000', '\u1F9E', '\u1F9F', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000' ], 
+[ '\u0399', '\u1F38', '\u1F39', '\u1FDB', '\u1F3C', '\u1F3D', '\u1FDA', '\u1F3A', '\u1F3B', '\u0000', '\u1F3E', '\u1F3F', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u03AA', '\u0000', '\u0000', '\u0000', '\u1FD9', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000' ], 
+[ '\u039F', '\u1F48', '\u1F49', '\u1FF9', '\u1F4C', '\u1F4D', '\u1FF8', '\u1F4A', '\u1F4B', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000' ], 
+[ '\u03A5', '\u0000', '\u1F59', '\u1FEB', '\u0000', '\u1F5D', '\u1FEA', '\u0000', '\u1F5B', '\u0000', '\u0000', '\u1F5F', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u03AB', '\u0000', '\u0000', '\u0000', '\u1FE9', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000' ],
+[ '\u03A9', '\u1F68', '\u1F69', '\u1FFB', '\u1F6C', '\u1F6D', '\u1FFA', '\u1F6A', '\u1F6B', '\u0000', '\u1F6E', '\u1F6F', '\u1FFC', '\u1FA8', '\u1FA9', '\u0000', '\u1FAC', '\u1FAD', '\u0000', '\u1FAA', '\u1FAB', '\u0000', '\u1FAE', '\u1FAF', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000' ] ]
 
 def getPrecomposedLetter(letterCodeAndBitMask):
     accentIndex = 0
@@ -260,7 +260,7 @@ def makeLetter(letterCodeAndBitMask, unicodeMode):
                 newLetter += k
             elif k == COMBINING_DIAERESIS and (letterCodeAndBitMask[1] & _DIAERESIS) == _DIAERESIS:
                 newLetter += k
-        return newLetter.decode("unicode_escape")
+        return newLetter
     else:
         addIotaSubscript = False
         if unicodeMode == PRECOMPOSED_WITH_PUA_MODE and (letterCodeAndBitMask[1] & (_IOTA_SUB | _MACRON)) == (_IOTA_SUB | _MACRON):
@@ -273,7 +273,7 @@ def makeLetter(letterCodeAndBitMask, unicodeMode):
             newLetter += COMBINING_IOTA_SUBSCRIPT
         
         if len(newLetter) > 0:
-            return newLetter.decode("unicode_escape")
+            return newLetter
         else:
             return None
 
@@ -362,7 +362,7 @@ def isLegalDiacriticForLetter(letterCode, accentToAdd):
 def analyzePrecomposedLetter(letter, letterCodeAndBitMask):
     for vidx in range(0, NUM_VOWEL_CODES):
         for aidx in range(0, NUM_ACCENT_CODES):
-            if letter[0] == letters[vidx][aidx].decode("unicode_escape"):
+            if letter[0] == letters[vidx][aidx]:
                 letterCodeAndBitMask[0] = vidx
                 return aidx
     return None
@@ -451,23 +451,23 @@ def analyzeLetter(letter, letterCodeAndBitMask):
     letterLen = len(letter)
     if letterLen > 1:
         for l in letter: # (int j = 1; j <= MAX_COMBINING && i + j < len; j++)
-            if l == COMBINING_ROUGH_BREATHING.decode("unicode_escape"):
+            if l == COMBINING_ROUGH_BREATHING:
                 letterCodeAndBitMask[1] |= _ROUGH
-            elif l == COMBINING_SMOOTH_BREATHING.decode("unicode_escape"):
+            elif l == COMBINING_SMOOTH_BREATHING:
                 letterCodeAndBitMask[1] |= _SMOOTH
-            elif l == COMBINING_ACUTE.decode("unicode_escape"):
+            elif l == COMBINING_ACUTE:
                 letterCodeAndBitMask[1] |= _ACUTE
-            elif l == COMBINING_GRAVE.decode("unicode_escape"):
+            elif l == COMBINING_GRAVE:
                 letterCodeAndBitMask[1] |= _GRAVE
-            elif l == COMBINING_CIRCUMFLEX.decode("unicode_escape"):
+            elif l == COMBINING_CIRCUMFLEX:
                 letterCodeAndBitMask[1] |= _CIRCUMFLEX
-            elif l == COMBINING_MACRON.decode("unicode_escape"):
+            elif l == COMBINING_MACRON:
                 letterCodeAndBitMask[1] |= _MACRON
-            elif l == COMBINING_BREVE.decode("unicode_escape"):
+            elif l == COMBINING_BREVE:
                 letterCodeAndBitMask[1] |= _BREVE
-            elif l == COMBINING_IOTA_SUBSCRIPT.decode("unicode_escape"):
+            elif l == COMBINING_IOTA_SUBSCRIPT:
                 letterCodeAndBitMask[1] |= _IOTA_SUB
-            elif l == COMBINING_DIAERESIS.decode("unicode_escape"):
+            elif l == COMBINING_DIAERESIS:
                 letterCodeAndBitMask[1] |= _DIAERESIS
             else:
                 continue
@@ -484,40 +484,38 @@ def analyzeLetter(letter, letterCodeAndBitMask):
 def accentLetter(letter, diacritic):
     bToggleOff = True
     bAddSpacingDiacriticIfNotLegal = False #for now
-    vUnicodeMode = PRECOMPOSED_WITH_PUA_MODE #COMBINING_ONLY_MODE #0 for precomposed, 1 for precomposed with pua, 2 for combining-only, 3 for legacy hc challenge mode
+
+    # PRECOMPOSED_MODE = 0
+    # PRECOMPOSED_WITH_PUA_MODE = 1
+    # COMBINING_ONLY_MODE = 2
+    # PRECOMPOSED_HC_MODE = 3
+    vUnicodeMode = PRECOMPOSED_WITH_PUA_MODE #COMBINING_ONLY_MODE #PRECOMPOSED_MODE
 
     #handle rho 
-    rho = b'\\u03c1'
-    rho_with_dasia = b'\\u1fe5'
-    rho_with_psili = b'\\u1fe4'
-    rho_cap = b'\\u03a1'
-    rho_cap_with_dasia = b'\\u1fec'
+    rho = '\u03c1'
+    rho_with_dasia = '\u1fe5'
+    rho_with_psili = '\u1fe4'
+    rho_cap = '\u03a1'
+    rho_cap_with_dasia = '\u1fec'
 
-    if letter.encode("unicode_escape") == rho and diacritic == "rough":
-        return rho_with_dasia.decode("unicode_escape")
-    elif letter.encode("unicode_escape") == rho_with_dasia and diacritic == "rough":
-        return rho.decode("unicode_escape")
-    elif letter.encode("unicode_escape") == rho_cap and diacritic == "rough":
-        return rho_cap_with_dasia.decode("unicode_escape")
-    elif letter.encode("unicode_escape") == rho_cap_with_dasia and diacritic == "rough":
-        return rho_cap.decode("unicode_escape")
-    elif letter.encode("unicode_escape") == rho_with_psili and diacritic == "rough":
-        return rho_with_dasia.decode("unicode_escape")
+    if letter == rho and diacritic == "rough":
+        return rho_with_dasia
+    elif letter == rho_with_dasia and diacritic == "rough":
+        return rho
+    elif letter == rho_cap and diacritic == "rough":
+        return rho_cap_with_dasia
+    elif letter == rho_cap_with_dasia and diacritic == "rough":
+        return rho_cap
+    elif letter == rho_with_psili and diacritic == "rough":
+        return rho_with_dasia
 #ifdef ALLOW_RHO_WITH_PSILI
-    elif letter.encode("unicode_escape") == rho and diacritic == "smooth":
-        return rho_with_psili.decode("unicode_escape")
-    elif letter.encode("unicode_escape") == rho_with_psili and diacritic == "smooth":
-        return rho.decode("unicode_escape")
-    elif letter.encode("unicode_escape") == rho_with_dasia and diacritic == "smooth":
-        return rho_with_psili.decode("unicode_escape")
+    elif letter == rho and diacritic == "smooth":
+        return rho_with_psili
+    elif letter == rho_with_psili and diacritic == "smooth":
+        return rho
+    elif letter == rho_with_dasia and diacritic == "smooth":
+        return rho_with_psili
 #endif
-    # else if (letter == GREEK_SMALL_LETTER_NU && accentToAdd == SURROUNDING_PARENTHESES)
-    # {
-    #     rightShiftFromOffsetSteps(ucs2String, i, 2, len);
-    #     ucs2String[i] = LEFT_PARENTHESIS;
-    #     ucs2String[i+1] = GREEK_SMALL_LETTER_NU;
-    #     ucs2String[i+2] = RIGHT_PARENTHESIS;
-    #     return
 
     #letters
     letterCodeAndBitMask = [0,0] #list so we can mutate the members
@@ -535,6 +533,7 @@ def accentLetter(letter, diacritic):
         return None
     else:
         return newLetter
+
 
 class HopliteKB( unohelper.Base, XJobExecutor ):
     def __init__( self, ctx ):
@@ -565,7 +564,7 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
             for i in range(0, 6):
                 xWordCursor.goRight(1, True)
                 s = xWordCursor.getString()
-                if s is not None and len(s) > 0 and s[-1].encode("unicode_escape") not in combiningAccents:
+                if s is not None and len(s) > 0 and s[-1] not in combiningAccents:
                     xWordCursor.collapseToStart() #roll back one
                     break
                 n = n + 1
@@ -575,7 +574,7 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
             for j in range(0, 6 + n):
                 xWordCursor.goLeft(1, True)
                 s = xWordCursor.getString()
-                if s is not None and len(s) > 0 and s[0].encode("unicode_escape") not in combiningAccents: #when != "a" this puts us one further past the comb. chars.
+                if s is not None and len(s) > 0 and s[0] not in combiningAccents: #when != "a" this puts us one further past the comb. chars.
                     break
 
             #get letter with any following combining chars, we decide what to do inside accentLetter
