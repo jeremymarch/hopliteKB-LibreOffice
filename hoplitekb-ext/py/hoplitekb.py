@@ -518,7 +518,7 @@ def accentLetter(letter, diacritic):
 #endif
 
     #letters
-    letterCodeAndBitMask = [0,0] #list so we can mutate the members
+    letterCodeAndBitMask = [0,0] #a list so we can pass it by ref: 0 is the letter index, 1 is the diacritic bitmask
     if analyzeLetter(letter, letterCodeAndBitMask) is None:
         return None
 
