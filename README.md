@@ -9,7 +9,7 @@ Type polytonic Greek diacritics with ease.
 * Add diacritics in any order
 * Toggle diacritics on/off
 * breathings, accents, subscripts, macrons, breves, diaereses: no problem!\*
-* (coming soon: choose precombined, precombined with private use area, or combining-only modes)
+* (coming soon: choose precomposed, precomposed with private use area, or combining-only modes)
 
 \* as long as your font supports it.
 
