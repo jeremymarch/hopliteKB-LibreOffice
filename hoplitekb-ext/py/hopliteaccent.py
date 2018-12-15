@@ -223,15 +223,25 @@ def makeLetter(letterCodeAndBitMask, unicodeMode):
     newLetter = ""
     #fallback if macron + one more diacritic
     precomposingFallbackToComposing = False
+    breveAndMacron = False
     if (unicodeMode == PRECOMPOSED_MODE and (letterCodeAndBitMask[1] & _MACRON) == _MACRON) or (unicodeMode == PRECOMPOSED_WITH_PUA_MODE and (letterCodeAndBitMask[1] & (_MACRON | _DIAERESIS)) == (_MACRON | _DIAERESIS)):
         if (letterCodeAndBitMask[1] & ~_MACRON) != 0: #if any other bits set besides macron
             precomposingFallbackToComposing = True
+    # elif (letterCodeAndBitMask[1] & (_BREVE | _MACRON)) == (_BREVE | _MACRON):
+    #     breveAndMacron = True
     elif (letterCodeAndBitMask[1] & _BREVE) == _BREVE:
         precomposingFallbackToComposing = True
     elif unicodeMode == PRECOMPOSED_HC_MODE and (letterCodeAndBitMask[1] & _MACRON) == _MACRON:
         #this is legacy for the hoplite challenge app which uses combining macron even if no other diacritics
         precomposingFallbackToComposing = True
 
+    #special case for breve + macron: use precomposed macron with combining breve - font still doesn't look good
+    # if breveAndMacron == True:
+    #     letterCodeAndBitMask[1] &= ~_BREVE #turn off
+    #     newLetter = getPrecomposedLetter(letterCodeAndBitMask) #get with precomposed macron
+    #     newLetter += COMBINING_BREVE
+    #     return newLetter
+    # elif...
     if unicodeMode == COMBINING_ONLY_MODE or precomposingFallbackToComposing:
 
         newLetter = letterCodeToUCS2(letterCodeAndBitMask[0]) #set base letter
