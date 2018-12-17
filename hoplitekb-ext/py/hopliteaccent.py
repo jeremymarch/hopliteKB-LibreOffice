@@ -489,15 +489,9 @@ def analyzeLetter(letter, letterCodeAndBitMask):
     return True
     #return letterCodeAndBitMask #why return it, it's a ref variable?
 
-def accentLetter(letter, diacritic):
+def accentLetter(letter, diacritic, vUnicodeMode):
     bToggleOff = True
     bAddSpacingDiacriticIfNotLegal = False #for now
-
-    # PRECOMPOSED_MODE = 0
-    # PRECOMPOSED_WITH_PUA_MODE = 1
-    # COMBINING_ONLY_MODE = 2
-    # PRECOMPOSED_HC_MODE = 3
-    vUnicodeMode = PRECOMPOSED_WITH_PUA_MODE #COMBINING_ONLY_MODE #PRECOMPOSED_MODE
 
     #handle rho 
     rho = '\u03c1'
@@ -505,6 +499,15 @@ def accentLetter(letter, diacritic):
     rho_with_psili = '\u1fe4'
     rho_cap = '\u03a1'
     rho_cap_with_dasia = '\u1fec'
+
+    # if vUnicodeMode == PRECOMPOSED_MODE:
+    #     return "1"
+    # elif vUnicodeMode == PRECOMPOSED_WITH_PUA_MODE:
+    #     return "2"
+    # elif vUnicodeMode == COMBINING_ONLY_MODE:
+    #     return "3"
+    # else:
+    #     return "4"
 
     if letter == rho and diacritic == "rough":
         return rho_with_dasia

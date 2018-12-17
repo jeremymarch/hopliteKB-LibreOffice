@@ -30,11 +30,17 @@ import hopliteaccent
 from com.sun.star.task import XJobExecutor
 #from unicodedata import normalize #another way we could do some of this, but won't work for PUA 
 
+vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE #default
+
 
 class HopliteKB( unohelper.Base, XJobExecutor ):
     def __init__( self, ctx ):
-        self.ctx = ctx    
-
+        self.ctx = ctx
+        # PRECOMPOSED_MODE = 0
+        # PRECOMPOSED_WITH_PUA_MODE = 1
+        # COMBINING_ONLY_MODE = 2
+        # PRECOMPOSED_HC_MODE = 3
+        
     def trigger( self, args ):
 
         try:
@@ -50,10 +56,25 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
             diacriticToAdd = args
 
             desktop = self.ctx.ServiceManager.createInstanceWithContext( "com.sun.star.frame.Desktop", self.ctx )
- 
+
             doc = desktop.getCurrentComponent()
             text = doc.Text
             cursor = text.createTextCursor()
+
+            #we use a global and not class member because class is recreated for each call
+            global vUnicodeMode #global because we are modifying it below
+            if args == "setmodeprecomposing":
+                vUnicodeMode = hopliteaccent.PRECOMPOSED_MODE
+                #text.insertString( cursor, "prec ", 0 ) #print exception
+                return
+            elif args == "setmodepua":
+                vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE
+                #text.insertString( cursor, "pua ", 0 ) #print exception
+                return
+            elif args == "setmodecombining":
+                vUnicodeMode = hopliteaccent.COMBINING_ONLY_MODE
+                #text.insertString( cursor, "combining ", 0 ) #print exception
+                return
 
             xIndexAccess = doc.getCurrentSelection()
             xTextRange = xIndexAccess.getByIndex(0) #just the first selection
@@ -82,7 +103,7 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
             #get letter with any following combining chars, we decide what to do inside accentLetter
             letterToAccent = xWordCursor.getString()
             if letterToAccent is not None and len(letterToAccent) > 0:
-                newLetter = hopliteaccent.accentLetter(letterToAccent, diacriticToAdd)
+                newLetter = hopliteaccent.accentLetter(letterToAccent, diacriticToAdd, vUnicodeMode)
                 if newLetter is not None:
                     xWordCursor.setString(newLetter)
 
