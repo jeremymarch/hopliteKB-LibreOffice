@@ -17,6 +17,7 @@ import sys
 import inspect
 import uno
 import unohelper
+from urllib.parse import unquote
 
 # Add current directory to path to import local modules
 cmd_folder = os.path.realpath(os.path.abspath
@@ -30,16 +31,44 @@ import hopliteaccent
 from com.sun.star.task import XJobExecutor
 #from unicodedata import normalize #another way we could do some of this, but won't work for PUA 
 
+# PRECOMPOSED_MODE = 0
+# PRECOMPOSED_WITH_PUA_MODE = 1
+# COMBINING_ONLY_MODE = 2
+# PRECOMPOSED_HC_MODE = 3
 vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE #default
 
+
+def get_extension_path(ctx):
+    srv = ctx.getByName("/singletons/com.sun.star.deployment.PackageInformationProvider")
+    extPath = unquote(srv.getPackageLocation("com.philolog.hoplitekb")) #unquote file url, was giving %02 for spaces
+    extPath = extPath.split("://")[1] #remove "file://"
+    return extPath
+
+def getSettingsPath(ctx):
+    path = get_extension_path(ctx)
+    path = os.path.dirname(path) 
+    return path + "/hoplite.txt"
 
 class HopliteKB( unohelper.Base, XJobExecutor ):
     def __init__( self, ctx ):
         self.ctx = ctx
-        # PRECOMPOSED_MODE = 0
-        # PRECOMPOSED_WITH_PUA_MODE = 1
-        # COMBINING_ONLY_MODE = 2
-        # PRECOMPOSED_HC_MODE = 3
+
+    def writeSettings(self, vUnicodeMode):
+        path = getSettingsPath(self.ctx) 
+        file = open(path, "w+") 
+        file.write( str(vUnicodeMode) ) 
+        file.close() 
+
+    def readSettings(self):
+        path = getSettingsPath(self.ctx) 
+        file = open(path, "r") 
+        mode = file.read(1) #read one char
+        file.close()
+        if mode == hopliteaccent.PRECOMPOSED_MODE or mode == hopliteaccent.PRECOMPOSED_WITH_PUA_MODE or mode == hopliteaccent.COMBINING_ONLY_MODE:
+            return mode
+        else:
+            return hopliteaccent.PRECOMPOSED_MODE #default to precomposed
+
         
     def trigger( self, args ):
 
@@ -61,18 +90,24 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
             text = doc.Text
             cursor = text.createTextCursor()
 
+            #text.insertString( cursor, "ABC: " + get_extension_path(self.ctx) + " :DEF", 0 ) #print exception
+            self.writeSettings(1)
+
             #we use a global and not class member because class is recreated for each call
             global vUnicodeMode #global because we are modifying it below
             if args == "setmodeprecomposing":
                 vUnicodeMode = hopliteaccent.PRECOMPOSED_MODE
+                self.writeSettings(vUnicodeMode)
                 #text.insertString( cursor, "prec ", 0 ) #print exception
                 return
             elif args == "setmodepua":
                 vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE
+                self.writeSettings(vUnicodeMode)
                 #text.insertString( cursor, "pua ", 0 ) #print exception
                 return
             elif args == "setmodecombining":
                 vUnicodeMode = hopliteaccent.COMBINING_ONLY_MODE
+                self.writeSettings(vUnicodeMode)
                 #text.insertString( cursor, "combining ", 0 ) #print exception
                 return
 
