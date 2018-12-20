@@ -108,8 +108,35 @@ UPSILON_CAP = 12
 OMEGA_CAP = 13
 NUM_VOWEL_CODES = 14
 
+#key codes, also indexes in cancelDiacritics array
+kNO_ACCENT = 0
+kACUTE = 1
+kCIRCUMFLEX = 2
+kGRAVE = 3
+kMACRON = 4
+kROUGH_BREATHING = 5
+kSMOOTH_BREATHING = 6
+kIOTA_SUBSCRIPT = 7
+kSURROUNDING_PARENTHESES = 8
+kDIAERESIS = 9
+kBREVE = 10
+
+#turn these diacritics off when adding index diacritic
+cancelDiacritics = [0,0,0,0,0,0,0,0,0,0,0]
+cancelDiacritics[kACUTE] = ~(_GRAVE | _CIRCUMFLEX)
+cancelDiacritics[kCIRCUMFLEX] = ~(_ACUTE | _GRAVE | _MACRON | _BREVE)
+cancelDiacritics[kGRAVE] = ~(_ACUTE | _CIRCUMFLEX)
+cancelDiacritics[kMACRON] = ~(_CIRCUMFLEX | _BREVE)
+cancelDiacritics[kROUGH_BREATHING] = ~(_SMOOTH | _DIAERESIS)
+cancelDiacritics[kSMOOTH_BREATHING] = ~(_ROUGH | _DIAERESIS)
+cancelDiacritics[kIOTA_SUBSCRIPT] = ~0
+cancelDiacritics[kDIAERESIS] = ~(_SMOOTH | _ROUGH)
+cancelDiacritics[kBREVE] = ~(_CIRCUMFLEX | _MACRON)
+
+
 #http://www.unicode.org/charts/normalization/
 combiningAccents = [ COMBINING_MACRON, COMBINING_BREVE, COMBINING_DIAERESIS, COMBINING_ROUGH_BREATHING, COMBINING_SMOOTH_BREATHING, COMBINING_ACUTE, COMBINING_GRAVE, COMBINING_CIRCUMFLEX, COMBINING_IOTA_SUBSCRIPT ]
+
 
 letters = [ [ '\u03B1', '\u1F00', '\u1F01', '\u1F71', '\u1F04', '\u1F05', '\u1F70', '\u1F02', '\u1F03', '\u1FB6', '\u1F06', '\u1F07', '\u1FB3', '\u1F80', '\u1F81', '\u1FB4', '\u1F84', '\u1F85', '\u1FB2', '\u1F82', '\u1F83', '\u1FB7', '\u1F86', '\u1F87', '\u0000', '\u0000', '\u0000', '\u0000', '\u1FB1', '\uEB04', '\uEB07', '\uEAF3', '\uEB05', '\uEB09', '\uEAF4', '\uEB00', '\uEAF0', '\u03AC' ], 
 [ '\u03B5', '\u1F10', '\u1F11', '\u1F73', '\u1F14', '\u1F15', '\u1F72', '\u1F12', '\u1F13', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u03AD' ], 
@@ -283,59 +310,59 @@ def makeLetter(letterCodeAndBitMask, unicodeMode):
         else:
             return None
 
+
 #adjusts diacritics based on one being added
 def updateDiacritics(letterCodeAndBitMask, accentToAdd, toggleOff):
     #keep in order of enum so compiler can optimize switch
-    if accentToAdd == "acute":
+    if accentToAdd == kACUTE:
         if toggleOff and (letterCodeAndBitMask[1] & _ACUTE) == _ACUTE:
             letterCodeAndBitMask[1] &= ~_ACUTE
         else:
             letterCodeAndBitMask[1] |= _ACUTE
-        letterCodeAndBitMask[1] &= ~(_GRAVE | _CIRCUMFLEX) #turn off
-    elif accentToAdd == "circumflex":
+        letterCodeAndBitMask[1] &= cancelDiacritics[kACUTE] #turn off
+    elif accentToAdd == kCIRCUMFLEX:
         if toggleOff and (letterCodeAndBitMask[1] & _CIRCUMFLEX) == _CIRCUMFLEX:
             letterCodeAndBitMask[1] &= ~_CIRCUMFLEX
         else:
             letterCodeAndBitMask[1] |= _CIRCUMFLEX
-        letterCodeAndBitMask[1] &= ~(_ACUTE | _GRAVE | _MACRON | _BREVE) #turn off. fix me in c version, replace breve
-    elif accentToAdd == "grave":
+        letterCodeAndBitMask[1] &= cancelDiacritics[kCIRCUMFLEX] #turn off. fix me in c version, replace breve
+    elif accentToAdd == kGRAVE:
         if toggleOff and (letterCodeAndBitMask[1] & _GRAVE) == _GRAVE:
             letterCodeAndBitMask[1] &= ~_GRAVE
         else:
             letterCodeAndBitMask[1] |= _GRAVE
-        letterCodeAndBitMask[1] &= ~(_ACUTE | _CIRCUMFLEX)
-    elif accentToAdd == "macron":
+        letterCodeAndBitMask[1] &= cancelDiacritics[kGRAVE]
+    elif accentToAdd == kMACRON:
         if toggleOff and (letterCodeAndBitMask[1] & _MACRON) == _MACRON:
             letterCodeAndBitMask[1] &= ~_MACRON
         else:
             letterCodeAndBitMask[1] |= _MACRON
-        letterCodeAndBitMask[1] &= ~_CIRCUMFLEX
-        letterCodeAndBitMask[1] &= ~_BREVE
-    elif accentToAdd == "breve":
+        letterCodeAndBitMask[1] &= cancelDiacritics[kMACRON]
+    elif accentToAdd == kBREVE:
         if toggleOff and (letterCodeAndBitMask[1] & _BREVE) == _BREVE:
             letterCodeAndBitMask[1] &= ~_BREVE
         else:
             letterCodeAndBitMask[1] |= _BREVE
-        letterCodeAndBitMask[1] &= ~_CIRCUMFLEX
-        letterCodeAndBitMask[1] &= ~_MACRON
-    elif accentToAdd == "rough":
+        letterCodeAndBitMask[1] &= cancelDiacritics[kBREVE]
+    elif accentToAdd == kROUGH_BREATHING:
         if toggleOff and (letterCodeAndBitMask[1] & _ROUGH) == _ROUGH:
             letterCodeAndBitMask[1] &= ~_ROUGH
         else:
             letterCodeAndBitMask[1] |= _ROUGH
-        letterCodeAndBitMask[1] &= ~(_SMOOTH | _DIAERESIS)
-    elif accentToAdd == "smooth":
+        letterCodeAndBitMask[1] &= cancelDiacritics[kROUGH_BREATHING]
+    elif accentToAdd == kSMOOTH_BREATHING:
         if toggleOff and (letterCodeAndBitMask[1] & _SMOOTH) == _SMOOTH:
             letterCodeAndBitMask[1] &= ~_SMOOTH
         else:
             letterCodeAndBitMask[1] |= _SMOOTH
-        letterCodeAndBitMask[1] &= ~(_ROUGH | _DIAERESIS)
-    elif accentToAdd == "iotasub":
+        letterCodeAndBitMask[1] &= cancelDiacritics[kSMOOTH_BREATHING]
+    elif accentToAdd == kIOTA_SUBSCRIPT:
         if toggleOff and (letterCodeAndBitMask[1] & _IOTA_SUB) == _IOTA_SUB:
             letterCodeAndBitMask[1] &= ~_IOTA_SUB
         else:
             letterCodeAndBitMask[1] |= _IOTA_SUB
-    elif accentToAdd == "diaeresis":
+        letterCodeAndBitMask[1] &= cancelDiacritics[kIOTA_SUBSCRIPT]
+    elif accentToAdd == kDIAERESIS:
         if letterCodeAndBitMask[0] == IOTA_CAP or letterCodeAndBitMask[0] == UPSILON_CAP:
             letterCodeAndBitMask[1] &= ~(_ACUTE | _GRAVE | _CIRCUMFLEX | _MACRON)
 
@@ -343,23 +370,23 @@ def updateDiacritics(letterCodeAndBitMask, accentToAdd, toggleOff):
             letterCodeAndBitMask[1] &= ~_DIAERESIS
         else:
             letterCodeAndBitMask[1] |= _DIAERESIS
-        letterCodeAndBitMask[1] &= ~(_SMOOTH | _ROUGH)
+        letterCodeAndBitMask[1] &= cancelDiacritics[kDIAERESIS]
 
 def isLegalDiacriticForLetter(letterCode, accentToAdd):
     #match these strings to the arguments in the accelerators
-    if accentToAdd == "circumflex":
+    if accentToAdd == kCIRCUMFLEX:
         if letterCode != ALPHA and letterCode != ETA and letterCode != IOTA and letterCode != UPSILON and letterCode != OMEGA and letterCode != ALPHA_CAP and letterCode != ETA_CAP and letterCode != IOTA_CAP and letterCode != UPSILON_CAP and letterCode != OMEGA_CAP:
             return False
-    elif accentToAdd == "macron":
+    elif accentToAdd == kMACRON:
         if letterCode != ALPHA and letterCode != IOTA and letterCode != UPSILON and letterCode != ALPHA_CAP and letterCode != IOTA_CAP and letterCode != UPSILON_CAP:
             return False
-    elif accentToAdd == "breve":
+    elif accentToAdd == kBREVE:
         if letterCode != ALPHA and letterCode != IOTA and letterCode != UPSILON and letterCode != ALPHA_CAP and letterCode != IOTA_CAP and letterCode != UPSILON_CAP:
             return False
-    elif accentToAdd == "iotasub":
+    elif accentToAdd == kIOTA_SUBSCRIPT:
         if letterCode != ALPHA and letterCode != ETA and letterCode != OMEGA and letterCode != ALPHA_CAP and letterCode != ETA_CAP and letterCode != OMEGA_CAP:
             return False
-    elif accentToAdd == "diaeresis":
+    elif accentToAdd == kDIAERESIS:
         if letterCode != IOTA and letterCode != UPSILON and letterCode != IOTA_CAP and letterCode != UPSILON_CAP:
             return False
     return True
@@ -500,31 +527,22 @@ def accentLetter(letter, diacritic, vUnicodeMode):
     rho_cap = '\u03a1'
     rho_cap_with_dasia = '\u1fec'
 
-    # if vUnicodeMode == PRECOMPOSED_MODE:
-    #     return "1"
-    # elif vUnicodeMode == PRECOMPOSED_WITH_PUA_MODE:
-    #     return "2"
-    # elif vUnicodeMode == COMBINING_ONLY_MODE:
-    #     return "3"
-    # else:
-    #     return "4"
-
-    if letter == rho and diacritic == "rough":
+    if letter == rho and diacritic == kROUGH_BREATHING:
         return rho_with_dasia
-    elif letter == rho_with_dasia and diacritic == "rough":
+    elif letter == rho_with_dasia and diacritic == kROUGH_BREATHING:
         return rho
-    elif letter == rho_cap and diacritic == "rough":
+    elif letter == rho_cap and diacritic == kROUGH_BREATHING:
         return rho_cap_with_dasia
-    elif letter == rho_cap_with_dasia and diacritic == "rough":
+    elif letter == rho_cap_with_dasia and diacritic == kROUGH_BREATHING:
         return rho_cap
-    elif letter == rho_with_psili and diacritic == "rough":
+    elif letter == rho_with_psili and diacritic == kROUGH_BREATHING:
         return rho_with_dasia
 #ifdef ALLOW_RHO_WITH_PSILI
-    elif letter == rho and diacritic == "smooth":
+    elif letter == rho and diacritic == kSMOOTH_BREATHING:
         return rho_with_psili
-    elif letter == rho_with_psili and diacritic == "smooth":
+    elif letter == rho_with_psili and diacritic == kSMOOTH_BREATHING:
         return rho
-    elif letter == rho_with_dasia and diacritic == "smooth":
+    elif letter == rho_with_dasia and diacritic == kSMOOTH_BREATHING:
         return rho_with_psili
 #endif
 

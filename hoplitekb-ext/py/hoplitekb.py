@@ -82,8 +82,6 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
             #     a = "bcd"
             #text.insertString( cursor, a, 0 ) #print exception
 
-            diacriticToAdd = args
-
             desktop = self.ctx.ServiceManager.createInstanceWithContext( "com.sun.star.frame.Desktop", self.ctx )
 
             doc = desktop.getCurrentComponent()
@@ -109,6 +107,26 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
                 vUnicodeMode = hopliteaccent.COMBINING_ONLY_MODE
                 self.writeSettings(vUnicodeMode)
                 #text.insertString( cursor, "combining ", 0 ) #print exception
+                return
+            elif args == "acute":
+                diacriticToAdd = hopliteaccent.kACUTE
+            elif args == "circumflex":
+                diacriticToAdd = hopliteaccent.kCIRCUMFLEX
+            elif args == "grave":
+                diacriticToAdd = hopliteaccent.kGRAVE
+            elif args == "macron":
+                diacriticToAdd = hopliteaccent.kMACRON
+            elif args == "rough":
+                diacriticToAdd = hopliteaccent.kROUGH_BREATHING
+            elif args == "smooth":
+                diacriticToAdd = hopliteaccent.kSMOOTH_BREATHING
+            elif args == "iotasub":
+                diacriticToAdd = hopliteaccent.kIOTA_SUBSCRIPT
+            elif args == "diaeresis":
+                diacriticToAdd = hopliteaccent.kDIAERESIS
+            elif args == "breve":
+                diacriticToAdd = hopliteaccent.kBREVE
+            else:
                 return
 
             xIndexAccess = doc.getCurrentSelection()
