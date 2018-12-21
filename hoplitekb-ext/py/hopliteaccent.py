@@ -485,9 +485,9 @@ def precomposedIndexToBitMask(diacriticIndex, diacriticBits):
         diacriticBits |= (_MACRON | _ACUTE)
     elif diacriticIndex == MACRON_AND_GRAVE:
         diacriticBits |= (_MACRON | _GRAVE)
+#endif
     elif diacriticIndex == TONOS:
         diacriticBits |= _ACUTE
-#endif
     return diacriticBits
 
 #returns a tuple (letterIndex, diacriticsBits) or (None,None)
@@ -517,7 +517,7 @@ def analyzeLetter(letter):
             elif l == COMBINING_DIAERESIS:
                 diacriticBits |= _DIAERESIS
             else:
-                continue
+                continue #continue, not break because first letter is not combining
 
     (letterIndex, diacriticIndex) = analyzePrecomposedLetter(letter)
     if letterIndex is None:
@@ -528,8 +528,7 @@ def analyzeLetter(letter):
     return (letterIndex, diacriticBits)
 
 
-def accentLetter(letter, diacritic, vUnicodeMode):
-    bToggleOff = True
+def accentLetter(letter, diacritic, vUnicodeMode, bToggleOff):
     bAddSpacingDiacriticIfNotLegal = False #for now
 
     #handle rho 
@@ -558,16 +557,19 @@ def accentLetter(letter, diacritic, vUnicodeMode):
         return rho_with_psili
 #endif
 
+    #1. analyze the letter to be accented
     (letterIndex, diacriticBits) = analyzeLetter(letter)
     if letterIndex is None:
         return None
 
+    #2. is it legal to add this diacritic?
     if isLegalDiacriticForLetter(letterIndex, diacritic) == False:
         return None
 
-    #3. this changes old letter analysis to the one we want
+    #3. add new diacritic to the existing diacritics, making adjustments accordingly
     diacriticBits = updateDiacritics(letterIndex, diacriticBits, diacritic, bToggleOff)
 
+    #4. make and return the new character
     newLetter = makeLetter(letterIndex, diacriticBits, vUnicodeMode)
     if newLetter is None:
         return None

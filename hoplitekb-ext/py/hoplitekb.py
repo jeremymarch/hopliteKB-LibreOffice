@@ -156,7 +156,7 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
             #get letter with any following combining chars, we decide what to do inside accentLetter
             letterToAccent = xWordCursor.getString()
             if letterToAccent is not None and len(letterToAccent) > 0:
-                newLetter = hopliteaccent.accentLetter(letterToAccent, diacriticToAdd, vUnicodeMode)
+                newLetter = hopliteaccent.accentLetter(letterToAccent, diacriticToAdd, vUnicodeMode, True)
                 if newLetter is not None:
                     xWordCursor.setString(newLetter)
 
