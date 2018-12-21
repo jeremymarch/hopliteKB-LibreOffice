@@ -161,96 +161,96 @@ letters = [ [ '\u03B1', '\u1F00', '\u1F01', '\u1F71', '\u1F04', '\u1F05', '\u1F7
 [ '\u03A5', '\u0000', '\u1F59', '\u1FEB', '\u0000', '\u1F5D', '\u1FEA', '\u0000', '\u1F5B', '\u0000', '\u0000', '\u1F5F', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u03AB', '\u0000', '\u0000', '\u0000', '\u1FE9', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u038E' ],
 [ '\u03A9', '\u1F68', '\u1F69', '\u1FFB', '\u1F6C', '\u1F6D', '\u1FFA', '\u1F6A', '\u1F6B', '\u0000', '\u1F6E', '\u1F6F', '\u1FFC', '\u1FA8', '\u1FA9', '\u0000', '\u1FAC', '\u1FAD', '\u0000', '\u1FAA', '\u1FAB', '\u0000', '\u1FAE', '\u1FAF', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u038F' ] ]
 
-def getPrecomposedLetter(letterCodeAndBitMask):
+def getPrecomposedLetter(letterIndex, diacriticBits):
     accentIndex = 0
 
-    if letterCodeAndBitMask[1] == 0:
+    if diacriticBits == 0:
         accentIndex = NORMAL
-    elif letterCodeAndBitMask[1] == (_SMOOTH):
+    elif diacriticBits == (_SMOOTH):
         accentIndex = PSILI
-    elif letterCodeAndBitMask[1] == (_ROUGH):
+    elif diacriticBits == (_ROUGH):
         accentIndex = DASIA
-    elif letterCodeAndBitMask[1] == (_ACUTE):
+    elif diacriticBits == (_ACUTE):
         accentIndex = OXIA
-    elif letterCodeAndBitMask[1] == (_SMOOTH | _ACUTE):
+    elif diacriticBits == (_SMOOTH | _ACUTE):
         accentIndex = PSILI_AND_OXIA
-    elif letterCodeAndBitMask[1] == (_ROUGH | _ACUTE):
+    elif diacriticBits == (_ROUGH | _ACUTE):
         accentIndex = DASIA_AND_OXIA
-    elif letterCodeAndBitMask[1] == (_GRAVE):
+    elif diacriticBits == (_GRAVE):
         accentIndex = VARIA
-    elif letterCodeAndBitMask[1] == (_SMOOTH | _GRAVE):
+    elif diacriticBits == (_SMOOTH | _GRAVE):
         accentIndex = PSILI_AND_VARIA
-    elif letterCodeAndBitMask[1] == (_ROUGH | _GRAVE):
+    elif diacriticBits == (_ROUGH | _GRAVE):
         accentIndex = DASIA_AND_VARIA
-    elif letterCodeAndBitMask[1] == (_CIRCUMFLEX):
+    elif diacriticBits == (_CIRCUMFLEX):
         accentIndex = PERISPOMENI
-    elif letterCodeAndBitMask[1] == (_SMOOTH | _CIRCUMFLEX):
+    elif diacriticBits == (_SMOOTH | _CIRCUMFLEX):
         accentIndex = PSILI_AND_PERISPOMENI
-    elif letterCodeAndBitMask[1] == (_ROUGH | _CIRCUMFLEX):
+    elif diacriticBits == (_ROUGH | _CIRCUMFLEX):
         accentIndex = DASIA_AND_PERISPOMENI
-    elif letterCodeAndBitMask[1] == (_IOTA_SUB):
+    elif diacriticBits == (_IOTA_SUB):
         accentIndex = YPOGEGRAMMENI
-    elif letterCodeAndBitMask[1] == (_SMOOTH | _IOTA_SUB):
+    elif diacriticBits == (_SMOOTH | _IOTA_SUB):
         accentIndex = PSILI_AND_YPOGEGRAMMENI
-    elif letterCodeAndBitMask[1] == (_ROUGH | _IOTA_SUB):
+    elif diacriticBits == (_ROUGH | _IOTA_SUB):
         accentIndex = DASIA_AND_YPOGEGRAMMENI
-    elif letterCodeAndBitMask[1] == (_ACUTE | _IOTA_SUB):
+    elif diacriticBits == (_ACUTE | _IOTA_SUB):
         accentIndex = OXIA_AND_YPOGEGRAMMENI
-    elif letterCodeAndBitMask[1] == (_SMOOTH | _ACUTE | _IOTA_SUB):
+    elif diacriticBits == (_SMOOTH | _ACUTE | _IOTA_SUB):
         accentIndex = PSILI_AND_OXIA_AND_YPOGEGRAMMENI
-    elif letterCodeAndBitMask[1] == (_ROUGH | _ACUTE | _IOTA_SUB):
+    elif diacriticBits == (_ROUGH | _ACUTE | _IOTA_SUB):
         accentIndex = DASIA_AND_OXIA_AND_YPOGEGRAMMENI
-    elif letterCodeAndBitMask[1] == (_GRAVE | _IOTA_SUB):
+    elif diacriticBits == (_GRAVE | _IOTA_SUB):
         accentIndex = VARIA_AND_YPOGEGRAMMENI
-    elif letterCodeAndBitMask[1] == (_SMOOTH | _GRAVE | _IOTA_SUB):
+    elif diacriticBits == (_SMOOTH | _GRAVE | _IOTA_SUB):
         accentIndex = PSILI_AND_VARIA_AND_YPOGEGRAMMENI
-    elif letterCodeAndBitMask[1] == (_ROUGH | _GRAVE | _IOTA_SUB):
+    elif diacriticBits == (_ROUGH | _GRAVE | _IOTA_SUB):
         accentIndex = DASIA_AND_VARIA_AND_YPOGEGRAMMENI
-    elif letterCodeAndBitMask[1] == (_CIRCUMFLEX | _IOTA_SUB):
+    elif diacriticBits == (_CIRCUMFLEX | _IOTA_SUB):
         accentIndex = PERISPOMENI_AND_YPOGEGRAMMENI
-    elif letterCodeAndBitMask[1] == (_SMOOTH | _CIRCUMFLEX | _IOTA_SUB):
+    elif diacriticBits == (_SMOOTH | _CIRCUMFLEX | _IOTA_SUB):
         accentIndex = PSILI_AND_PERISPOMENI_AND_YPOGEGRAMMENI
-    elif letterCodeAndBitMask[1] == (_ROUGH | _CIRCUMFLEX | _IOTA_SUB):
+    elif diacriticBits == (_ROUGH | _CIRCUMFLEX | _IOTA_SUB):
         accentIndex = DASIA_AND_PERISPOMENI_AND_YPOGEGRAMMENI
-    elif letterCodeAndBitMask[1] == (_DIAERESIS):
+    elif diacriticBits == (_DIAERESIS):
         accentIndex = DIALYTIKA
-    elif letterCodeAndBitMask[1] == (_ACUTE | _DIAERESIS):
+    elif diacriticBits == (_ACUTE | _DIAERESIS):
         accentIndex = DIALYTIKA_AND_OXIA
-    elif letterCodeAndBitMask[1] == (_GRAVE | _DIAERESIS):
+    elif diacriticBits == (_GRAVE | _DIAERESIS):
         accentIndex = DIALYTIKA_AND_VARIA
-    elif letterCodeAndBitMask[1] == (_CIRCUMFLEX | _DIAERESIS):
+    elif diacriticBits == (_CIRCUMFLEX | _DIAERESIS):
         accentIndex = DIALYTIKA_AND_PERISPOMENON
-    elif letterCodeAndBitMask[1] == (_MACRON):
+    elif diacriticBits == (_MACRON):
         accentIndex = MACRON_PRECOMPOSED
 #ifdef ALLOW_PRIVATE_USE_AREA
-    elif letterCodeAndBitMask[1] == (_MACRON | _SMOOTH):
+    elif diacriticBits == (_MACRON | _SMOOTH):
         accentIndex = MACRON_AND_SMOOTH
-    elif letterCodeAndBitMask[1] == (_MACRON | _SMOOTH | _ACUTE):
+    elif diacriticBits == (_MACRON | _SMOOTH | _ACUTE):
         accentIndex = MACRON_AND_SMOOTH_AND_ACUTE
-    elif letterCodeAndBitMask[1] == (_MACRON | _SMOOTH | _GRAVE):
+    elif diacriticBits == (_MACRON | _SMOOTH | _GRAVE):
         accentIndex = MACRON_AND_SMOOTH_AND_GRAVE
-    elif letterCodeAndBitMask[1] == (_MACRON | _ROUGH):
+    elif diacriticBits == (_MACRON | _ROUGH):
         accentIndex = MACRON_AND_ROUGH
-    elif letterCodeAndBitMask[1] == (_MACRON | _ROUGH | _ACUTE):
+    elif diacriticBits == (_MACRON | _ROUGH | _ACUTE):
         accentIndex = MACRON_AND_ROUGH_AND_ACUTE
-    elif letterCodeAndBitMask[1] == (_MACRON | _ROUGH | _GRAVE):
+    elif diacriticBits == (_MACRON | _ROUGH | _GRAVE):
         accentIndex = MACRON_AND_ROUGH_AND_GRAVE
-    elif letterCodeAndBitMask[1] == (_MACRON | _ACUTE):
+    elif diacriticBits == (_MACRON | _ACUTE):
         accentIndex = MACRON_AND_ACUTE
-    elif letterCodeAndBitMask[1] == (_MACRON | _GRAVE):
+    elif diacriticBits == (_MACRON | _GRAVE):
         accentIndex = MACRON_AND_GRAVE
 #endif
     else:
         accentIndex = NORMAL #or set accent = 0 if none of these?
 
-    return letters[letterCodeAndBitMask[0]][accentIndex]
+    return letters[letterIndex][accentIndex]
 
 
 def letterCodeToUCS2(l):
     return letters[l][0] #first col of each row has base vowels
 
 
-def makeLetter(letterCodeAndBitMask, unicodeMode):
+def makeLetter(letterIndex, diacriticBits, unicodeMode):
     #Use PUA, - almost all precomposing except alpha macron, breathing, accent, iota_sub, if iota_sub use combining
     #Use both, if macron use combining
     #Use only combining accents
@@ -259,14 +259,14 @@ def makeLetter(letterCodeAndBitMask, unicodeMode):
     #fallback if macron + one more diacritic
     precomposingFallbackToComposing = False
     breveAndMacron = False
-    if (unicodeMode == PRECOMPOSED_MODE and (letterCodeAndBitMask[1] & _MACRON) == _MACRON) or (unicodeMode == PRECOMPOSED_WITH_PUA_MODE and (letterCodeAndBitMask[1] & (_MACRON | _DIAERESIS)) == (_MACRON | _DIAERESIS)):
-        if (letterCodeAndBitMask[1] & ~_MACRON) != 0: #if any other bits set besides macron
+    if (unicodeMode == PRECOMPOSED_MODE and (diacriticBits & _MACRON) == _MACRON) or (unicodeMode == PRECOMPOSED_WITH_PUA_MODE and (diacriticBits & (_MACRON | _DIAERESIS)) == (_MACRON | _DIAERESIS)):
+        if (diacriticBits & ~_MACRON) != 0: #if any other bits set besides macron
             precomposingFallbackToComposing = True
     # elif (letterCodeAndBitMask[1] & (_BREVE | _MACRON)) == (_BREVE | _MACRON):
     #     breveAndMacron = True
-    elif (letterCodeAndBitMask[1] & _BREVE) == _BREVE:
+    elif (diacriticBits & _BREVE) == _BREVE:
         precomposingFallbackToComposing = True
-    elif unicodeMode == PRECOMPOSED_HC_MODE and (letterCodeAndBitMask[1] & _MACRON) == _MACRON:
+    elif unicodeMode == PRECOMPOSED_HC_MODE and (diacriticBits & _MACRON) == _MACRON:
         #this is legacy for the hoplite challenge app which uses combining macron even if no other diacritics
         precomposingFallbackToComposing = True
 
@@ -279,36 +279,36 @@ def makeLetter(letterCodeAndBitMask, unicodeMode):
     # elif...
     if unicodeMode == COMBINING_ONLY_MODE or precomposingFallbackToComposing:
 
-        newLetter = letterCodeToUCS2(letterCodeAndBitMask[0]) #set base letter
+        newLetter = letterCodeToUCS2(letterIndex) #set base letter
 
         #loop so that order is determined by combiningAccents array
         for k in combiningAccents:
-            if k == COMBINING_MACRON and (letterCodeAndBitMask[1] & _MACRON) == _MACRON:
+            if k == COMBINING_MACRON and (diacriticBits & _MACRON) == _MACRON:
                 newLetter += k
-            elif k == COMBINING_BREVE and (letterCodeAndBitMask[1] & _BREVE) == _BREVE:
+            elif k == COMBINING_BREVE and (diacriticBits & _BREVE) == _BREVE:
                 newLetter += k
-            elif k == COMBINING_ROUGH_BREATHING and (letterCodeAndBitMask[1] & _ROUGH) == _ROUGH:
+            elif k == COMBINING_ROUGH_BREATHING and (diacriticBits & _ROUGH) == _ROUGH:
                 newLetter += k
-            elif k == COMBINING_SMOOTH_BREATHING and (letterCodeAndBitMask[1] & _SMOOTH) == _SMOOTH:
+            elif k == COMBINING_SMOOTH_BREATHING and (diacriticBits & _SMOOTH) == _SMOOTH:
                 newLetter += k
-            elif k == COMBINING_ACUTE and (letterCodeAndBitMask[1] & _ACUTE) == _ACUTE:
+            elif k == COMBINING_ACUTE and (diacriticBits & _ACUTE) == _ACUTE:
                 newLetter += k
-            elif k == COMBINING_GRAVE and (letterCodeAndBitMask[1] & _GRAVE) == _GRAVE:
+            elif k == COMBINING_GRAVE and (diacriticBits & _GRAVE) == _GRAVE:
                 newLetter += k
-            elif k == COMBINING_CIRCUMFLEX and (letterCodeAndBitMask[1] & _CIRCUMFLEX) == _CIRCUMFLEX:
+            elif k == COMBINING_CIRCUMFLEX and (diacriticBits & _CIRCUMFLEX) == _CIRCUMFLEX:
                 newLetter += k
-            elif k == COMBINING_IOTA_SUBSCRIPT and (letterCodeAndBitMask[1] & _IOTA_SUB) == _IOTA_SUB:
+            elif k == COMBINING_IOTA_SUBSCRIPT and (diacriticBits & _IOTA_SUB) == _IOTA_SUB:
                 newLetter += k
-            elif k == COMBINING_DIAERESIS and (letterCodeAndBitMask[1] & _DIAERESIS) == _DIAERESIS:
+            elif k == COMBINING_DIAERESIS and (diacriticBits & _DIAERESIS) == _DIAERESIS:
                 newLetter += k
         return newLetter
     else:
         addIotaSubscript = False
-        if unicodeMode == PRECOMPOSED_WITH_PUA_MODE and (letterCodeAndBitMask[1] & (_IOTA_SUB | _MACRON)) == (_IOTA_SUB | _MACRON):
-            letterCodeAndBitMask[1] &= ~_IOTA_SUB #so we don't get two iota subscripts
+        if unicodeMode == PRECOMPOSED_WITH_PUA_MODE and (diacriticBits & (_IOTA_SUB | _MACRON)) == (_IOTA_SUB | _MACRON):
+            diacriticBits &= ~_IOTA_SUB #so we don't get two iota subscripts
             addIotaSubscript = True
 
-        newLetter = getPrecomposedLetter(letterCodeAndBitMask)
+        newLetter = getPrecomposedLetter(letterIndex, diacriticBits)
 
         if addIotaSubscript == True:
             newLetter += COMBINING_IOTA_SUBSCRIPT
@@ -319,66 +319,68 @@ def makeLetter(letterCodeAndBitMask, unicodeMode):
             return None
 
 
-#adjusts diacritics based on one being added
-def updateDiacritics(letterCodeAndBitMask, accentToAdd, toggleOff):
+#adjusts existing diacritics based on one being added
+def updateDiacritics(letterIndex, diacriticBits, accentToAdd, toggleOff):
     #keep in order of enum so compiler can optimize switch
     if accentToAdd == kACUTE:
-        if toggleOff and (letterCodeAndBitMask[1] & _ACUTE) == _ACUTE:
-            letterCodeAndBitMask[1] &= ~_ACUTE
+        if toggleOff and (diacriticBits & _ACUTE) == _ACUTE:
+            diacriticBits &= ~_ACUTE
         else:
-            letterCodeAndBitMask[1] |= _ACUTE
-        letterCodeAndBitMask[1] &= cancelDiacritics[kACUTE] #turn off
+            diacriticBits |= _ACUTE
+        diacriticBits &= cancelDiacritics[kACUTE] #turn off
     elif accentToAdd == kCIRCUMFLEX:
-        if toggleOff and (letterCodeAndBitMask[1] & _CIRCUMFLEX) == _CIRCUMFLEX:
-            letterCodeAndBitMask[1] &= ~_CIRCUMFLEX
+        if toggleOff and (diacriticBits & _CIRCUMFLEX) == _CIRCUMFLEX:
+            diacriticBits &= ~_CIRCUMFLEX
         else:
-            letterCodeAndBitMask[1] |= _CIRCUMFLEX
-        letterCodeAndBitMask[1] &= cancelDiacritics[kCIRCUMFLEX] #turn off. fix me in c version, replace breve
+            diacriticBits |= _CIRCUMFLEX
+        diacriticBits &= cancelDiacritics[kCIRCUMFLEX] #turn off. fix me in c version, replace breve
     elif accentToAdd == kGRAVE:
-        if toggleOff and (letterCodeAndBitMask[1] & _GRAVE) == _GRAVE:
-            letterCodeAndBitMask[1] &= ~_GRAVE
+        if toggleOff and (diacriticBits & _GRAVE) == _GRAVE:
+            diacriticBits &= ~_GRAVE
         else:
-            letterCodeAndBitMask[1] |= _GRAVE
-        letterCodeAndBitMask[1] &= cancelDiacritics[kGRAVE]
+            diacriticBits |= _GRAVE
+        diacriticBits &= cancelDiacritics[kGRAVE]
     elif accentToAdd == kMACRON:
-        if toggleOff and (letterCodeAndBitMask[1] & _MACRON) == _MACRON:
-            letterCodeAndBitMask[1] &= ~_MACRON
+        if toggleOff and (diacriticBits & _MACRON) == _MACRON:
+            diacriticBits &= ~_MACRON
         else:
-            letterCodeAndBitMask[1] |= _MACRON
-        letterCodeAndBitMask[1] &= cancelDiacritics[kMACRON]
+            diacriticBits |= _MACRON
+        diacriticBits &= cancelDiacritics[kMACRON]
     elif accentToAdd == kBREVE:
-        if toggleOff and (letterCodeAndBitMask[1] & _BREVE) == _BREVE:
-            letterCodeAndBitMask[1] &= ~_BREVE
+        if toggleOff and (diacriticBits & _BREVE) == _BREVE:
+            diacriticBits &= ~_BREVE
         else:
-            letterCodeAndBitMask[1] |= _BREVE
-        letterCodeAndBitMask[1] &= cancelDiacritics[kBREVE]
+            diacriticBits |= _BREVE
+        diacriticBits &= cancelDiacritics[kBREVE]
     elif accentToAdd == kROUGH_BREATHING:
-        if toggleOff and (letterCodeAndBitMask[1] & _ROUGH) == _ROUGH:
-            letterCodeAndBitMask[1] &= ~_ROUGH
+        if toggleOff and (diacriticBits & _ROUGH) == _ROUGH:
+            diacriticBits &= ~_ROUGH
         else:
-            letterCodeAndBitMask[1] |= _ROUGH
-        letterCodeAndBitMask[1] &= cancelDiacritics[kROUGH_BREATHING]
+            diacriticBits |= _ROUGH
+        diacriticBits &= cancelDiacritics[kROUGH_BREATHING]
     elif accentToAdd == kSMOOTH_BREATHING:
-        if toggleOff and (letterCodeAndBitMask[1] & _SMOOTH) == _SMOOTH:
-            letterCodeAndBitMask[1] &= ~_SMOOTH
+        if toggleOff and (diacriticBits & _SMOOTH) == _SMOOTH:
+            diacriticBits &= ~_SMOOTH
         else:
-            letterCodeAndBitMask[1] |= _SMOOTH
-        letterCodeAndBitMask[1] &= cancelDiacritics[kSMOOTH_BREATHING]
+            diacriticBits |= _SMOOTH
+        diacriticBits &= cancelDiacritics[kSMOOTH_BREATHING]
     elif accentToAdd == kIOTA_SUBSCRIPT:
-        if toggleOff and (letterCodeAndBitMask[1] & _IOTA_SUB) == _IOTA_SUB:
-            letterCodeAndBitMask[1] &= ~_IOTA_SUB
+        if toggleOff and (diacriticBits & _IOTA_SUB) == _IOTA_SUB:
+            diacriticBits &= ~_IOTA_SUB
         else:
-            letterCodeAndBitMask[1] |= _IOTA_SUB
-        letterCodeAndBitMask[1] &= cancelDiacritics[kIOTA_SUBSCRIPT]
+            diacriticBits |= _IOTA_SUB
+        diacriticBits &= cancelDiacritics[kIOTA_SUBSCRIPT]
     elif accentToAdd == kDIAERESIS:
-        if letterCodeAndBitMask[0] == IOTA_CAP or letterCodeAndBitMask[0] == UPSILON_CAP:
-            letterCodeAndBitMask[1] &= ~(_ACUTE | _GRAVE | _CIRCUMFLEX | _MACRON)
+        if letterIndex == IOTA_CAP or letterIndex == UPSILON_CAP:
+            diacriticBits &= ~(_ACUTE | _GRAVE | _CIRCUMFLEX | _MACRON)
 
-        if toggleOff and (letterCodeAndBitMask[1] & _DIAERESIS) == _DIAERESIS:
-            letterCodeAndBitMask[1] &= ~_DIAERESIS
+        if toggleOff and (diacriticBits & _DIAERESIS) == _DIAERESIS:
+            diacriticBits &= ~_DIAERESIS
         else:
-            letterCodeAndBitMask[1] |= _DIAERESIS
-        letterCodeAndBitMask[1] &= cancelDiacritics[kDIAERESIS]
+            diacriticBits |= _DIAERESIS
+        diacriticBits &= cancelDiacritics[kDIAERESIS]
+
+    return diacriticBits
 
 def isLegalDiacriticForLetter(letterCode, accentToAdd):
     #match these strings to the arguments in the accelerators
@@ -400,129 +402,131 @@ def isLegalDiacriticForLetter(letterCode, accentToAdd):
     return True
 
 
-def analyzePrecomposedLetter(letter, letterCodeAndBitMask):
+def analyzePrecomposedLetter(letter):
     for vidx in range(0, NUM_VOWEL_CODES):
         for aidx in range(0, NUM_ACCENT_CODES):
             if letter[0] == letters[vidx][aidx]:
-                letterCodeAndBitMask[0] = vidx
-                return aidx
-    return None
+                return (vidx, aidx)
+    return (None, None)
 
-def precomposedIndexToBitMask(precomposedIndex, letterCodeAndBitMask):
+def precomposedIndexToBitMask(diacriticIndex, diacriticBits):
     #don't initialize to false here because diacriticMask could have combining accents already set to true
     #make sure this is in order of enum so compiler can optimize switch
-    if precomposedIndex == PSILI:
-        letterCodeAndBitMask[1] |= _SMOOTH
-    elif precomposedIndex == DASIA:
-        letterCodeAndBitMask[1] |= _ROUGH
-    elif precomposedIndex == OXIA:
-        letterCodeAndBitMask[1] |= _ACUTE
-    elif precomposedIndex == PSILI_AND_OXIA:
-        letterCodeAndBitMask[1] |= (_SMOOTH | _ACUTE)
-    elif precomposedIndex == DASIA_AND_OXIA:
-        letterCodeAndBitMask[1] |= (_ROUGH | _ACUTE)
-    elif precomposedIndex == VARIA:
-        letterCodeAndBitMask[1] |= _GRAVE
-    elif precomposedIndex == PSILI_AND_VARIA:
-        letterCodeAndBitMask[1] |= (_SMOOTH | _GRAVE)
-    elif precomposedIndex == DASIA_AND_VARIA:
-        letterCodeAndBitMask[1] |= (_ROUGH | _GRAVE)
-    elif precomposedIndex == PERISPOMENI:
-        letterCodeAndBitMask[1] |= _CIRCUMFLEX
-    elif precomposedIndex == PSILI_AND_PERISPOMENI:
-        letterCodeAndBitMask[1] |= (_SMOOTH | _CIRCUMFLEX)
-    elif precomposedIndex == DASIA_AND_PERISPOMENI:
-        letterCodeAndBitMask[1] |= (_ROUGH | _CIRCUMFLEX)
-    elif precomposedIndex == YPOGEGRAMMENI:
-        letterCodeAndBitMask[1] |= _IOTA_SUB
-    elif precomposedIndex == PSILI_AND_YPOGEGRAMMENI:
-        letterCodeAndBitMask[1] |= (_SMOOTH | _IOTA_SUB)
-    elif precomposedIndex == DASIA_AND_YPOGEGRAMMENI:
-        letterCodeAndBitMask[1] |= (_ROUGH | _IOTA_SUB)
-    elif precomposedIndex == OXIA_AND_YPOGEGRAMMENI:
-        letterCodeAndBitMask[1] |= (_ACUTE | _IOTA_SUB)
-    elif precomposedIndex == PSILI_AND_OXIA_AND_YPOGEGRAMMENI:
-        letterCodeAndBitMask[1] |= (_SMOOTH | _ACUTE | _IOTA_SUB)
-    elif precomposedIndex == DASIA_AND_OXIA_AND_YPOGEGRAMMENI:
-        letterCodeAndBitMask[1] |= (_ROUGH | _ACUTE | _IOTA_SUB)
-    elif precomposedIndex == VARIA_AND_YPOGEGRAMMENI:
-        letterCodeAndBitMask[1] |= (_GRAVE | _IOTA_SUB)
-    elif precomposedIndex == PSILI_AND_VARIA_AND_YPOGEGRAMMENI:
-        letterCodeAndBitMask[1] |= (_SMOOTH | _GRAVE | _IOTA_SUB)
-    elif precomposedIndex == DASIA_AND_VARIA_AND_YPOGEGRAMMENI:
-        letterCodeAndBitMask[1] |= (_ROUGH | _GRAVE | _IOTA_SUB)
-    elif precomposedIndex == PERISPOMENI_AND_YPOGEGRAMMENI:
-        letterCodeAndBitMask[1] |= (_CIRCUMFLEX | _IOTA_SUB)
-    elif precomposedIndex == PSILI_AND_PERISPOMENI_AND_YPOGEGRAMMENI:
-        letterCodeAndBitMask[1] |= (_SMOOTH | _CIRCUMFLEX | _IOTA_SUB)
-    elif precomposedIndex == DASIA_AND_PERISPOMENI_AND_YPOGEGRAMMENI:
-        letterCodeAndBitMask[1] |= (_ROUGH | _CIRCUMFLEX | _IOTA_SUB)
-    elif precomposedIndex == DIALYTIKA:
-        letterCodeAndBitMask[1] |= _DIAERESIS
-    elif precomposedIndex == DIALYTIKA_AND_OXIA:
-        letterCodeAndBitMask[1] |= (_DIAERESIS | _ACUTE)
-    elif precomposedIndex == DIALYTIKA_AND_VARIA:
-        letterCodeAndBitMask[1] |= (_DIAERESIS | _GRAVE)
-    elif precomposedIndex == DIALYTIKA_AND_PERISPOMENON:
-        letterCodeAndBitMask[1] |= (_DIAERESIS | _CIRCUMFLEX)
-    elif precomposedIndex == MACRON_PRECOMPOSED:
-        letterCodeAndBitMask[1] |= _MACRON
+    if diacriticIndex == PSILI:
+        diacriticBits |= _SMOOTH
+    elif diacriticIndex == DASIA:
+        diacriticBits |= _ROUGH
+    elif diacriticIndex == OXIA:
+        diacriticBits |= _ACUTE
+    elif diacriticIndex == PSILI_AND_OXIA:
+        diacriticBits |= (_SMOOTH | _ACUTE)
+    elif diacriticIndex == DASIA_AND_OXIA:
+        diacriticBits |= (_ROUGH | _ACUTE)
+    elif diacriticIndex == VARIA:
+        diacriticBits |= _GRAVE
+    elif diacriticIndex == PSILI_AND_VARIA:
+        diacriticBits |= (_SMOOTH | _GRAVE)
+    elif diacriticIndex == DASIA_AND_VARIA:
+        diacriticBits |= (_ROUGH | _GRAVE)
+    elif diacriticIndex == PERISPOMENI:
+        diacriticBits |= _CIRCUMFLEX
+    elif diacriticIndex == PSILI_AND_PERISPOMENI:
+        diacriticBits |= (_SMOOTH | _CIRCUMFLEX)
+    elif diacriticIndex == DASIA_AND_PERISPOMENI:
+        diacriticBits |= (_ROUGH | _CIRCUMFLEX)
+    elif diacriticIndex == YPOGEGRAMMENI:
+        diacriticBits |= _IOTA_SUB
+    elif diacriticIndex == PSILI_AND_YPOGEGRAMMENI:
+        diacriticBits |= (_SMOOTH | _IOTA_SUB)
+    elif diacriticIndex == DASIA_AND_YPOGEGRAMMENI:
+        diacriticBits |= (_ROUGH | _IOTA_SUB)
+    elif diacriticIndex == OXIA_AND_YPOGEGRAMMENI:
+        diacriticBits |= (_ACUTE | _IOTA_SUB)
+    elif diacriticIndex == PSILI_AND_OXIA_AND_YPOGEGRAMMENI:
+        diacriticBits |= (_SMOOTH | _ACUTE | _IOTA_SUB)
+    elif diacriticIndex == DASIA_AND_OXIA_AND_YPOGEGRAMMENI:
+        diacriticBits |= (_ROUGH | _ACUTE | _IOTA_SUB)
+    elif diacriticIndex == VARIA_AND_YPOGEGRAMMENI:
+        diacriticBits |= (_GRAVE | _IOTA_SUB)
+    elif diacriticIndex == PSILI_AND_VARIA_AND_YPOGEGRAMMENI:
+        diacriticBits |= (_SMOOTH | _GRAVE | _IOTA_SUB)
+    elif diacriticIndex == DASIA_AND_VARIA_AND_YPOGEGRAMMENI:
+        diacriticBits |= (_ROUGH | _GRAVE | _IOTA_SUB)
+    elif diacriticIndex == PERISPOMENI_AND_YPOGEGRAMMENI:
+        diacriticBits |= (_CIRCUMFLEX | _IOTA_SUB)
+    elif diacriticIndex == PSILI_AND_PERISPOMENI_AND_YPOGEGRAMMENI:
+        diacriticBits |= (_SMOOTH | _CIRCUMFLEX | _IOTA_SUB)
+    elif diacriticIndex == DASIA_AND_PERISPOMENI_AND_YPOGEGRAMMENI:
+        diacriticBits |= (_ROUGH | _CIRCUMFLEX | _IOTA_SUB)
+    elif diacriticIndex == DIALYTIKA:
+        diacriticBits |= _DIAERESIS
+    elif diacriticIndex == DIALYTIKA_AND_OXIA:
+        diacriticBits |= (_DIAERESIS | _ACUTE)
+    elif diacriticIndex == DIALYTIKA_AND_VARIA:
+        diacriticBits |= (_DIAERESIS | _GRAVE)
+    elif diacriticIndex == DIALYTIKA_AND_PERISPOMENON:
+        diacriticBits |= (_DIAERESIS | _CIRCUMFLEX)
+    elif diacriticIndex == MACRON_PRECOMPOSED:
+        diacriticBits |= _MACRON
 #ifdef ALLOW_PRIVATE_USE_AREA
-    elif precomposedIndex == MACRON_AND_SMOOTH:
-        letterCodeAndBitMask[1] |= (_MACRON | _SMOOTH)
-    elif precomposedIndex == MACRON_AND_SMOOTH_AND_ACUTE:
-        letterCodeAndBitMask[1] |= (_MACRON | _SMOOTH | _ACUTE)
-    elif precomposedIndex == MACRON_AND_SMOOTH_AND_GRAVE:
-        letterCodeAndBitMask[1] |= (_MACRON | _SMOOTH | _GRAVE)
-    elif precomposedIndex == MACRON_AND_ROUGH:
-        letterCodeAndBitMask[1] |= (_MACRON | _ROUGH)
-    elif precomposedIndex == MACRON_AND_ROUGH_AND_ACUTE:
-        letterCodeAndBitMask[1] |= (_MACRON | _ROUGH | _ACUTE)
-    elif precomposedIndex == MACRON_AND_ROUGH_AND_GRAVE:
-        letterCodeAndBitMask[1] |= (_MACRON | _ROUGH | _GRAVE)
-    elif precomposedIndex == MACRON_AND_ACUTE:
-        letterCodeAndBitMask[1] |= (_MACRON | _ACUTE)
-    elif precomposedIndex == MACRON_AND_GRAVE:
-        letterCodeAndBitMask[1] |= (_MACRON | _GRAVE)
-    elif precomposedIndex == TONOS:
-        letterCodeAndBitMask[1] |= _ACUTE
+    elif diacriticIndex == MACRON_AND_SMOOTH:
+        diacriticBits |= (_MACRON | _SMOOTH)
+    elif diacriticIndex == MACRON_AND_SMOOTH_AND_ACUTE:
+        diacriticBits |= (_MACRON | _SMOOTH | _ACUTE)
+    elif diacriticIndex == MACRON_AND_SMOOTH_AND_GRAVE:
+        diacriticBits |= (_MACRON | _SMOOTH | _GRAVE)
+    elif diacriticIndex == MACRON_AND_ROUGH:
+        diacriticBits |= (_MACRON | _ROUGH)
+    elif diacriticIndex == MACRON_AND_ROUGH_AND_ACUTE:
+        diacriticBits |= (_MACRON | _ROUGH | _ACUTE)
+    elif diacriticIndex == MACRON_AND_ROUGH_AND_GRAVE:
+        diacriticBits |= (_MACRON | _ROUGH | _GRAVE)
+    elif diacriticIndex == MACRON_AND_ACUTE:
+        diacriticBits |= (_MACRON | _ACUTE)
+    elif diacriticIndex == MACRON_AND_GRAVE:
+        diacriticBits |= (_MACRON | _GRAVE)
+    elif diacriticIndex == TONOS:
+        diacriticBits |= _ACUTE
 #endif
-    #return letterCodeAndBitMask
+    return diacriticBits
 
-def analyzeLetter(letter, letterCodeAndBitMask):
+#returns a tuple (letterIndex, diacriticsBits) or (None,None)
+def analyzeLetter(letter):
     #fix me in c version, better here
+    diacriticBits = 0
+
     letterLen = len(letter)
     if letterLen > 1:
         for l in letter: # (int j = 1; j <= MAX_COMBINING && i + j < len; j++)
             if l == COMBINING_ROUGH_BREATHING:
-                letterCodeAndBitMask[1] |= _ROUGH
+                diacriticBits |= _ROUGH
             elif l == COMBINING_SMOOTH_BREATHING:
-                letterCodeAndBitMask[1] |= _SMOOTH
+                diacriticBits |= _SMOOTH
             elif l == COMBINING_ACUTE:
-                letterCodeAndBitMask[1] |= _ACUTE
+                diacriticBits |= _ACUTE
             elif l == COMBINING_GRAVE:
-                letterCodeAndBitMask[1] |= _GRAVE
+                diacriticBits |= _GRAVE
             elif l == COMBINING_CIRCUMFLEX:
-                letterCodeAndBitMask[1] |= _CIRCUMFLEX
+                diacriticBits |= _CIRCUMFLEX
             elif l == COMBINING_MACRON:
-                letterCodeAndBitMask[1] |= _MACRON
+                diacriticBits |= _MACRON
             elif l == COMBINING_BREVE:
-                letterCodeAndBitMask[1] |= _BREVE
+                diacriticBits |= _BREVE
             elif l == COMBINING_IOTA_SUBSCRIPT:
-                letterCodeAndBitMask[1] |= _IOTA_SUB
+                diacriticBits |= _IOTA_SUB
             elif l == COMBINING_DIAERESIS:
-                letterCodeAndBitMask[1] |= _DIAERESIS
+                diacriticBits |= _DIAERESIS
             else:
                 continue
 
-    precomposedIndex = analyzePrecomposedLetter(letter, letterCodeAndBitMask)
-    if precomposedIndex is None:
-        return None
+    (letterIndex, diacriticIndex) = analyzePrecomposedLetter(letter)
+    if letterIndex is None:
+        return (None, None)
     
-    precomposedIndexToBitMask(precomposedIndex, letterCodeAndBitMask)
+    diacriticBits = precomposedIndexToBitMask(diacriticIndex, diacriticBits)
 
-    return True
-    #return letterCodeAndBitMask #why return it, it's a ref variable?
+    return (letterIndex, diacriticBits)
+
 
 def accentLetter(letter, diacritic, vUnicodeMode):
     bToggleOff = True
@@ -554,18 +558,17 @@ def accentLetter(letter, diacritic, vUnicodeMode):
         return rho_with_psili
 #endif
 
-    #letters
-    letterCodeAndBitMask = [0,0] #a list so we can pass it by ref: 0 is the letter index, 1 is the diacritic bitmask
-    if analyzeLetter(letter, letterCodeAndBitMask) is None:
+    (letterIndex, diacriticBits) = analyzeLetter(letter)
+    if letterIndex is None:
         return None
 
-    if isLegalDiacriticForLetter(letterCodeAndBitMask[0], diacritic) == False:
+    if isLegalDiacriticForLetter(letterIndex, diacritic) == False:
         return None
 
     #3. this changes old letter analysis to the one we want
-    updateDiacritics(letterCodeAndBitMask, diacritic, bToggleOff)
+    diacriticBits = updateDiacritics(letterIndex, diacriticBits, diacritic, bToggleOff)
 
-    newLetter = makeLetter(letterCodeAndBitMask, vUnicodeMode)
+    newLetter = makeLetter(letterIndex, diacriticBits, vUnicodeMode)
     if newLetter is None:
         return None
     else:
