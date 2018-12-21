@@ -12,11 +12,54 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 
+_MACRON     = 1 << 0
+_SMOOTH     = 1 << 1
+_ROUGH      = 1 << 2
+_ACUTE      = 1 << 3
+_GRAVE      = 1 << 4
+_CIRCUMFLEX = 1 << 5
+_IOTA_SUB   = 1 << 6
+_DIAERESIS  = 1 << 7
+_BREVE      = 1 << 8 
+
+#THESE ARE MEANT TO BE ACCESSED OUTSIDE:
+
 #unicode modes
 PRECOMPOSED_MODE = 0
 PRECOMPOSED_WITH_PUA_MODE = 1
 COMBINING_ONLY_MODE = 2
 PRECOMPOSED_HC_MODE = 3
+
+#key codes, also indexes in cancelDiacritics array
+#kNO_ACCENT = 0
+kACUTE = 1
+kCIRCUMFLEX = 2
+kGRAVE = 3
+kMACRON = 4
+kROUGH_BREATHING = 5
+kSMOOTH_BREATHING = 6
+kIOTA_SUBSCRIPT = 7
+#kSURROUNDING_PARENTHESES = 8
+kDIAERESIS = 9
+kBREVE = 10
+
+#turn these diacritics off when adding index diacritic
+cancelDiacritics = [0,0,0,0,0,0,0,0,0,0,0]
+cancelDiacritics[kACUTE] = ~(_GRAVE | _CIRCUMFLEX)
+cancelDiacritics[kCIRCUMFLEX] = ~(_ACUTE | _GRAVE | _MACRON | _BREVE)
+cancelDiacritics[kGRAVE] = ~(_ACUTE | _CIRCUMFLEX)
+cancelDiacritics[kMACRON] = ~(_CIRCUMFLEX | _BREVE)
+cancelDiacritics[kROUGH_BREATHING] = ~(_SMOOTH | _DIAERESIS)
+cancelDiacritics[kSMOOTH_BREATHING] = ~(_ROUGH | _DIAERESIS)
+cancelDiacritics[kIOTA_SUBSCRIPT] = ~0 #nothing
+cancelDiacritics[kDIAERESIS] = ~(_SMOOTH | _ROUGH)
+cancelDiacritics[kBREVE] = ~(_CIRCUMFLEX | _MACRON)
+
+#END ACCESSED OUTSIDE
+
+
+
+
 
 #accent enum, these are the precomposed indices in letters array
 NORMAL = 0
@@ -61,15 +104,23 @@ TONOS = 37
 #endif
 NUM_ACCENT_CODES = 38
 
-_MACRON     = 1 << 0
-_SMOOTH     = 1 << 1
-_ROUGH      = 1 << 2
-_ACUTE      = 1 << 3
-_GRAVE      = 1 << 4
-_CIRCUMFLEX = 1 << 5
-_IOTA_SUB   = 1 << 6
-_DIAERESIS  = 1 << 7
-_BREVE      = 1 << 8 
+#letterCodes
+ALPHA = 0
+EPSILON = 1
+ETA = 2
+IOTA = 3
+OMICRON = 4
+UPSILON = 5
+OMEGA = 6
+ALPHA_CAP = 7
+EPSILON_CAP = 8
+ETA_CAP = 9
+IOTA_CAP = 10
+OMICRON_CAP = 11
+UPSILON_CAP = 12
+OMEGA_CAP = 13
+NUM_VOWEL_CODES = 14
+
 
 COMBINING_GRAVE                 = '\u0300'
 COMBINING_ACUTE                 = '\u0301'
@@ -90,49 +141,6 @@ COMBINING_IOTA_SUBSCRIPT        = '\u0345'
 
 # gamma is a comb char, delta is a vowel
 #gamma = b'\\u03b3' #just for testing
-
-#letterCodes
-ALPHA = 0
-EPSILON = 1
-ETA = 2
-IOTA = 3
-OMICRON = 4
-UPSILON = 5
-OMEGA = 6
-ALPHA_CAP = 7
-EPSILON_CAP = 8
-ETA_CAP = 9
-IOTA_CAP = 10
-OMICRON_CAP = 11
-UPSILON_CAP = 12
-OMEGA_CAP = 13
-NUM_VOWEL_CODES = 14
-
-#key codes, also indexes in cancelDiacritics array
-kNO_ACCENT = 0
-kACUTE = 1
-kCIRCUMFLEX = 2
-kGRAVE = 3
-kMACRON = 4
-kROUGH_BREATHING = 5
-kSMOOTH_BREATHING = 6
-kIOTA_SUBSCRIPT = 7
-kSURROUNDING_PARENTHESES = 8
-kDIAERESIS = 9
-kBREVE = 10
-
-#turn these diacritics off when adding index diacritic
-cancelDiacritics = [0,0,0,0,0,0,0,0,0,0,0]
-cancelDiacritics[kACUTE] = ~(_GRAVE | _CIRCUMFLEX)
-cancelDiacritics[kCIRCUMFLEX] = ~(_ACUTE | _GRAVE | _MACRON | _BREVE)
-cancelDiacritics[kGRAVE] = ~(_ACUTE | _CIRCUMFLEX)
-cancelDiacritics[kMACRON] = ~(_CIRCUMFLEX | _BREVE)
-cancelDiacritics[kROUGH_BREATHING] = ~(_SMOOTH | _DIAERESIS)
-cancelDiacritics[kSMOOTH_BREATHING] = ~(_ROUGH | _DIAERESIS)
-cancelDiacritics[kIOTA_SUBSCRIPT] = ~0
-cancelDiacritics[kDIAERESIS] = ~(_SMOOTH | _ROUGH)
-cancelDiacritics[kBREVE] = ~(_CIRCUMFLEX | _MACRON)
-
 
 #http://www.unicode.org/charts/normalization/
 combiningAccents = [ COMBINING_MACRON, COMBINING_BREVE, COMBINING_DIAERESIS, COMBINING_ROUGH_BREATHING, COMBINING_SMOOTH_BREATHING, COMBINING_ACUTE, COMBINING_GRAVE, COMBINING_CIRCUMFLEX, COMBINING_IOTA_SUBSCRIPT ]
