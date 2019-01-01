@@ -29,6 +29,13 @@ if cmd_folder not in sys.path:
 import hopliteaccent
 
 from com.sun.star.task import XJobExecutor
+
+#https://forum.openoffice.org/en/forum/viewtopic.php?t=43492#
+from com.sun.star.frame import (XStatusListener,
+   XDispatchProvider,
+   XDispatch, XControlNotificationListener, FeatureStateEvent)
+from com.sun.star.lang import XInitialization, XServiceInfo
+
 #from unicodedata import normalize #another way we could do some of this, but won't work for PUA 
 
 # PRECOMPOSED_MODE = 0
@@ -165,9 +172,82 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
             #print('hello python to console')
             pass
 
+
+IMPL_NAME = "com.philolog.hoplitekbTest"
+
+
+class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
+   def __init__(self, frame):
+      self.frame = frame
+      self.state = False
+      self.listener = None
+   
+   # XDispatch
+   def dispatch(self, url, args):
+      self.state = not self.state
+      ev = self.create_simple_event(url, self.state)
+      self.listener.statusChanged(ev)
+      
+      self.do_something(url)
+   
+   def addStatusListener(self, listener, url):
+      self.listener = listener
+   
+   def removeStatusListener(self, listener, url): pass
+   
+   # XControlNotificationListener
+   def controlEvent(self, ev): pass
+   
+   def create_simple_event(self, url, state, enabled=True):
+      return FeatureStateEvent(self, url, "", enabled, False, state)
+   
+   
+   def do_something(self, url):
+      if self.frame:
+         controller = self.frame.getController()
+         doc = controller.getModel()
+         if doc.supportsService("com.sun.star.text.TextDocument"):
+            doc.getText().setString("New state: %s" % url.Path)
+
+
+class HopliteKBPh(unohelper.Base, XInitialization, XDispatchProvider, XServiceInfo):
+   def __init__(self, ctx, *args):
+      self.frame = None
+   
+   # XInitialization
+   def initialize(self, args):
+      if len(args) > 0:
+         self.frame = args[0]
+   
+   # XDispatchProvider
+   def queryDispatch(self, url, name, flag):
+      dispatch = None
+      if url.Protocol == "com.philolog.hoplitekb:":
+         try:
+            dispatch = Dispatcher(self.frame)
+         except Exception as e:
+            print(e)
+      return dispatch
+   
+   def queryDispatches(self, descs):
+      pass
+   
+   # XServiceInfo
+   def supportsService(self, name):
+      return (name == "com.sun.star.frame.ProtocolHandler")
+   def getImplementationName(self):
+      return IMPL_NAME
+   def getSupportedServiceNames(self):
+      return ("com.sun.star.frame.ProtocolHandler",)
+
         
 g_ImplementationHelper = unohelper.ImplementationHelper()
 g_ImplementationHelper.addImplementation(
         HopliteKB,
         "com.philolog.hoplitekb",
         ("com.sun.star.task.Job",),)
+
+g_ImplementationHelper.addImplementation(
+   HopliteKBPh,
+    "com.philolog.hoplitekbTest",
+   ("com.sun.star.frame.ProtocolHandler",),)
