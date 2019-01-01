@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 #
-#  hoplitekb.py
+#  hopliteaccent.py
 #  HopliteKB-LibreOffice
 #
 #  Created by Jeremy March on 12/06/18.
@@ -12,6 +12,28 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 
+#THESE ARE MEANT TO BE ACCESSED OUTSIDE:
+
+#unicode modes
+PRECOMPOSED_MODE          = 0
+PRECOMPOSED_WITH_PUA_MODE = 1
+COMBINING_ONLY_MODE       = 2
+PRECOMPOSED_HC_MODE       = 3
+
+#key codes, also indexes in cancelDiacritics array
+#kNO_ACCENT       = 0
+kACUTE            = 1
+kCIRCUMFLEX       = 2
+kGRAVE            = 3
+kMACRON           = 4
+kROUGH_BREATHING  = 5
+kSMOOTH_BREATHING = 6
+kIOTA_SUBSCRIPT   = 7
+#kSURROUNDING_PARENTHESES = 8
+kDIAERESIS        = 9
+kBREVE            = 10
+
+#bit masks for diacritics bitfield
 _MACRON     = 1 << 0
 _SMOOTH     = 1 << 1
 _ROUGH      = 1 << 2
@@ -22,38 +44,17 @@ _IOTA_SUB   = 1 << 6
 _DIAERESIS  = 1 << 7
 _BREVE      = 1 << 8 
 
-#THESE ARE MEANT TO BE ACCESSED OUTSIDE:
-
-#unicode modes
-PRECOMPOSED_MODE = 0
-PRECOMPOSED_WITH_PUA_MODE = 1
-COMBINING_ONLY_MODE = 2
-PRECOMPOSED_HC_MODE = 3
-
-#key codes, also indexes in cancelDiacritics array
-#kNO_ACCENT = 0
-kACUTE = 1
-kCIRCUMFLEX = 2
-kGRAVE = 3
-kMACRON = 4
-kROUGH_BREATHING = 5
-kSMOOTH_BREATHING = 6
-kIOTA_SUBSCRIPT = 7
-#kSURROUNDING_PARENTHESES = 8
-kDIAERESIS = 9
-kBREVE = 10
-
 #turn these diacritics off when adding index diacritic
 cancelDiacritics = [0,0,0,0,0,0,0,0,0,0,0]
-cancelDiacritics[kACUTE] = ~(_GRAVE | _CIRCUMFLEX)
-cancelDiacritics[kCIRCUMFLEX] = ~(_ACUTE | _GRAVE | _MACRON | _BREVE)
-cancelDiacritics[kGRAVE] = ~(_ACUTE | _CIRCUMFLEX)
-cancelDiacritics[kMACRON] = ~(_CIRCUMFLEX | _BREVE)
-cancelDiacritics[kROUGH_BREATHING] = ~(_SMOOTH | _DIAERESIS)
+cancelDiacritics[kACUTE]            = ~(_GRAVE | _CIRCUMFLEX)
+cancelDiacritics[kCIRCUMFLEX]       = ~(_ACUTE | _GRAVE | _MACRON | _BREVE)
+cancelDiacritics[kGRAVE]            = ~(_ACUTE | _CIRCUMFLEX)
+cancelDiacritics[kMACRON]           = ~(_CIRCUMFLEX | _BREVE)
+cancelDiacritics[kROUGH_BREATHING]  = ~(_SMOOTH | _DIAERESIS)
 cancelDiacritics[kSMOOTH_BREATHING] = ~(_ROUGH | _DIAERESIS)
-cancelDiacritics[kIOTA_SUBSCRIPT] = ~0 #nothing
-cancelDiacritics[kDIAERESIS] = ~(_SMOOTH | _ROUGH)
-cancelDiacritics[kBREVE] = ~(_CIRCUMFLEX | _MACRON)
+cancelDiacritics[kIOTA_SUBSCRIPT]   = ~0 #nothing
+cancelDiacritics[kDIAERESIS]        = ~(_SMOOTH | _ROUGH)
+cancelDiacritics[kBREVE]            = ~(_CIRCUMFLEX | _MACRON)
 
 #END ACCESSED OUTSIDE
 
@@ -61,7 +62,7 @@ cancelDiacritics[kBREVE] = ~(_CIRCUMFLEX | _MACRON)
 
 
 
-#accent enum, these are the precomposed indices in letters array
+#diacritic indices in letters array
 NORMAL = 0
 PSILI  = 1                               #smooth
 DASIA  = 2                               #rough
@@ -104,7 +105,7 @@ TONOS = 37
 #endif
 NUM_ACCENT_CODES = 38
 
-#letterCodes
+#base letter indices
 ALPHA = 0
 EPSILON = 1
 ETA = 2
@@ -122,15 +123,15 @@ OMEGA_CAP = 13
 NUM_VOWEL_CODES = 14
 
 
-COMBINING_GRAVE                 = '\u0300'
-COMBINING_ACUTE                 = '\u0301'
-COMBINING_CIRCUMFLEX            = '\u0342' #0x0302
-COMBINING_MACRON                = '\u0304'
-COMBINING_BREVE                 = '\u0306'
-COMBINING_DIAERESIS             = '\u0308'
-COMBINING_SMOOTH_BREATHING      = '\u0313'
-COMBINING_ROUGH_BREATHING       = '\u0314'
-COMBINING_IOTA_SUBSCRIPT        = '\u0345'
+COMBINING_GRAVE            = '\u0300'
+COMBINING_ACUTE            = '\u0301'
+COMBINING_CIRCUMFLEX       = '\u0342' # do not use 0x0302
+COMBINING_MACRON           = '\u0304'
+COMBINING_BREVE            = '\u0306'
+COMBINING_DIAERESIS        = '\u0308'
+COMBINING_SMOOTH_BREATHING = '\u0313'
+COMBINING_ROUGH_BREATHING  = '\u0314'
+COMBINING_IOTA_SUBSCRIPT   = '\u0345'
 # EM_DASH                         0x2014
 # LEFT_PARENTHESIS                0x0028
 # RIGHT_PARENTHESIS               0x0029
@@ -139,12 +140,8 @@ COMBINING_IOTA_SUBSCRIPT        = '\u0345'
 # HYPHEN                          0x2010
 # COMMA                           0x002C
 
-# gamma is a comb char, delta is a vowel
-#gamma = b'\\u03b3' #just for testing
-
 #http://www.unicode.org/charts/normalization/
 combiningAccents = [ COMBINING_MACRON, COMBINING_BREVE, COMBINING_DIAERESIS, COMBINING_ROUGH_BREATHING, COMBINING_SMOOTH_BREATHING, COMBINING_ACUTE, COMBINING_GRAVE, COMBINING_CIRCUMFLEX, COMBINING_IOTA_SUBSCRIPT ]
-
 
 letters = [ [ '\u03B1', '\u1F00', '\u1F01', '\u1F71', '\u1F04', '\u1F05', '\u1F70', '\u1F02', '\u1F03', '\u1FB6', '\u1F06', '\u1F07', '\u1FB3', '\u1F80', '\u1F81', '\u1FB4', '\u1F84', '\u1F85', '\u1FB2', '\u1F82', '\u1F83', '\u1FB7', '\u1F86', '\u1F87', '\u0000', '\u0000', '\u0000', '\u0000', '\u1FB1', '\uEB04', '\uEB07', '\uEAF3', '\uEB05', '\uEB09', '\uEAF4', '\uEB00', '\uEAF0', '\u03AC' ], 
 [ '\u03B5', '\u1F10', '\u1F11', '\u1F73', '\u1F14', '\u1F15', '\u1F72', '\u1F12', '\u1F13', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u03AD' ], 
