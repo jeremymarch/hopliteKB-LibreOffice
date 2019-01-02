@@ -37,7 +37,7 @@
                     <node oor:name="Submenu">
                     <node oor:name="com.philolog.hoplitekb_02" oor:op="replace">
                         <prop oor:name="URL" oor:type="xs:string">
-                            <value>service:com.philolog.hoplitekb?setmodepua</value>
+                            <value>com.philolog.hoplitekb:setmodepua</value>
                         </prop>
                         <prop oor:name="Title" oor:type="xs:string">
                             <value/>
@@ -55,7 +55,7 @@
                                 <node oor:name="Submenu">
                     <node oor:name="com.philolog.hoplitekb_03" oor:op="replace">
                         <prop oor:name="URL" oor:type="xs:string">
-                            <value>service:com.philolog.hoplitekb?setmodecombining</value>
+                            <value>com.philolog.hoplitekb:setmodecombining</value>
                         </prop>
                         <prop oor:name="Title" oor:type="xs:string">
                             <value/>

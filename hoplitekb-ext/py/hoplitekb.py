@@ -179,16 +179,27 @@ IMPL_NAME = "com.philolog.hoplitekbTest"
 class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
    def __init__(self, frame):
       self.frame = frame
-      self.state = False
+      #self.state = False
       self.listener = None
    
    # XDispatch
    def dispatch(self, url, args):
-      self.state = not self.state
-      ev = self.create_simple_event(url, self.state)
+      #self.state = not self.state
+
+      ev = self.create_simple_event(url, True)
       self.listener.statusChanged(ev)
       
-      self.do_something(url)
+      self.setMode(url.Path)
+
+      paths = ["setmodeprecomposing", "setmodepua", "setmodecombining"]
+      paths.remove(url.Path)
+
+      for p in paths:
+        url.Path = p
+        url.Main = "com.philolog.hoplitekb:" + p
+        url.Complete = "com.philolog.hoplitekb:" + p
+        ev2 = self.create_simple_event(url, False)
+        self.listener.statusChanged(ev2)
    
    def addStatusListener(self, listener, url):
       self.listener = listener
@@ -202,12 +213,21 @@ class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
       return FeatureStateEvent(self, url, "", enabled, False, state)
    
    
-   def do_something(self, url):
-      if self.frame:
-         controller = self.frame.getController()
-         doc = controller.getModel()
-         if doc.supportsService("com.sun.star.text.TextDocument"):
-            doc.getText().setString("New state: %s" % url.Path)
+   def setMode(self, mode):
+     global vUnicodeMode
+     if mode == "setmodeprecomposing":
+        vUnicodeMode = hopliteaccent.PRECOMPOSED_MODE
+     elif mode == "setmodepua":
+        vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE
+     elif mode == "setmodecombining":   
+        vUnicodeMode = hopliteaccent.COMBINING_ONLY_MODE
+    #self.writeSettings(vUnicodeMode)  
+    
+      # if self.frame:
+      #    controller = self.frame.getController()
+      #    doc = controller.getModel()
+      #    if doc.supportsService("com.sun.star.text.TextDocument"):
+      #       doc.getText().setString("New state: %s" % url)
 
 
 class HopliteKBPh(unohelper.Base, XInitialization, XDispatchProvider, XServiceInfo):
@@ -242,6 +262,7 @@ class HopliteKBPh(unohelper.Base, XInitialization, XDispatchProvider, XServiceIn
 
         
 g_ImplementationHelper = unohelper.ImplementationHelper()
+
 g_ImplementationHelper.addImplementation(
         HopliteKB,
         "com.philolog.hoplitekb",
