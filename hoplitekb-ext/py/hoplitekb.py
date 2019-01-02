@@ -59,23 +59,6 @@ def getSettingsPath(ctx):
 class HopliteKB( unohelper.Base, XJobExecutor ):
     def __init__( self, ctx ):
         self.ctx = ctx
-
-    def writeSettings(self, vUnicodeMode):
-        path = getSettingsPath(self.ctx) 
-        file = open(path, "w+") 
-        file.write( str(vUnicodeMode) ) 
-        file.close() 
-
-    def readSettings(self):
-        path = getSettingsPath(self.ctx) 
-        file = open(path, "r") 
-        mode = file.read(1) #read one char
-        file.close()
-        if mode == hopliteaccent.PRECOMPOSED_MODE or mode == hopliteaccent.PRECOMPOSED_WITH_PUA_MODE or mode == hopliteaccent.COMBINING_ONLY_MODE:
-            return mode
-        else:
-            return hopliteaccent.PRECOMPOSED_MODE #default to precomposed
-
         
     def trigger( self, args ):
 
@@ -177,8 +160,9 @@ IMPL_NAME = "com.philolog.hoplitekbTest"
 
 
 class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
-   def __init__(self, frame):
+   def __init__(self, frame, ctx):
       self.frame = frame
+      self.ctx = ctx
       #self.state = False
       self.listener = None
    
@@ -194,6 +178,7 @@ class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
       paths = ["setmodeprecomposing", "setmodepua", "setmodecombining"]
       paths.remove(url.Path)
 
+      #unset other modes
       for p in paths:
         url.Path = p
         url.Main = "com.philolog.hoplitekb:" + p
@@ -221,7 +206,7 @@ class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
         vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE
      elif mode == "setmodecombining":   
         vUnicodeMode = hopliteaccent.COMBINING_ONLY_MODE
-    #self.writeSettings(vUnicodeMode)  
+     self.writeSettings(vUnicodeMode)  
     
       # if self.frame:
       #    controller = self.frame.getController()
@@ -229,10 +214,27 @@ class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
       #    if doc.supportsService("com.sun.star.text.TextDocument"):
       #       doc.getText().setString("New state: %s" % url)
 
+   def writeSettings(self, vUnicodeMode):
+        path = getSettingsPath(self.ctx) 
+        file = open(path, "w+") 
+        file.write( str(vUnicodeMode) ) 
+        file.close() 
+
+   def readSettings(self):
+        path = getSettingsPath(self.ctx) 
+        file = open(path, "r") 
+        mode = file.read(1) #read one char
+        file.close()
+        if mode == hopliteaccent.PRECOMPOSED_MODE or mode == hopliteaccent.PRECOMPOSED_WITH_PUA_MODE or mode == hopliteaccent.COMBINING_ONLY_MODE:
+            return mode
+        else:
+            return hopliteaccent.PRECOMPOSED_MODE #default to precomposed
+
 
 class HopliteKBPh(unohelper.Base, XInitialization, XDispatchProvider, XServiceInfo):
    def __init__(self, ctx, *args):
       self.frame = None
+      self.ctx = ctx
    
    # XInitialization
    def initialize(self, args):
@@ -244,7 +246,7 @@ class HopliteKBPh(unohelper.Base, XInitialization, XDispatchProvider, XServiceIn
       dispatch = None
       if url.Protocol == "com.philolog.hoplitekb:":
          try:
-            dispatch = Dispatcher(self.frame)
+            dispatch = Dispatcher(self.frame, self.ctx)
          except Exception as e:
             print(e)
       return dispatch
