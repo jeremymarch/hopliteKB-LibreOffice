@@ -79,26 +79,26 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
             cursor = text.createTextCursor()
 
             #text.insertString( cursor, "ABC: " + get_extension_path(self.ctx) + " :DEF", 0 ) #print exception
-            self.writeSettings(1)
+            #self.writeSettings(1)
 
             #we use a global and not class member because class is recreated for each call
-            global vUnicodeMode #global because we are modifying it below
-            if args == "setmodeprecomposing":
-                vUnicodeMode = hopliteaccent.PRECOMPOSED_MODE
-                self.writeSettings(vUnicodeMode)
-                #text.insertString( cursor, "prec ", 0 ) #print exception
-                return
-            elif args == "setmodepua":
-                vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE
-                self.writeSettings(vUnicodeMode)
-                #text.insertString( cursor, "pua ", 0 ) #print exception
-                return
-            elif args == "setmodecombining":
-                vUnicodeMode = hopliteaccent.COMBINING_ONLY_MODE
-                self.writeSettings(vUnicodeMode)
-                #text.insertString( cursor, "combining ", 0 ) #print exception
-                return
-            elif args == "acute":
+            # global vUnicodeMode #global because we are modifying it below
+            # if args == "setmodeprecomposing":
+            #     vUnicodeMode = hopliteaccent.PRECOMPOSED_MODE
+            #     self.writeSettings(vUnicodeMode)
+            #     #text.insertString( cursor, "prec ", 0 ) #print exception
+            #     return
+            # elif args == "setmodepua":
+            #     vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE
+            #     self.writeSettings(vUnicodeMode)
+            #     #text.insertString( cursor, "pua ", 0 ) #print exception
+            #     return
+            # elif args == "setmodecombining":
+            #     vUnicodeMode = hopliteaccent.COMBINING_ONLY_MODE
+            #     self.writeSettings(vUnicodeMode)
+            #     #text.insertString( cursor, "combining ", 0 ) #print exception
+            #     return
+            if args == "acute":
                 diacriticToAdd = hopliteaccent.kACUTE
             elif args == "circumflex":
                 diacriticToAdd = hopliteaccent.kCIRCUMFLEX
@@ -165,7 +165,7 @@ class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
       self.ctx = ctx
       #self.state = False
       self.listener = None
-   
+
    # XDispatch
    def dispatch(self, url, args):
       #self.state = not self.state
@@ -220,16 +220,6 @@ class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
         file.write( str(vUnicodeMode) ) 
         file.close() 
 
-   def readSettings(self):
-        path = getSettingsPath(self.ctx) 
-        file = open(path, "r") 
-        mode = file.read(1) #read one char
-        file.close()
-        if mode == hopliteaccent.PRECOMPOSED_MODE or mode == hopliteaccent.PRECOMPOSED_WITH_PUA_MODE or mode == hopliteaccent.COMBINING_ONLY_MODE:
-            return mode
-        else:
-            return hopliteaccent.PRECOMPOSED_MODE #default to precomposed
-
 
 class HopliteKBPh(unohelper.Base, XInitialization, XDispatchProvider, XServiceInfo):
    def __init__(self, ctx, *args):
@@ -240,6 +230,19 @@ class HopliteKBPh(unohelper.Base, XInitialization, XDispatchProvider, XServiceIn
    def initialize(self, args):
       if len(args) > 0:
          self.frame = args[0]
+      global vUnicodeMode
+      vUnicodeMode = self.readSettings()
+      
+
+   def readSettings(self):
+      path = getSettingsPath(self.ctx) 
+      file = open(path, "r") 
+      mode = file.read(1) #read one char
+      file.close()
+      if mode == hopliteaccent.PRECOMPOSED_MODE or mode == hopliteaccent.PRECOMPOSED_WITH_PUA_MODE or mode == hopliteaccent.COMBINING_ONLY_MODE:
+         return mode
+      else:
+         return hopliteaccent.PRECOMPOSED_MODE #default to precomposed
    
    # XDispatchProvider
    def queryDispatch(self, url, name, flag):
