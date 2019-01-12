@@ -45,16 +45,16 @@ from com.sun.star.lang import XInitialization, XServiceInfo
 vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE #default
 
 
-def get_extension_path(ctx):
-    srv = ctx.getByName("/singletons/com.sun.star.deployment.PackageInformationProvider")
-    extPath = unquote(srv.getPackageLocation("com.philolog.hoplitekb")) #unquote file url, was giving %02 for spaces
-    extPath = extPath.split("://")[1] #remove "file://"
-    return extPath
+# def get_extension_path(ctx):
+#     srv = ctx.getByName("/singletons/com.sun.star.deployment.PackageInformationProvider")
+#     extPath = unquote(srv.getPackageLocation("com.philolog.hoplitekb")) #unquote file url, was giving %02 for spaces
+#     extPath = extPath.split("://")[1] #remove "file://"
+#     return extPath
 
-def getSettingsPath(ctx):
-    path = get_extension_path(ctx)
-    path = os.path.dirname(path) 
-    return path + "/hoplite.txt"
+# def getSettingsPath(ctx):
+#     path = get_extension_path(ctx)
+#     path = os.path.dirname(path) 
+#     return path + "/hoplite.txt"
 
 class HopliteKB( unohelper.Base, XJobExecutor ):
     def __init__( self, ctx ):
@@ -78,7 +78,7 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
             text = doc.Text
             cursor = text.createTextCursor()
 
-            #text.insertString( cursor, "ABC: " + get_extension_path(self.ctx) + " :DEF", 0 ) #print exception
+            #text.insertString( cursor, "ABC: 1 :DEF", 0 ) #print exception
             #self.writeSettings(1)
 
             #we use a global and not class member because class is recreated for each call
@@ -156,124 +156,137 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
             pass
 
 
-IMPL_NAME = "com.philolog.hoplitekbTest"
+# IMPL_NAME = "com.philolog.hoplitekbTest"
 
 
-class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
-   def __init__(self, frame, ctx):
-      self.frame = frame
-      self.ctx = ctx
-      #self.state = False
-      self.listener = None
+# class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
+#    def __init__(self, frame, ctx):
+#       self.frame = frame
+#       self.ctx = ctx
+#       #self.state = False
+#       self.listener = None
 
-   # XDispatch
-   def dispatch(self, url, args):
-      #self.state = not self.state
+#    # XDispatch
+#    def dispatch(self, url, args):
+#       #self.state = not self.state
 
-      ev = self.create_simple_event(url, True)
-      self.listener.statusChanged(ev)
+#       ev = self.create_simple_event(url, True)
+#       self.listener.statusChanged(ev)
       
-      self.setMode(url.Path)
+#       self.setMode(url.Path)
 
-      paths = ["setmodeprecomposing", "setmodepua", "setmodecombining"]
-      paths.remove(url.Path)
+#       paths = ["setmodeprecomposing", "setmodepua", "setmodecombining"]
+#       paths.remove(url.Path)
 
-      #unset other modes
-      for p in paths:
-        url.Path = p
-        url.Main = "com.philolog.hoplitekb:" + p
-        url.Complete = "com.philolog.hoplitekb:" + p
-        ev2 = self.create_simple_event(url, False)
-        self.listener.statusChanged(ev2)
+#       #unset other modes
+#       for p in paths:
+#         url.Path = p
+#         url.Main = "com.philolog.hoplitekb:" + p
+#         url.Complete = "com.philolog.hoplitekb:" + p
+#         ev2 = self.create_simple_event(url, False)
+#         self.listener.statusChanged(ev2)
    
-   def addStatusListener(self, listener, url):
-      self.listener = listener
+#    def addStatusListener(self, listener, url):
+#       self.listener = listener
    
-   def removeStatusListener(self, listener, url): pass
+#    def removeStatusListener(self, listener, url): pass
    
-   # XControlNotificationListener
-   def controlEvent(self, ev): pass
+#    # XControlNotificationListener
+#    def controlEvent(self, ev): pass
    
-   def create_simple_event(self, url, state, enabled=True):
-      return FeatureStateEvent(self, url, "", enabled, False, state)
+#    def create_simple_event(self, url, state, enabled=True):
+#       return FeatureStateEvent(self, url, "", enabled, False, state)
    
    
-   def setMode(self, mode):
-     global vUnicodeMode
-     if mode == "setmodeprecomposing":
-        vUnicodeMode = hopliteaccent.PRECOMPOSED_MODE
-     elif mode == "setmodepua":
-        vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE
-     elif mode == "setmodecombining":   
-        vUnicodeMode = hopliteaccent.COMBINING_ONLY_MODE
-     self.writeSettings(vUnicodeMode)  
+#    def setMode(self, mode):
+#      global vUnicodeMode
+#      if mode == "setmodeprecomposing":
+#         vUnicodeMode = hopliteaccent.PRECOMPOSED_MODE
+#      elif mode == "setmodepua":
+#         vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE
+#      elif mode == "setmodecombining":   
+#         vUnicodeMode = hopliteaccent.COMBINING_ONLY_MODE
+#      self.writeSettings(vUnicodeMode)  
     
-      # if self.frame:
-      #    controller = self.frame.getController()
-      #    doc = controller.getModel()
-      #    if doc.supportsService("com.sun.star.text.TextDocument"):
-      #       doc.getText().setString("New state: %s" % url)
+#       # if self.frame:
+#       #    controller = self.frame.getController()
+#       #    doc = controller.getModel()
+#       #    if doc.supportsService("com.sun.star.text.TextDocument"):
+#       #       doc.getText().setString("New state: %s" % url)
 
-   def writeSettings(self, vUnicodeMode):
-        path = getSettingsPath(self.ctx) 
-        file = open(path, "w+") 
-        file.write( str(vUnicodeMode) ) 
-        file.close() 
+#    def writeSettings(self, vUnicodeMode):
+#         path = getSettingsPath(self.ctx) 
+#         file = open(path, "w+") 
+#         file.write( str(vUnicodeMode) ) 
+#         file.close() 
 
 
-class HopliteKBPh(unohelper.Base, XInitialization, XDispatchProvider, XServiceInfo):
-   def __init__(self, ctx, *args):
-      self.frame = None
-      self.ctx = ctx
+# class HopliteKBPh(unohelper.Base, XInitialization, XDispatchProvider, XServiceInfo):
+#    def __init__(self, ctx, *args):
+#       self.frame = None
+#       self.ctx = ctx
    
-   # XInitialization
-   def initialize(self, args):
-      if len(args) > 0:
-         self.frame = args[0]
-      global vUnicodeMode
-      vUnicodeMode = self.readSettings()
+#    # XInitialization
+#    def initialize(self, args):
+#       if len(args) > 0:
+#          self.frame = args[0]
+#       global vUnicodeMode
+#       vUnicodeMode = self.readSettings()
       
 
-   def readSettings(self):
-      path = getSettingsPath(self.ctx) 
-      file = open(path, "r") 
-      mode = file.read(1) #read one char
-      file.close()
-      if mode == hopliteaccent.PRECOMPOSED_MODE or mode == hopliteaccent.PRECOMPOSED_WITH_PUA_MODE or mode == hopliteaccent.COMBINING_ONLY_MODE:
-         return mode
-      else:
-         return hopliteaccent.PRECOMPOSED_MODE #default to precomposed
+#    def readSettings(self):
+#       path = getSettingsPath(self.ctx) 
+#       file = open(path, "r") 
+#       mode = file.read(1) #read one char
+#       file.close()
+#       if mode == hopliteaccent.PRECOMPOSED_MODE or mode == hopliteaccent.PRECOMPOSED_WITH_PUA_MODE or mode == hopliteaccent.COMBINING_ONLY_MODE:
+#          return mode
+#       else:
+#          return hopliteaccent.PRECOMPOSED_MODE #default to precomposed
    
-   # XDispatchProvider
-   def queryDispatch(self, url, name, flag):
-      dispatch = None
-      if url.Protocol == "com.philolog.hoplitekb:":
-         try:
-            dispatch = Dispatcher(self.frame, self.ctx)
-         except Exception as e:
-            print(e)
-      return dispatch
+#    # XDispatchProvider
+#    def queryDispatch(self, url, name, flag):
+#       dispatch = None
+#       if url.Protocol == "com.philolog.hoplitekb:":
+#          try:
+#             dispatch = Dispatcher(self.frame, self.ctx)
+#          except Exception as e:
+#             print(e)
+#       return dispatch
    
-   def queryDispatches(self, descs):
-      pass
+#    def queryDispatches(self, descs):
+#       pass
    
-   # XServiceInfo
-   def supportsService(self, name):
-      return (name == "com.sun.star.frame.ProtocolHandler")
-   def getImplementationName(self):
-      return IMPL_NAME
-   def getSupportedServiceNames(self):
-      return ("com.sun.star.frame.ProtocolHandler",)
+#    # XServiceInfo
+#    def supportsService(self, name):
+#       return (name == "com.sun.star.frame.ProtocolHandler")
+#    def getImplementationName(self):
+#       return IMPL_NAME
+#    def getSupportedServiceNames(self):
+#       return ("com.sun.star.frame.ProtocolHandler",)
 
         
 g_ImplementationHelper = unohelper.ImplementationHelper()
 
-g_ImplementationHelper.addImplementation(
-        HopliteKB,
-        "com.philolog.hoplitekb",
-        ("com.sun.star.task.Job",),)
+# g_ImplementationHelper.addImplementation(
+#    HopliteKBPh,
+#     "com.philolog.hoplitekbTest",
+#    ("com.sun.star.frame.ProtocolHandler",),)
+
+
+IMPLE_NAME = "com.philolog.hoplitekb"
+SERVICE_NAME = "com.philolog.hoplitekb.Settings"
+def create(ctx, *args):    
+        from optionsdialog import component  # pythopathフォルダのモジュールの取得。
+        return component.create(ctx, *args, imple_name=IMPLE_NAME, service_name=SERVICE_NAME)
+# Registration
+# import unohelper
+# g_ImplementationHelper = unohelper.ImplementationHelper()
+g_ImplementationHelper.addImplementation(create, IMPLE_NAME, (SERVICE_NAME,),)
 
 g_ImplementationHelper.addImplementation(
-   HopliteKBPh,
-    "com.philolog.hoplitekbTest",
-   ("com.sun.star.frame.ProtocolHandler",),)
+        HopliteKB,
+        "com.philolog.hoplitekb.kb",
+        ("com.sun.star.task.Job",),)
+
+

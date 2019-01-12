@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
+<dlg:window
+	xmlns:dlg="http://openoffice.org/2000/dialog"
+	xmlns:script="http://openoffice.org/2000/script"
+	dlg:id="optionsdialog"
+	dlg:left="80"
+	dlg:top="79"
+	dlg:width="263"
+	dlg:height="185"
+	dlg:closeable="true"
+	dlg:moveable="true"
+	dlg:withtitlebar="false">
+<dlg:styles>
+  <dlg:style dlg:style-id="0" dlg:font-weight="150"/>
+</dlg:styles>
+<dlg:bulletinboard>
+	<!--
+	<dlg:combobox dlg:id="UnicodeMode" dlg:left="8" dlg:top="63" dlg:width="158" dlg:height="51" dlg:help-text="Unicode Help">
+   <dlg:menupopup>
+    <dlg:menuitem dlg:value="Precomposed"/>
+    <dlg:menuitem dlg:value="Precomposed with PUA"/>
+    <dlg:menuitem dlg:value="Combining-Only"/>
+   </dlg:menupopup>
+  </dlg:combobox>
+-->
+
+<dlg:text dlg:id="HKBTitle" dlg:style-id="0" dlg:left="3" dlg:top="3" dlg:width="155" dlg:height="8" dlg:value="Hoplite Polytonic Greek Keyboard Settings"/>
+
+<dlg:titledbox dlg:id="options" dlg:left="3" dlg:top="18" dlg:width="90" dlg:height="50">
+<dlg:title dlg:value="Unicode Mode"/>
+</dlg:titledbox>
+
+<dlg:radiogroup>
+   <dlg:radio dlg:id="PrecomposedOption" dlg:tab-index="1" dlg:left="8" dlg:top="23" dlg:width="232" dlg:height="21" dlg:value="Precomposed" dlg:multiline="true" dlg:valign="center" dlg:help-text="Use precomposed unicode characters where possible.">
+   </dlg:radio>
+   <dlg:radio dlg:id="PrecomposedPUAOption" dlg:tab-index="2" dlg:left="8" dlg:top="35" dlg:width="232" dlg:height="21" dlg:value="Precomposed with PUA" dlg:multiline="true" dlg:valign="center" dlg:help-text="Use precomposed unicode characters including private use area characters where possible.">
+   </dlg:radio>
+   <dlg:radio dlg:id="CombiningOption" dlg:tab-index="3" dlg:left="8" dlg:top="47" dlg:width="232" dlg:height="21" dlg:value="Combining-Only" dlg:multiline="true" dlg:valign="center" dlg:help-text="Use combining characters for diacritics.">
+   </dlg:radio>
+</dlg:radiogroup>
+
+</dlg:bulletinboard>
+</dlg:window>
