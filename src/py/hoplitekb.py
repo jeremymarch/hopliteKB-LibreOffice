@@ -43,8 +43,11 @@ from com.sun.star.lang import XInitialization, XServiceInfo
 # PRECOMPOSED_WITH_PUA_MODE = 1
 # COMBINING_ONLY_MODE = 2
 # PRECOMPOSED_HC_MODE = 3
-vUnicodeMode = -1 #hopliteaccent.PRECOMPOSED_WITH_PUA_MODE #default
+vUnicodeMode = hopliteaccent.PRECOMPOSED_MODE #default
 
+def setUnicodeMode(mode):
+    global vUnicodeMode
+    vUnicodeMode = mode
 
 # def get_extension_path(ctx):
 #     srv = ctx.getByName("/singletons/com.sun.star.deployment.PackageInformationProvider")
@@ -57,30 +60,11 @@ vUnicodeMode = -1 #hopliteaccent.PRECOMPOSED_WITH_PUA_MODE #default
 #     path = os.path.dirname(path) 
 #     return path + "/hoplite.txt"
 
-def setUnicodeMode(mode):
-    global vUnicodeMode
-    vUnicodeMode = mode
-
 class HopliteKB( unohelper.Base, XJobExecutor ):
     def __init__( self, ctx ):
         self.ctx = ctx
-        if vUnicodeMode < 0:
-            self.initializeOptionsOnce()
-
-    def initializeOptionsOnce(self):
-        smgr = self.ctx.getServiceManager()
-        readConfig, writeConfig = optionsdialog.createConfigAccessor(self.ctx, smgr, "/com.philolog.hoplitekb.ExtensionData/Leaves/HKBSettingsNode")
-        defaults = readConfig("Defaults/Width", "Defaults/Height", "Defaults/UnicodeMode")
-        #set current value
-        cfgnames = "Width", "Height", "UnicodeMode"
-        maxwidth, maxheight, umode = readConfig(*cfgnames)
-        umode = umode or defaults[2]
-        if umode == "PrecomposedPUA":
-            setUnicodeMode(1)
-        elif umode == "CombiningOnly":
-            setUnicodeMode(2)
-        else:
-            setUnicodeMode(0)
+        # if vUnicodeMode < 0:
+        #     self.initializeOptionsOnce()
         
     def trigger( self, args ):
 
@@ -173,7 +157,7 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
                     xWordCursor.setString(newLetter)
 
         except Exception as e:
-            text.insertString( cursor, str(e), 0 ) #print exception
+            #text.insertString( cursor, str(e), 0 ) #print exception
             #print('hello python to console')
             pass
 
@@ -287,6 +271,23 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
 #    def getSupportedServiceNames(self):
 #       return ("com.sun.star.frame.ProtocolHandler",)
 
+def initializeOptionsOnce():
+    ctx = uno.getComponentContext()
+    smgr = ctx.getServiceManager()
+    readConfig, writeConfig = optionsdialog.createConfigAccessor(ctx, smgr, "/com.philolog.hoplitekb.ExtensionData/Leaves/HKBSettingsNode")
+    defaults = readConfig("Defaults/Width", "Defaults/Height", "Defaults/UnicodeMode")
+    #set current value
+    cfgnames = "Width", "Height", "UnicodeMode"
+    maxwidth, maxheight, umode = readConfig(*cfgnames)
+    umode = umode or defaults[2]
+    if umode == "PrecomposedPUA":
+        setUnicodeMode(1)
+    elif umode == "CombiningOnly":
+        setUnicodeMode(2)
+    else:
+        setUnicodeMode(0)
+
+initializeOptionsOnce()
         
 g_ImplementationHelper = unohelper.ImplementationHelper()
 
@@ -301,9 +302,7 @@ SERVICE_NAME = "com.philolog.hoplitekb.Settings"
 def create(ctx, *args):    
     # pythopathフォルダのモジュールの取得。
     return optionsdialog.create(ctx, *args, imple_name=IMPLE_NAME, service_name=SERVICE_NAME, on_options_changed=setUnicodeMode)
-# Registration
-# import unohelper
-# g_ImplementationHelper = unohelper.ImplementationHelper()
+
 g_ImplementationHelper.addImplementation(create, IMPLE_NAME, (SERVICE_NAME,),)
 
 g_ImplementationHelper.addImplementation(
