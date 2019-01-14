@@ -56,6 +56,10 @@ vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE #default
 #     path = os.path.dirname(path) 
 #     return path + "/hoplite.txt"
 
+def setUnicodeMode(modea):
+    global vUnicodeMode
+    vUnicodeMode = modea
+
 class HopliteKB( unohelper.Base, XJobExecutor ):
     def __init__( self, ctx ):
         self.ctx = ctx
@@ -144,6 +148,7 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
                     break
 
             #get letter with any following combining chars, we decide what to do inside accentLetter
+            global vUnicodeMode
             letterToAccent = xWordCursor.getString()
             if letterToAccent is not None and len(letterToAccent) > 0:
                 newLetter = hopliteaccent.accentLetter(letterToAccent, diacriticToAdd, vUnicodeMode, True)
@@ -277,8 +282,8 @@ g_ImplementationHelper = unohelper.ImplementationHelper()
 IMPLE_NAME = "com.philolog.hoplitekb"
 SERVICE_NAME = "com.philolog.hoplitekb.Settings"
 def create(ctx, *args):    
-        from optionsdialog import component  # pythopathフォルダのモジュールの取得。
-        return component.create(ctx, *args, imple_name=IMPLE_NAME, service_name=SERVICE_NAME)
+        import component  # pythopathフォルダのモジュールの取得。
+        return component.create(ctx, *args, imple_name=IMPLE_NAME, service_name=SERVICE_NAME, on_options_changed=setUnicodeMode)
 # Registration
 # import unohelper
 # g_ImplementationHelper = unohelper.ImplementationHelper()

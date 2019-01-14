@@ -5,20 +5,32 @@ from com.sun.star.awt import XContainerWindowEventHandler
 from com.sun.star.lang import XServiceInfo
 from com.sun.star.awt import XActionListener
 from com.sun.star.beans import PropertyValue
+
+# import os, sys, inspect
+# # Add current directory to path to import local modules
+# cmd_folder = os.path.realpath(os.path.abspath
+#                                   (os.path.split(inspect.getfile
+#                                                  ( inspect.currentframe() ))[0]))
+# if cmd_folder not in sys.path:
+#     sys.path.insert(0, cmd_folder)
+
+#import hoplitekb
+
 # from com.sun.star.awt.PosSize import POSSIZE  # ピクセル単位でコントロールの座標を指定するときにPosSizeキーの値に使う。
 #import traceback
 
-def create(ctx, *args, imple_name, service_name):
+def create(ctx, *args, imple_name, service_name, on_options_changed):
 	global IMPLE_NAME
 	global SERVICE_NAME
 	IMPLE_NAME = imple_name
 	SERVICE_NAME = service_name
-	return DilaogHandler(ctx, *args)
+	return DilaogHandler(ctx, on_options_changed, *args)
 
 class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):  # UNOコンポーネントにするクラス。
 	METHODNAME = "external_event"  # 変更できない。
-	def __init__(self, ctx, *args):
+	def __init__(self, ctx, on_options_changed, *args):
 		self.ctx = ctx
+		self.on_options_changed = on_options_changed
 		self.smgr = ctx.getServiceManager()
 		self.readConfig, self.writeConfig = createConfigAccessor(ctx, self.smgr, "/com.philolog.hoplitekb.ExtensionData/Leaves/HKBSettingsNode")  # config.xcsに定義していあるコンポーネントデータノードへのパス。
 		self.cfgnames = "Width", "Height", "UnicodeMode"
@@ -49,10 +61,14 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 				elif eventname=="ok":  # OKボタンが押された時
 					if dialog.getControl("PrecomposedPUAOption").getModel().State == True:
 						umode = "PrecomposedPUA"
+						self.on_options_changed(1) #hopliteaccent.PRECOMPOSED_WITH_PUA_MODE
 					elif dialog.getControl("CombiningOption").getModel().State == True:
 						umode = "CombiningOnly"
+						self.on_options_changed(2) #hopliteaccent.COMBINING_ONLY_MODE
 					else:
 						umode = "Precomposed"
+						self.on_options_changed(0) #hopliteaccent.PRECOMPOSED_MODE
+						
 					self.writeConfig(self.cfgnames, (str("300"), str("300"), str(umode)))  # 取得した値を文字列にしてコンポーネントデータノードに保存。
 					
 				elif eventname=="back":  # 元に戻すボタンが押された時
