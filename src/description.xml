@@ -4,7 +4,7 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 	<platform value="all" />
 	<display-name>
-		<name lang="en">Hoplite KB Settings3</name>
+		<name lang="en">Hoplite Polytonic Greek Keyboard</name>
 	</display-name>
 	<publisher>
 		<name lang="en" xlink:href="https://github.com/jeremymarch/HopliteKB-LibreOffice">jeremymarch</name>
