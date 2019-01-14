@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<components xmlns="http://openoffice.org/2010/uno-components">
+	<component
+		loader="com.sun.star.loader.Python"
+		uri="py/hoplitekb.py">
+		<implementation name="com.philolog.hoplitekb">
+			<service name="com.philolog.hoplitekb.Settings" />
+		</implementation>
+		<implementation name="com.philolog.hoplitekb.kb">
+			
+		</implementation>
+	</component>
+</components>

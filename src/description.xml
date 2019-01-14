@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<description xmlns="http://openoffice.org/extensions/description/2006"
+	xmlns:d="http://openoffice.org/extensions/description/2006" xmlns:l="http://libreoffice.org/extensions/description/2011"
+	xmlns:xlink="http://www.w3.org/1999/xlink">
+	<platform value="all" />
+	<display-name>
+		<name lang="en">Hoplite Polytonic Greek Keyboard</name>
+	</display-name>
+	<publisher>
+		<name lang="en" xlink:href="https://github.com/jeremymarch/HopliteKB-LibreOffice">jeremymarch</name>
+	</publisher>
+	<version value="1.0" />
+	<extension-description>
+		<src lang="en" xlink:href="descriptions/description_en.txt" />
+	</extension-description>
+	<identifier value="com.philolog.hoplitekb" />
+	<icon>
+		<default xlink:href="icons/extension.png" />
+	</icon>
+	<dependencies>
+		<l:LibreOffice-minimal-version d:name="LibreOffice 5.2"
+			value="5.2" />
+	</dependencies>
+</description>
