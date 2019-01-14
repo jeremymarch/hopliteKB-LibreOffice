@@ -8,7 +8,7 @@ Type polytonic Greek diacritics with ease.
 * Add diacritics _after_ typing the vowel
 * Add diacritics in any order
 * Toggle diacritics on/off
-* breathings, accents, subscripts, macrons, breves, diaereses: no problem!\*
+* Breathings, accents, subscripts, macrons, breves, diaereses: no problem!\*
 * Choose precomposed, precomposed with private use area, or combining-only modes.
 
 \* as long as your font supports it.
