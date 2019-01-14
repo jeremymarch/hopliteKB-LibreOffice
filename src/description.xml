@@ -9,7 +9,7 @@
 	<publisher>
 		<name lang="en" xlink:href="https://github.com/jeremymarch/HopliteKB-LibreOffice">jeremymarch</name>
 	</publisher>
-	<version value="1.0" />
+	<version value="1.0.1" />
 	<extension-description>
 		<src lang="en" xlink:href="descriptions/description_en.txt" />
 	</extension-description>
@@ -18,7 +18,9 @@
 		<default xlink:href="icons/extension.png" />
 	</icon>
 	<dependencies>
-		<l:LibreOffice-minimal-version d:name="LibreOffice 5.2"
-			value="5.2" />
+		<l:LibreOffice-minimal-version d:name="LibreOffice 5.2" value="5.2" />
+	<!-- 
+		<OpenOffice.org-minimal-version xmlns:d="http://openoffice.org/extensions/description/2006" d:name="OpenOffice.org 3.0" value="3.0"/>
+	-->
 	</dependencies>
 </description>
