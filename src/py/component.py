@@ -24,7 +24,8 @@ def create(ctx, *args, imple_name, service_name, on_options_changed):
 	global SERVICE_NAME
 	IMPLE_NAME = imple_name
 	SERVICE_NAME = service_name
-	return DilaogHandler(ctx, on_options_changed, *args)
+	dh = DilaogHandler(ctx, on_options_changed, *args)
+	return dh
 
 class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):  # UNOコンポーネントにするクラス。
 	METHODNAME = "external_event"  # 変更できない。

@@ -27,6 +27,7 @@ if cmd_folder not in sys.path:
     sys.path.insert(0, cmd_folder)
 
 import hopliteaccent
+import component
 
 from com.sun.star.task import XJobExecutor
 
@@ -42,7 +43,7 @@ from com.sun.star.lang import XInitialization, XServiceInfo
 # PRECOMPOSED_WITH_PUA_MODE = 1
 # COMBINING_ONLY_MODE = 2
 # PRECOMPOSED_HC_MODE = 3
-vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE #default
+vUnicodeMode = -1 #hopliteaccent.PRECOMPOSED_WITH_PUA_MODE #default
 
 
 # def get_extension_path(ctx):
@@ -56,13 +57,30 @@ vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE #default
 #     path = os.path.dirname(path) 
 #     return path + "/hoplite.txt"
 
-def setUnicodeMode(modea):
+def setUnicodeMode(mode):
     global vUnicodeMode
-    vUnicodeMode = modea
+    vUnicodeMode = mode
 
 class HopliteKB( unohelper.Base, XJobExecutor ):
     def __init__( self, ctx ):
         self.ctx = ctx
+        if vUnicodeMode < 0:
+            self.initializeOptionsOnce()
+
+    def initializeOptionsOnce(self):
+        smgr = self.ctx.getServiceManager()
+        readConfig, writeConfig = component.createConfigAccessor(self.ctx, smgr, "/com.philolog.hoplitekb.ExtensionData/Leaves/HKBSettingsNode")
+        defaults = readConfig("Defaults/Width", "Defaults/Height", "Defaults/UnicodeMode")
+        #set current value
+        cfgnames = "Width", "Height", "UnicodeMode"
+        maxwidth, maxheight, umode = readConfig(*cfgnames)
+        umode = umode or defaults[2]
+        if umode == "PrecomposedPUA":
+            setUnicodeMode(1)
+        elif umode == "CombiningOnly":
+            setUnicodeMode(2)
+        else:
+            setUnicodeMode(0)
         
     def trigger( self, args ):
 
@@ -282,8 +300,8 @@ g_ImplementationHelper = unohelper.ImplementationHelper()
 IMPLE_NAME = "com.philolog.hoplitekb"
 SERVICE_NAME = "com.philolog.hoplitekb.Settings"
 def create(ctx, *args):    
-        import component  # pythopathフォルダのモジュールの取得。
-        return component.create(ctx, *args, imple_name=IMPLE_NAME, service_name=SERVICE_NAME, on_options_changed=setUnicodeMode)
+    # pythopathフォルダのモジュールの取得。
+    return component.create(ctx, *args, imple_name=IMPLE_NAME, service_name=SERVICE_NAME, on_options_changed=setUnicodeMode)
 # Registration
 # import unohelper
 # g_ImplementationHelper = unohelper.ImplementationHelper()
