@@ -526,6 +526,12 @@ def analyzeLetter(letter):
 
 
 def accentLetter(letter, diacritic, vUnicodeMode, bToggleOff):
+    try:
+        if int(vUnicodeMode) < 0 or int(vUnicodeMode) > 3:
+            vUnicodeMode = 0
+    except ValueError:
+        vUnicodeMode = 0
+        
     bAddSpacingDiacriticIfNotLegal = False #for now
 
     #handle rho 

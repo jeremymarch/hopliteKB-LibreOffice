@@ -27,7 +27,7 @@ if cmd_folder not in sys.path:
     sys.path.insert(0, cmd_folder)
 
 import hopliteaccent
-import component
+import optionsdialog
 
 from com.sun.star.task import XJobExecutor
 
@@ -69,7 +69,7 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
 
     def initializeOptionsOnce(self):
         smgr = self.ctx.getServiceManager()
-        readConfig, writeConfig = component.createConfigAccessor(self.ctx, smgr, "/com.philolog.hoplitekb.ExtensionData/Leaves/HKBSettingsNode")
+        readConfig, writeConfig = optionsdialog.createConfigAccessor(self.ctx, smgr, "/com.philolog.hoplitekb.ExtensionData/Leaves/HKBSettingsNode")
         defaults = readConfig("Defaults/Width", "Defaults/Height", "Defaults/UnicodeMode")
         #set current value
         cfgnames = "Width", "Height", "UnicodeMode"
@@ -166,7 +166,6 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
                     break
 
             #get letter with any following combining chars, we decide what to do inside accentLetter
-            global vUnicodeMode
             letterToAccent = xWordCursor.getString()
             if letterToAccent is not None and len(letterToAccent) > 0:
                 newLetter = hopliteaccent.accentLetter(letterToAccent, diacriticToAdd, vUnicodeMode, True)
@@ -301,7 +300,7 @@ IMPLE_NAME = "com.philolog.hoplitekb"
 SERVICE_NAME = "com.philolog.hoplitekb.Settings"
 def create(ctx, *args):    
     # pythopathフォルダのモジュールの取得。
-    return component.create(ctx, *args, imple_name=IMPLE_NAME, service_name=SERVICE_NAME, on_options_changed=setUnicodeMode)
+    return optionsdialog.create(ctx, *args, imple_name=IMPLE_NAME, service_name=SERVICE_NAME, on_options_changed=setUnicodeMode)
 # Registration
 # import unohelper
 # g_ImplementationHelper = unohelper.ImplementationHelper()
