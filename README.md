@@ -45,4 +45,4 @@ From the options menu you can select the unicode mode for diacritics.
 * Combining-only mode will use combining diacritics to type decomposed characters.  Few fonts handle combining diacritics well at this point; New Athena Unicode currently is the best.  
 
 ## Why a LibreOffice extension?  Why not offer this functionality system-wide?
-The Windows, Mac, and Linux opererating systems do not provide the keyboard with the information necessary to toggle on/off diacritics.  The Hoplite Keyboard started on iOS and Android where this information *is* provided to the keyboard.  So for Windows, Mac, and Linux the only way to implement this is inside applications.
+The Windows, Mac, and Linux operating systems do not provide the keyboard with the information necessary to toggle on/off diacritics.  The Hoplite Keyboard started on iOS and Android where this information *is* provided to the keyboard.  So for Windows, Mac, and Linux the only way to implement this is inside applications.
