@@ -6,16 +6,6 @@ from com.sun.star.lang import XServiceInfo
 from com.sun.star.awt import XActionListener
 from com.sun.star.beans import PropertyValue
 
-# import os, sys, inspect
-# # Add current directory to path to import local modules
-# cmd_folder = os.path.realpath(os.path.abspath
-#                                   (os.path.split(inspect.getfile
-#                                                  ( inspect.currentframe() ))[0]))
-# if cmd_folder not in sys.path:
-#     sys.path.insert(0, cmd_folder)
-
-#import hoplitekb
-
 # from com.sun.star.awt.PosSize import POSSIZE  # ピクセル単位でコントロールの座標を指定するときにPosSizeキーの値に使う。
 #import traceback
 

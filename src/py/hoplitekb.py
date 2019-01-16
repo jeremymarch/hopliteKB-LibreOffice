@@ -309,5 +309,3 @@ g_ImplementationHelper.addImplementation(
         HopliteKB,
         "com.philolog.hoplitekb.kb",
         ("com.sun.star.task.Job",),)
-
-

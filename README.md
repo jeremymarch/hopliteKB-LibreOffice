@@ -34,6 +34,8 @@ Use your usual Greek keyboard to type base letters.  Use this extension to add d
 8. iota subscript
 9. diaeresis
 
+The key bindings can be changed in the file Accelerators.xcu.  Then rebuild the extension and reinstall.
+
 ## Options:
 The options menu can be accessed on Mac from LibreOffice -> Preferences -> LibreOffice Writer -> Hoplite Keyboard.  On Linux and Windows it can be accessed from Tools -> Options -> LibreOffice Writer -> Hoplite Keyboard.  On all platforms it can also be accessed from Tools -> Extension Manager; then select the extension and click the Options button.  
 
@@ -41,8 +43,6 @@ From the options menu you can select the unicode mode for diacritics.
 * Precomposed mode will use precomposed characters when possible, falling back to combining diacritics for combinations where a precomposed character does not exist in the unicode standard.  
 * Precomposed with PUA (Private Use Area) mode is the same, but will also use the precomposed characters from the non-standard Private Use Area.  These characters are not standard unicode, but are supported by some fonts such as New Athena Unicode and IFAOGrec Unicode.  
 * Combining-only mode will use combining diacritics to type decomposed characters.  Few fonts handle combining diacritics well at this point; New Athena Unicode currently is the best.  
-
-The key bindings can be changed in the file Accelerators.xcu.  Then rebuild the extension and reinstall.
 
 ## Why a LibreOffice extension?  Why not offer this functionality system-wide?
 The Windows, Mac, and Linux opererating systems do not provide the keyboard with the information necessary to toggle on/off diacritics.  The Hoplite Keyboard started on iOS and Android where this information *is* provided to the keyboard.  So for Windows, Mac, and Linux the only way to implement this is inside applications.

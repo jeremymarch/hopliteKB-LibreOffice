@@ -19,8 +19,5 @@
 	</icon>
 	<dependencies>
 		<l:LibreOffice-minimal-version d:name="LibreOffice 5.2" value="5.2" />
-	<!-- 
-		<OpenOffice.org-minimal-version xmlns:d="http://openoffice.org/extensions/description/2006" d:name="OpenOffice.org 3.0" value="3.0"/>
-	-->
 	</dependencies>
 </description>

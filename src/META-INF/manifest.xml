@@ -3,27 +3,19 @@
 <!--
 		<manifest:file-entry manifest:media-type="application/vnd.sun.star.uno-component;type=Python" 
     manifest:full-path="py/hoplitekb.py"/>
-	-->			
-<!--	 <manifest:file-entry manifest:full-path="factory/WindowContentFactories.xcu" 
-		manifest:media-type="application/vnd.sun.star.configuration-data"/>
-		
-	 <manifest:file-entry manifest:full-path="factory/WriterWindowState.xcu" 
-		manifest:media-type="application/vnd.sun.star.configuration-data"/>     -->
+-->
 		
 <!--	comment out for now, jwm	
 		<manifest:file-entry manifest:full-path="Addons.xcu" 
 		manifest:media-type="application/vnd.sun.star.configuration-data"/>
-		-->
+-->
 		<manifest:file-entry manifest:full-path="Accelerators.xcu" 
 		manifest:media-type="application/vnd.sun.star.configuration-data"/>
-		
-<!--		<manifest:file-entry manifest:full-path="py/schalter.py" 
-		manifest:media-type="application/vnd.sun.star.uno-component;type=Python"/>	
-
+<!--
 		<manifest:file-entry manifest:full-path="ProtocolHandler.xcu" manifest:media-type="application/vnd.sun.star.configuration-data"/>
-		-->
+-->
 
-<manifest:file-entry
+	<manifest:file-entry
 		manifest:full-path="config.xcs"
 		manifest:media-type="application/vnd.sun.star.configuration-schema" />
 	<manifest:file-entry
