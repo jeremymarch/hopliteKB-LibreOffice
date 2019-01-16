@@ -1,7 +1,7 @@
 # HopliteKB-LibreOffice
 LibreOffice Extension implementing the Hoplite Polytonic Greek Keyboard
 
-Type polytonic Greek diacritics with ease.
+Type polytonic Greek diacritics with ease.  For LibreOffice 5.2 and up on Linux, Mac, and Windows.
 
 ## Features:
 * One key per diacritic
