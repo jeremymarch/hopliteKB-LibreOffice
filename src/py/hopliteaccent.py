@@ -140,7 +140,8 @@ COMBINING_IOTA_SUBSCRIPT   = '\u0345'
 # HYPHEN                          0x2010
 # COMMA                           0x002C
 
-#http://www.unicode.org/charts/normalization/
+
+# this list determines the order of combining diacritics:
 combiningAccents = [ COMBINING_MACRON, COMBINING_BREVE, COMBINING_DIAERESIS, COMBINING_ROUGH_BREATHING, COMBINING_SMOOTH_BREATHING, COMBINING_ACUTE, COMBINING_GRAVE, COMBINING_CIRCUMFLEX, COMBINING_IOTA_SUBSCRIPT ]
 
 letters = [ [ '\u03B1', '\u1F00', '\u1F01', '\u1F71', '\u1F04', '\u1F05', '\u1F70', '\u1F02', '\u1F03', '\u1FB6', '\u1F06', '\u1F07', '\u1FB3', '\u1F80', '\u1F81', '\u1FB4', '\u1F84', '\u1F85', '\u1FB2', '\u1F82', '\u1F83', '\u1FB7', '\u1F86', '\u1F87', '\u0000', '\u0000', '\u0000', '\u0000', '\u1FB1', '\uEB04', '\uEB07', '\uEAF3', '\uEB05', '\uEB09', '\uEAF4', '\uEB00', '\uEAF0', '\u03AC' ], 
@@ -168,7 +169,7 @@ def getPrecomposedLetter(letterIndex, diacriticBits):
     elif diacriticBits == (_ROUGH):
         accentIndex = DASIA
     elif diacriticBits == (_ACUTE):
-        accentIndex = OXIA
+        accentIndex = TONOS #OXIA, tonos is preferred: https://apagreekkeys.org/technicalDetails.html#problems
     elif diacriticBits == (_SMOOTH | _ACUTE):
         accentIndex = PSILI_AND_OXIA
     elif diacriticBits == (_ROUGH | _ACUTE):
@@ -399,12 +400,15 @@ def isLegalDiacriticForLetter(letterCode, accentToAdd):
     return True
 
 
+#a hash table could save us from looping through all this
+#we don't want to analyze via canonical decomposition because PUA characters are not canonical
 def analyzePrecomposedLetter(letter):
     for vidx in range(0, NUM_VOWEL_CODES):
         for aidx in range(0, NUM_ACCENT_CODES):
             if letter[0] == letters[vidx][aidx]:
                 return (vidx, aidx)
     return (None, None)
+
 
 def precomposedIndexToBitMask(diacriticIndex, diacriticBits):
     #don't initialize to false here because diacriticMask could have combining accents already set to true
@@ -483,7 +487,7 @@ def precomposedIndexToBitMask(diacriticIndex, diacriticBits):
     elif diacriticIndex == MACRON_AND_GRAVE:
         diacriticBits |= (_MACRON | _GRAVE)
 #endif
-    elif diacriticIndex == TONOS:
+    elif diacriticIndex == TONOS: #we conflate tonos and acute
         diacriticBits |= _ACUTE
     return diacriticBits
 

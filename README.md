@@ -46,5 +46,7 @@ From the options menu you can select the unicode mode for diacritics.
 * Precomposed with PUA (Private Use Area) mode is the same, but will also use the precomposed characters from the non-standard Private Use Area.  These characters are not standard unicode, but are supported by some fonts such as New Athena Unicode and IFAOGrec Unicode.  
 * Combining-only mode will use combining diacritics to type decomposed characters.  Few fonts handle combining diacritics well at this point; New Athena Unicode is currently the best.  
 
+There is a detailed discussion of these differences [here](https://apagreekkeys.org/technicalDetails.html).
+
 ## Why a LibreOffice extension?  Why not offer this functionality system-wide?
-The Windows, Mac, and Linux operating systems do not provide the keyboard with the information necessary to toggle on/off diacritics.  The Hoplite Keyboard started on iOS and Android where this information *is* provided to the keyboard.  So for Windows, Mac, and Linux the only way to implement this is inside applications.
+The Linux, Mac, and Windows operating systems do not provide the keyboard with the information necessary to toggle on/off diacritics.  The Hoplite Keyboard started on iOS and Android where this information *is* provided to the keyboard.  So for Linux, Mac, and Windows the only way to implement this is inside applications.
