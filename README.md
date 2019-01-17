@@ -42,11 +42,18 @@ The key bindings can be changed in the file Accelerators.xcu.  Then rebuild the 
 The options menu can be accessed on Mac from LibreOffice -> Preferences -> LibreOffice Writer -> Hoplite Keyboard.  On Linux and Windows it can be accessed from Tools -> Options -> LibreOffice Writer -> Hoplite Keyboard.  On all platforms it can also be accessed from Tools -> Extension Manager; then select the extension and click the Options button.  
 
 From the options menu you can select the unicode mode for diacritics.  
-* Precomposed mode will use precomposed characters when possible, falling back to combining diacritics for combinations where a precomposed character does not exist in the unicode standard.  
-* Precomposed with PUA (Private Use Area) mode is the same, but will also use the precomposed characters from the non-standard Private Use Area.  These characters are not standard unicode, but are supported by some fonts such as New Athena Unicode and IFAOGrec Unicode.  
-* Combining-only mode will use combining diacritics to type decomposed characters.  Few fonts handle combining diacritics well at this point; New Athena Unicode is currently the best.  
+* **Precomposed** mode uses precomposed characters when possible, falling back to combining diacritics for combinations where a precomposed character does not exist in the unicode standard.  
+* **Precomposed with PUA** (Private Use Area) mode is the same, but also uses the precomposed characters from the non-standard Private Use Area.  These characters are not standard unicode, but are supported by some fonts such as New Athena Unicode and IFAOGrec Unicode.  
+* **Combining-only** mode uses combining diacritics to type decomposed characters.  Few fonts handle combining diacritics well at this point; New Athena Unicode is currently the best.  
 
 There is a detailed discussion of these differences [here](https://apagreekkeys.org/technicalDetails.html).
 
 ## Why a LibreOffice extension?  Why not offer this functionality system-wide?
 The Linux, Mac, and Windows operating systems do not provide the keyboard with the information necessary to toggle on/off diacritics.  The Hoplite Keyboard started on iOS and Android where this information *is* provided to the keyboard.  So for Linux, Mac, and Windows the only way to implement this is inside applications.
+
+## To Do:
+* The PUA characters documented [here](https://apagreekkeys.org/technicalDetails.html) are only partially implemented (only the macron combinations on α, ι, and υ).  
+* Some uncommon characters are currently blocked, e.g. circumflex over short vowels, etc.
+* analyzePrecomposedLetter() is inefficient.  Use unicodedata to canonically decompose or create own look up table.
+
+

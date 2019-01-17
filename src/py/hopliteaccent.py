@@ -18,7 +18,7 @@
 PRECOMPOSED_MODE          = 0
 PRECOMPOSED_WITH_PUA_MODE = 1
 COMBINING_ONLY_MODE       = 2
-PRECOMPOSED_HC_MODE       = 3
+PRECOMPOSED_HC_MODE       = 3 #legacy private mode: do not use
 
 #key codes, also indexes in cancelDiacritics array
 #kNO_ACCENT       = 0
@@ -169,7 +169,7 @@ def getPrecomposedLetter(letterIndex, diacriticBits):
     elif diacriticBits == (_ROUGH):
         accentIndex = DASIA
     elif diacriticBits == (_ACUTE):
-        accentIndex = TONOS #OXIA, tonos is preferred: https://apagreekkeys.org/technicalDetails.html#problems
+        accentIndex = TONOS #OXIA: tonos is preferred: https://apagreekkeys.org/technicalDetails.html#problems
     elif diacriticBits == (_SMOOTH | _ACUTE):
         accentIndex = PSILI_AND_OXIA
     elif diacriticBits == (_ROUGH | _ACUTE):
