@@ -49,7 +49,7 @@ From the options menu you can select the Unicode mode.
 There is a detailed discussion of these differences [here](https://apagreekkeys.org/technicalDetails.html).
 
 ## Why a LibreOffice extension?  Why not offer this functionality system-wide?
-The Linux, Mac, and Windows operating systems do not provide the keyboard with the information necessary to toggle on/off diacritics.  The Hoplite Keyboard started on iOS and Android where this information *is* provided to the keyboard.  So for Linux, Mac, and Windows the only way to implement this is inside applications.
+The Linux, Mac, and Windows operating systems do not provide the keyboard with the information necessary to toggle on/off diacritics.  The Hoplite Keyboard started on [iOS](https://github.com/jeremymarch/HopliteKB-iOS) and [Android](https://github.com/jeremymarch/HopliteKB-Android) where this information *is* provided to the keyboard.  So for Linux, Mac, and Windows the only way to implement this is inside applications.
 
 ## To Do:
 * The PUA characters documented [here](https://apagreekkeys.org/technicalDetails.html) are only partially implemented (only the macron combinations on α, ι, and υ).  
