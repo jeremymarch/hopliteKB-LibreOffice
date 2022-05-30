@@ -21,7 +21,7 @@
 						<value>com.philolog.hoplitekb</value>
 					</prop>
 					<prop oor:name="EventHandlerService">
-						<value>com.philolog.hoplitekb</value>
+						<value>com.philolog.hoplitekb.OptionsDialog</value>
 					</prop>
 				</node>
 			</node>

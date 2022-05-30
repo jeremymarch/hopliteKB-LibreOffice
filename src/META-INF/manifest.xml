@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest:manifest>
-<!--
+
 		<manifest:file-entry manifest:media-type="application/vnd.sun.star.uno-component;type=Python" 
     manifest:full-path="py/hoplitekb.py"/>
--->
+
 		
-<!--	comment out for now, jwm	
+<!--	menu items for hoplitekb: comment out for now, jwm
 		<manifest:file-entry manifest:full-path="Addons.xcu" 
 		manifest:media-type="application/vnd.sun.star.configuration-data"/>
 -->
+
+<manifest:file-entry manifest:full-path="HKToolbar.xcu"
+manifest:media-type="application/vnd.sun.star.configuration-data"/>
+
+  <manifest:file-entry
+    manifest:full-path="WriterWindowState.xcu"
+    manifest:media-type="application/vnd.sun.star.configuration-data">
+  </manifest:file-entry>
+
 		<manifest:file-entry manifest:full-path="Accelerators.xcu" 
 		manifest:media-type="application/vnd.sun.star.configuration-data"/>
-<!--
+
 		<manifest:file-entry manifest:full-path="ProtocolHandler.xcu" manifest:media-type="application/vnd.sun.star.configuration-data"/>
--->
 
 	<manifest:file-entry
 		manifest:full-path="config.xcs"
@@ -21,8 +29,8 @@
 	<manifest:file-entry
 		manifest:full-path="OptionsDialog.xcu"
 		manifest:media-type="application/vnd.sun.star.configuration-data" />
-	<manifest:file-entry
+	<!--<manifest:file-entry
 		manifest:full-path="OptionsDialog.components"
-		manifest:media-type="application/vnd.sun.star.uno-components" />
+		manifest:media-type="application/vnd.sun.star.uno-components" />-->
 
 </manifest:manifest>

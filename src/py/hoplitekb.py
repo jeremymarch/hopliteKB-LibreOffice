@@ -12,12 +12,18 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 
-import os
 import sys
+import os
 import inspect
 import uno
 import unohelper
-from urllib.parse import unquote
+from com.sun.star.lang import XServiceInfo
+from com.sun.star.frame import XDispatchProvider
+from com.sun.star.frame import XDispatch
+from com.sun.star.awt import XKeyHandler
+
+#import gettext
+#_ = gettext.gettext
 
 # Add current directory to path to import local modules
 cmd_folder = os.path.realpath(os.path.abspath
@@ -29,54 +35,146 @@ if cmd_folder not in sys.path:
 import hopliteaccent
 import optionsdialog
 
-from com.sun.star.task import XJobExecutor
+ImplementationName = "com.philolog.hoplitekb.ProtocolHandler"
+ServiceName = "com.sun.star.frame.ProtocolHandler"
+Protocol = "com.philolog.hoplitekb:"
 
-#https://forum.openoffice.org/en/forum/viewtopic.php?t=43492#
-from com.sun.star.frame import (XStatusListener,
-   XDispatchProvider,
-   XDispatch, XControlNotificationListener, FeatureStateEvent)
-from com.sun.star.lang import XInitialization, XServiceInfo
 
-#from unicodedata import normalize #another way we could do some of this, but won't work for PUA 
+def getTextRange(controller):
+    xSelectionSupplier = controller
 
-# PRECOMPOSED_MODE = 0
-# PRECOMPOSED_WITH_PUA_MODE = 1
-# COMBINING_ONLY_MODE = 2
-# PRECOMPOSED_HC_MODE = 3
-vUnicodeMode = hopliteaccent.PRECOMPOSED_MODE #default
+    xIndexAccess = xSelectionSupplier.getSelection()
+    count = xIndexAccess.getCount()
+
+    # don't handle multiple selections
+    if (count != 1):
+        return None
+
+    textrange = xIndexAccess.getByIndex(0)
+
+    if (len(textrange.getString()) == 0):
+        return textrange
+    else:
+        return None
+
+
+def insertString(ctx, string):
+    smgr = ctx.getServiceManager()
+    desktop = smgr.createInstanceWithContext(
+            "com.sun.star.frame.Desktop", ctx)
+    doc = desktop.getCurrentComponent()
+    controller = doc.getCurrentController()
+    textrange = getTextRange(controller)
+    if (textrange is None):
+        return
+
+    try:
+        timestamp = string
+        if timestamp is not None:
+            textrange.setString(timestamp)
+    except Exception:
+        pass
+
+#set default
+vUnicodeMode = hopliteaccent.PRECOMPOSED_MODE 
 
 def setUnicodeMode(mode):
     global vUnicodeMode
     vUnicodeMode = mode
 
-# def get_extension_path(ctx):
-#     srv = ctx.getByName("/singletons/com.sun.star.deployment.PackageInformationProvider")
-#     extPath = unquote(srv.getPackageLocation("com.philolog.hoplitekb")) #unquote file url, was giving %02 for spaces
-#     extPath = extPath.split("://")[1] #remove "file://"
-#     return extPath
+transliterateLetters = {
+  "a": "α",
+  "b": "β",
+  "g": "γ",
+  "d": "δ",
+  "e": "ε",
+  "z": "ζ",
+  "h": "η",
+  "u": "θ",
+  "i": "ι",
+  "k": "κ",
+  "l": "λ",
+  "m": "μ",
+  "n": "ν",
+  "j": "ξ",
+  "o": "ο",
+  "p": "π",
+  "r": "ρ",
+  "s": "σ",
+  "w": "ς",
+  "t": "τ",
+  "y": "υ",
+  "f": "φ",
+  "x": "χ",
+  "c": "ψ",
+  "v": "ω",
+  "A": "Α",
+  "B": "Β",
+  "G": "Γ",
+  "D": "Δ",
+  "E": "Ε",
+  "Z": "Ζ",
+  "H": "Η",
+  "U": "Θ",
+  "I": "Ι",
+  "K": "Λ",
+  "L": "Λ",
+  "M": "Μ",
+  "N": "Ν",
+  "J": "Ξ",
+  "O": "Ο",
+  "P": "Π",
+  "R": "Ρ",
+  "S": "Σ",
+  "T": "Τ",
+  "Y": "Υ",
+  "F": "Φ",
+  "X": "Χ",
+  "C": "Ψ",
+  "V": "Ω"
+}
 
-# def getSettingsPath(ctx):
-#     path = get_extension_path(ctx)
-#     path = os.path.dirname(path) 
-#     return path + "/hoplite.txt"
+def transliterate(s):
+    return transliterateLetters.get(s)
 
-class HopliteKB( unohelper.Base, XJobExecutor ):
-    def __init__( self, ctx ):
+
+
+class KeyHandler(unohelper.Base, XKeyHandler):
+
+    def __init__(self, parent, ctx):
+        self.parent = parent
         self.ctx = ctx
-        # if vUnicodeMode < 0:
-        #     self.initializeOptionsOnce()
-        
-    def trigger( self, args ):
+
+    def keyPressed(self, oEvent):
+        letter = oEvent.KeyChar.value
+        if letter.isnumeric():
+            self.parent.toggleDiacritic(letter)
+            return True
+        a = transliterate(letter)
+        if a != None:
+            insertString(self.ctx, a)
+            return True
+        return False
+
+    def keyReleased(self, oEvent):
+        return False
+
+    def disposing(self, source):
+        pass
+
+class ToolbarHandler(unohelper.Base, XServiceInfo,
+                     XDispatchProvider, XDispatch):
+
+    def __init__(self, ctx):
+        self.ctx = ctx
+        self.kbOn = False
+        self.key_handler = KeyHandler(self, self.ctx)
+
+    def toggleDiacritic(self, args):
 
         try:
             if args is None or len(args) < 1:
                 return
-
-            # if normalize("NFC", u"α") == normalize("NFC", u"α"):
-            #     a = "abc"
-            # else:
-            #     a = "bcd"
-            #text.insertString( cursor, a, 0 ) #print exception
 
             desktop = self.ctx.ServiceManager.createInstanceWithContext( "com.sun.star.frame.Desktop", self.ctx )
 
@@ -84,43 +182,23 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
             text = doc.Text
             cursor = text.createTextCursor()
 
-            #text.insertString( cursor, "ABC: 1 :DEF", 0 ) #print exception
-            #self.writeSettings(1)
-
-            #we use a global and not class member because class is recreated for each call
-            # global vUnicodeMode #global because we are modifying it below
-            # if args == "setmodeprecomposing":
-            #     vUnicodeMode = hopliteaccent.PRECOMPOSED_MODE
-            #     self.writeSettings(vUnicodeMode)
-            #     #text.insertString( cursor, "prec ", 0 ) #print exception
-            #     return
-            # elif args == "setmodepua":
-            #     vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE
-            #     self.writeSettings(vUnicodeMode)
-            #     #text.insertString( cursor, "pua ", 0 ) #print exception
-            #     return
-            # elif args == "setmodecombining":
-            #     vUnicodeMode = hopliteaccent.COMBINING_ONLY_MODE
-            #     self.writeSettings(vUnicodeMode)
-            #     #text.insertString( cursor, "combining ", 0 ) #print exception
-            #     return
-            if args == "acute":
+            if args == "3":#"acute":
                 diacriticToAdd = hopliteaccent.kACUTE
-            elif args == "circumflex":
+            elif args == "5":#"circumflex":
                 diacriticToAdd = hopliteaccent.kCIRCUMFLEX
-            elif args == "grave":
+            elif args == "4":#"grave":
                 diacriticToAdd = hopliteaccent.kGRAVE
-            elif args == "macron":
+            elif args == "6":#"macron":
                 diacriticToAdd = hopliteaccent.kMACRON
-            elif args == "rough":
+            elif args == "1":#"rough":
                 diacriticToAdd = hopliteaccent.kROUGH_BREATHING
-            elif args == "smooth":
+            elif args == "2":#"smooth":
                 diacriticToAdd = hopliteaccent.kSMOOTH_BREATHING
-            elif args == "iotasub":
+            elif args == "8":#"iotasub":
                 diacriticToAdd = hopliteaccent.kIOTA_SUBSCRIPT
-            elif args == "diaeresis":
+            elif args == "9":#"diaeresis":
                 diacriticToAdd = hopliteaccent.kDIAERESIS
-            elif args == "breve":
+            elif args == "7":#"breve":
                 diacriticToAdd = hopliteaccent.kBREVE
             else:
                 return
@@ -161,116 +239,66 @@ class HopliteKB( unohelper.Base, XJobExecutor ):
             #print('hello python to console')
             pass
 
+    # XServiceInfo
+    def supportsService(self, name):
+        return (name == ServiceName)
 
-# IMPL_NAME = "com.philolog.hoplitekbTest"
+    def getImplementationName(self):
+        return ImplementationName
 
+    def getSupportedServiceNames(self):
+        return (ServiceName,)
 
-# class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
-#    def __init__(self, frame, ctx):
-#       self.frame = frame
-#       self.ctx = ctx
-#       #self.state = False
-#       self.listener = None
+    def startkb(self):
+        smgr = self.ctx.getServiceManager()
+        self.desktop = smgr.createInstanceWithContext(
+            "com.sun.star.frame.Desktop", self.ctx)
+        doc = self.desktop.getCurrentComponent()
+        controller = doc.getCurrentController()
+        controller.addKeyHandler(self.key_handler)
+        self.kbOn = True
 
-#    # XDispatch
-#    def dispatch(self, url, args):
-#       #self.state = not self.state
+    def stopkb(self):
+        smgr = self.ctx.getServiceManager()
+        self.desktop = smgr.createInstanceWithContext(
+            "com.sun.star.frame.Desktop", self.ctx)
+        doc = self.desktop.getCurrentComponent()
+        controller = doc.getCurrentController()
+        controller.removeKeyHandler(self.key_handler)
+        self.kbOn = False
 
-#       ev = self.create_simple_event(url, True)
-#       self.listener.statusChanged(ev)
-      
-#       self.setMode(url.Path)
+    # XDispatchProvider
+    def queryDispatch(self, url, target_frame_name, search_flags):
+        if url.Protocol != Protocol:
+            return None
+        return self
 
-#       paths = ["setmodeprecomposing", "setmodepua", "setmodecombining"]
-#       paths.remove(url.Path)
+    def queryDispatches(self, requests):
+        #never called
+        dispatches = \
+            [self.queryDispatch(r.FeatureURL, r.FrameName, r.SearchFlags)
+                for r in requests]
+        return dispatches
 
-#       #unset other modes
-#       for p in paths:
-#         url.Path = p
-#         url.Main = "com.philolog.hoplitekb:" + p
-#         url.Complete = "com.philolog.hoplitekb:" + p
-#         ev2 = self.create_simple_event(url, False)
-#         self.listener.statusChanged(ev2)
-   
-#    def addStatusListener(self, listener, url):
-#       self.listener = listener
-   
-#    def removeStatusListener(self, listener, url): pass
-   
-#    # XControlNotificationListener
-#    def controlEvent(self, ev): pass
-   
-#    def create_simple_event(self, url, state, enabled=True):
-#       return FeatureStateEvent(self, url, "", enabled, False, state)
-   
-   
-#    def setMode(self, mode):
-#      global vUnicodeMode
-#      if mode == "setmodeprecomposing":
-#         vUnicodeMode = hopliteaccent.PRECOMPOSED_MODE
-#      elif mode == "setmodepua":
-#         vUnicodeMode = hopliteaccent.PRECOMPOSED_WITH_PUA_MODE
-#      elif mode == "setmodecombining":   
-#         vUnicodeMode = hopliteaccent.COMBINING_ONLY_MODE
-#      self.writeSettings(vUnicodeMode)  
-    
-#       # if self.frame:
-#       #    controller = self.frame.getController()
-#       #    doc = controller.getModel()
-#       #    if doc.supportsService("com.sun.star.text.TextDocument"):
-#       #       doc.getText().setString("New state: %s" % url)
+    # XDispatch
+    def dispatch(self, url, args):
+        if url.Protocol == Protocol:
+            if url.Path == "open":
+                if self.kbOn:
+                    self.stopkb()
+                else:
+                    self.startkb()
 
-#    def writeSettings(self, vUnicodeMode):
-#         path = getSettingsPath(self.ctx) 
-#         file = open(path, "w+") 
-#         file.write( str(vUnicodeMode) ) 
-#         file.close() 
+# uno implementation
+g_ImplementationHelper = unohelper.ImplementationHelper()
+
+g_ImplementationHelper.addImplementation(
+    ToolbarHandler,
+    ImplementationName,
+    (ServiceName,),)
 
 
-# class HopliteKBPh(unohelper.Base, XInitialization, XDispatchProvider, XServiceInfo):
-#    def __init__(self, ctx, *args):
-#       self.frame = None
-#       self.ctx = ctx
-   
-#    # XInitialization
-#    def initialize(self, args):
-#       if len(args) > 0:
-#          self.frame = args[0]
-#       global vUnicodeMode
-#       vUnicodeMode = self.readSettings()
-      
-
-#    def readSettings(self):
-#       path = getSettingsPath(self.ctx) 
-#       file = open(path, "r") 
-#       mode = file.read(1) #read one char
-#       file.close()
-#       if mode == hopliteaccent.PRECOMPOSED_MODE or mode == hopliteaccent.PRECOMPOSED_WITH_PUA_MODE or mode == hopliteaccent.COMBINING_ONLY_MODE:
-#          return mode
-#       else:
-#          return hopliteaccent.PRECOMPOSED_MODE #default to precomposed
-   
-#    # XDispatchProvider
-#    def queryDispatch(self, url, name, flag):
-#       dispatch = None
-#       if url.Protocol == "com.philolog.hoplitekb:":
-#          try:
-#             dispatch = Dispatcher(self.frame, self.ctx)
-#          except Exception as e:
-#             print(e)
-#       return dispatch
-   
-#    def queryDispatches(self, descs):
-#       pass
-   
-#    # XServiceInfo
-#    def supportsService(self, name):
-#       return (name == "com.sun.star.frame.ProtocolHandler")
-#    def getImplementationName(self):
-#       return IMPL_NAME
-#    def getSupportedServiceNames(self):
-#       return ("com.sun.star.frame.ProtocolHandler",)
-
+# Settings
 def initializeOptionsOnce():
     ctx = uno.getComponentContext()
     smgr = ctx.getServiceManager()
@@ -288,24 +316,10 @@ def initializeOptionsOnce():
         setUnicodeMode(0)
 
 initializeOptionsOnce()
-        
-g_ImplementationHelper = unohelper.ImplementationHelper()
 
-# g_ImplementationHelper.addImplementation(
-#    HopliteKBPh,
-#     "com.philolog.hoplitekbTest",
-#    ("com.sun.star.frame.ProtocolHandler",),)
-
-
-IMPLE_NAME = "com.philolog.hoplitekb"
-SERVICE_NAME = "com.philolog.hoplitekb.Settings"
-def create(ctx, *args):    
-    # pythopathフォルダのモジュールの取得。
+IMPLE_NAME = "com.philolog.hoplitekb.OptionsDialog"
+SERVICE_NAME = "com.philolog.hoplitekb.OptionsDialog"
+def create(ctx, *args):
     return optionsdialog.create(ctx, *args, imple_name=IMPLE_NAME, service_name=SERVICE_NAME, on_options_changed=setUnicodeMode)
 
 g_ImplementationHelper.addImplementation(create, IMPLE_NAME, (SERVICE_NAME,),)
-
-g_ImplementationHelper.addImplementation(
-        HopliteKB,
-        "com.philolog.hoplitekb.kb",
-        ("com.sun.star.task.Job",),)
