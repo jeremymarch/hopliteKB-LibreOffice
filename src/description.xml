@@ -15,7 +15,7 @@
 	</extension-description>
 	<identifier value="com.philolog.hoplitekb" />
 	<icon>
-		<default xlink:href="icons/extension.png" />
+		<default xlink:href="images/hop48.png" />
 	</icon>
 	<dependencies>
 		<l:LibreOffice-minimal-version d:name="LibreOffice 5.2" value="5.2" />

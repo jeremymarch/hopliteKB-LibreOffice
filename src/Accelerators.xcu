@@ -5,58 +5,11 @@
   <node oor:name="PrimaryKeys">
     <node oor:name="Modules">
       <node oor:name="com.sun.star.text.TextDocument">
-        <node oor:name="1_MOD1" oor:op="replace">
+        <!--<node oor:name="H_MOD1" oor:op="replace">
           <prop oor:name="Command">
-            <value xml:lang="en-US">service:com.philolog.hoplitekb.kb?rough</value>
+            <value xml:lang="en-US">com.philolog.hoplitekb:open</value>
           </prop>
-        </node>
-        
-        <node oor:name="2_MOD1" oor:op="replace">
-          <prop oor:name="Command">
-            <value xml:lang="en-US">service:com.philolog.hoplitekb.kb?smooth</value>
-          </prop>
-        </node>
-
-        <node oor:name="3_MOD1" oor:op="replace">
-          <prop oor:name="Command">
-            <value xml:lang="en-US">service:com.philolog.hoplitekb.kb?acute</value>
-          </prop>
-        </node>
-
-        <node oor:name="4_MOD1" oor:op="replace">
-          <prop oor:name="Command">
-            <value xml:lang="en-US">service:com.philolog.hoplitekb.kb?grave</value>
-          </prop>
-        </node>
-
-        <node oor:name="5_MOD1" oor:op="replace">
-          <prop oor:name="Command">
-            <value xml:lang="en-US">service:com.philolog.hoplitekb.kb?circumflex</value>
-          </prop>
-        </node>
-        <node oor:name="6_MOD1" oor:op="replace">
-          <prop oor:name="Command">
-            <value xml:lang="en-US">service:com.philolog.hoplitekb.kb?macron</value>
-          </prop>
-        </node>  
-
-        <node oor:name="7_MOD1" oor:op="replace">
-          <prop oor:name="Command">
-            <value xml:lang="en-US">service:com.philolog.hoplitekb.kb?breve</value>
-          </prop>
-        </node>
-        <node oor:name="8_MOD1" oor:op="replace">
-          <prop oor:name="Command">
-            <value xml:lang="en-US">service:com.philolog.hoplitekb.kb?iotasub</value>
-          </prop>
-        </node>    
-
-        <node oor:name="9_MOD1" oor:op="replace">
-          <prop oor:name="Command">
-            <value xml:lang="en-US">service:com.philolog.hoplitekb.kb?diaeresis</value>
-          </prop>
-        </node>
-                 
+        </node>  -->
       </node>
     </node>
   </node>
