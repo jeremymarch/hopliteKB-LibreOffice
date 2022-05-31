@@ -3,7 +3,7 @@
   <node oor:name="AddonUI">
     <node oor:name="OfficeToolBar">
       <node oor:name="com.philolog.hoplitekb.toolbar" oor:op="replace">
-        <node oor:name="button1" oor:op="replace">
+        <node oor:name="com.philolog.hoplitekb.button1" oor:op="replace">
           <prop oor:name="URL" oor:type="xs:string">
             <value>com.philolog.hoplitekb:open</value>
           </prop>

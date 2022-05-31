@@ -154,8 +154,7 @@ class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
     def dispatch(self, url, args):
         self.state = not self.state
         ev = self.create_simple_event(url, self.state)
-        self.listener.statusChanged(ev)
-
+        self.listener.statusChanged(ev) #this shades the button to indicate toggled state
         self.toggle_action()
 	
     def addStatusListener(self, listener, url):
@@ -167,7 +166,7 @@ class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
     def controlEvent(self, ev): pass
 	
     def create_simple_event(self, url, state, enabled=True):
-        return FeatureStateEvent(self, url, "", enabled, False, state) #this shades the button to indicate toggled state
+        return FeatureStateEvent(self, url, "", enabled, False, state)
 	
     def toggle_action(self):
         if self.state == False:
@@ -182,6 +181,13 @@ class KeyHandler(unohelper.Base, XKeyHandler):
         self.ctx = ctx
 
     def keyPressed(self, oEvent):
+        #do not interfere with modified keys except shift
+        #1 shift                SHIFT
+        #2 control/command      MOD1
+        #4 alt                  MOD2
+        #8 control on macOS     MOD3
+        if oEvent.Modifiers != 0 and oEvent.Modifiers != 1:
+            return False
         letter = oEvent.KeyChar.value
         if letter.isnumeric():
             self.parent.toggleDiacritic(letter)
@@ -292,6 +298,7 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
                     dispatch = Dispatcher(self)
                 except Exception as e:
                     print(e)
+                    #insertString(self.ctx, str(e))
             return dispatch
 
     def queryDispatches(self, requests):
