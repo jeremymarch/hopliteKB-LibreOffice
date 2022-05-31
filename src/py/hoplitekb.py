@@ -12,6 +12,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 
+#toggle button modeled after: https://forum.openoffice.org/en/forum/viewtopic.php?p=200474#p200474
+
 import sys
 import os
 import inspect
@@ -21,6 +23,11 @@ from com.sun.star.lang import XServiceInfo
 from com.sun.star.frame import XDispatchProvider
 from com.sun.star.frame import XDispatch
 from com.sun.star.awt import XKeyHandler
+
+from com.sun.star.frame import (XStatusListener, 
+	XDispatchProvider, 
+	XDispatch, XControlNotificationListener, FeatureStateEvent)
+from com.sun.star.lang import XInitialization, XServiceInfo
 
 #import gettext
 #_ = gettext.gettext
@@ -137,7 +144,36 @@ transliterateLetters = {
 def transliterate(s):
     return transliterateLetters.get(s)
 
+class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
+    def __init__(self, parent):
+        self.state = False
+        self.listener = None
+        self.parent = parent
+	
+	# XDispatch
+    def dispatch(self, url, args):
+        self.state = not self.state
+        ev = self.create_simple_event(url, self.state)
+        self.listener.statusChanged(ev)
 
+        self.toggle_action()
+	
+    def addStatusListener(self, listener, url):
+        self.listener = listener
+	
+    def removeStatusListener(self, listener, url): pass
+	
+	# XControlNotificationListener
+    def controlEvent(self, ev): pass
+	
+    def create_simple_event(self, url, state, enabled=True):
+        return FeatureStateEvent(self, url, "", enabled, False, state) #this shades the button to indicate toggled state
+	
+    def toggle_action(self):
+        if self.state == False:
+            self.parent.stopkb()
+        else:
+            self.parent.startkb()
 
 class KeyHandler(unohelper.Base, XKeyHandler):
 
@@ -167,7 +203,6 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
 
     def __init__(self, ctx):
         self.ctx = ctx
-        self.kbOn = False
         self.key_handler = KeyHandler(self, self.ctx)
 
     def toggleDiacritic(self, args):
@@ -249,29 +284,15 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
     def getSupportedServiceNames(self):
         return (ServiceName,)
 
-    def startkb(self):
-        smgr = self.ctx.getServiceManager()
-        self.desktop = smgr.createInstanceWithContext(
-            "com.sun.star.frame.Desktop", self.ctx)
-        doc = self.desktop.getCurrentComponent()
-        controller = doc.getCurrentController()
-        controller.addKeyHandler(self.key_handler)
-        self.kbOn = True
-
-    def stopkb(self):
-        smgr = self.ctx.getServiceManager()
-        self.desktop = smgr.createInstanceWithContext(
-            "com.sun.star.frame.Desktop", self.ctx)
-        doc = self.desktop.getCurrentComponent()
-        controller = doc.getCurrentController()
-        controller.removeKeyHandler(self.key_handler)
-        self.kbOn = False
-
     # XDispatchProvider
-    def queryDispatch(self, url, target_frame_name, search_flags):
-        if url.Protocol != Protocol:
-            return None
-        return self
+    def queryDispatch(self, url, name, flag):
+            dispatch = None
+            if url.Protocol == Protocol:
+                try:
+                    dispatch = Dispatcher(self)
+                except Exception as e:
+                    print(e)
+            return dispatch
 
     def queryDispatches(self, requests):
         #never called
@@ -280,14 +301,31 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
                 for r in requests]
         return dispatches
 
+    def startkb(self):
+        smgr = self.ctx.getServiceManager()
+        self.desktop = smgr.createInstanceWithContext(
+            "com.sun.star.frame.Desktop", self.ctx)
+        doc = self.desktop.getCurrentComponent()
+        controller = doc.getCurrentController()
+        #controller.removeKeyHandler(self.key_handler) #be sure there is only
+        controller.addKeyHandler(self.key_handler)
+
+    def stopkb(self):
+        smgr = self.ctx.getServiceManager()
+        self.desktop = smgr.createInstanceWithContext(
+            "com.sun.star.frame.Desktop", self.ctx)
+        doc = self.desktop.getCurrentComponent()
+        controller = doc.getCurrentController()
+        controller.removeKeyHandler(self.key_handler)
+
     # XDispatch
-    def dispatch(self, url, args):
-        if url.Protocol == Protocol:
-            if url.Path == "open":
-                if self.kbOn:
-                    self.stopkb()
-                else:
-                    self.startkb()
+    # def dispatch(self, url, args):
+    #     if url.Protocol == Protocol:
+    #         if url.Path == "open":
+    #             if self.kbOn:
+    #                 self.stopkb()
+    #             else:
+    #                 self.startkb()
 
 # uno implementation
 g_ImplementationHelper = unohelper.ImplementationHelper()

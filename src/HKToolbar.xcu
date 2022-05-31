@@ -7,6 +7,9 @@
           <prop oor:name="URL" oor:type="xs:string">
             <value>com.philolog.hoplitekb:open</value>
           </prop>
+          <prop oor:name="ControlType">
+					  <value>ToggleButton</value>
+				  </prop>
           <prop oor:name="Title" oor:type="xs:string">
             <value xml:lang="en-US">Toggle Hoplite Keyboard</value>
           </prop>
