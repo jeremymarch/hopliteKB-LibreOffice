@@ -40,5 +40,23 @@
    </dlg:radio>
 </dlg:radiogroup>
 
+
+<dlg:titledbox dlg:id="InstructionsBox" dlg:left="3" dlg:top="80" dlg:width="90" dlg:height="122">
+<dlg:title dlg:value="Diacritic Keys"/>
+</dlg:titledbox>
+
+<dlg:text dlg:id="rough" dlg:left="8" dlg:top="92" dlg:width="232" dlg:height="8" dlg:value="1 - Rough breathing"/>
+<dlg:text dlg:id="smooth" dlg:left="8" dlg:top="104" dlg:width="232" dlg:height="8" dlg:value="2 - Smooth breathing"/>
+<dlg:text dlg:id="acute" dlg:left="8" dlg:top="116" dlg:width="232" dlg:height="8" dlg:value="3 - Acute"/>
+<dlg:text dlg:id="grave" dlg:left="8" dlg:top="128" dlg:width="232" dlg:height="8" dlg:value="4 - Grave"/>
+<dlg:text dlg:id="circumflex" dlg:left="8" dlg:top="140" dlg:width="232" dlg:height="8" dlg:value="5 - Circumflex"/>
+<dlg:text dlg:id="macron" dlg:left="8" dlg:top="152" dlg:width="232" dlg:height="8" dlg:value="6 - Macron"/>
+<dlg:text dlg:id="breve" dlg:left="8" dlg:top="164" dlg:width="232" dlg:height="8" dlg:value="7 - Breve"/>
+<dlg:text dlg:id="iota" dlg:left="8" dlg:top="176" dlg:width="232" dlg:height="8" dlg:value="8 - Iota subscript"/>
+<dlg:text dlg:id="diaeresis" dlg:left="8" dlg:top="188" dlg:width="232" dlg:height="8" dlg:value="9 - Diaeresis"/>
+<!--<dlg:text dlg:id="underdot" dlg:left="8" dlg:top="104" dlg:width="232" dlg:height="8" dlg:value="0"/>-->
+
+ 
+
 </dlg:bulletinboard>
 </dlg:window>

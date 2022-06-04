@@ -9,7 +9,7 @@
 	<publisher>
 		<name lang="en" xlink:href="https://github.com/jeremymarch/HopliteKB-LibreOffice">jeremymarch</name>
 	</publisher>
-	<version value="2.0.1" />
+	<version value="2.0-beta" />
 	<extension-description>
 		<src lang="en" xlink:href="descriptions/description_en.txt" />
 	</extension-description>
@@ -18,6 +18,6 @@
 		<default xlink:href="images/hop48.png" />
 	</icon>
 	<dependencies>
-		<l:LibreOffice-minimal-version d:name="LibreOffice 5.2" value="5.2" />
+		<l:LibreOffice-minimal-version d:name="LibreOffice 6.2" value="6.2" />
 	</dependencies>
 </description>
