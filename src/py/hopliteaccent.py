@@ -383,7 +383,7 @@ def updateDiacritics(letterIndex, diacriticBits, accentToAdd, toggleOff):
 def isLegalDiacriticForLetter(letterCode, accentToAdd):
     #match these strings to the arguments in the accelerators
     if accentToAdd == kCIRCUMFLEX:
-        if letterCode != ALPHA and letterCode != ETA and letterCode != IOTA and letterCode != UPSILON and letterCode != OMEGA and letterCode != ALPHA_CAP and letterCode != ETA_CAP and letterCode != IOTA_CAP and letterCode != UPSILON_CAP and letterCode != OMEGA_CAP:
+        if letterCode != ALPHA and letterCode != ETA and letterCode != IOTA and letterCode != UPSILON and letterCode != OMEGA:# and letterCode != ALPHA_CAP and letterCode != ETA_CAP and letterCode != IOTA_CAP and letterCode != UPSILON_CAP and letterCode != OMEGA_CAP:
             return False
     elif accentToAdd == kMACRON:
         if letterCode != ALPHA and letterCode != IOTA and letterCode != UPSILON and letterCode != ALPHA_CAP and letterCode != IOTA_CAP and letterCode != UPSILON_CAP:
