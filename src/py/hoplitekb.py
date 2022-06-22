@@ -5,7 +5,7 @@
 #  HopliteKB-LibreOffice
 #
 #  Created by Jeremy March on 12/06/18.
-#  Copyright (c) 2018 Jeremy March. All rights reserved.
+#  Copyright (c) 2018-2022 Jeremy March. All rights reserved.
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -59,10 +59,11 @@ def getTextRange(controller):
 
     textrange = xIndexAccess.getByIndex(0)
 
-    if (len(textrange.getString()) == 0):
-        return textrange
-    else:
-        return None
+    # if (len(textrange.getString()) == 0):
+    #     return textrange
+    # else:
+    #     return None
+    return textrange #allow ranges with length greater than zero: will replace whole range with character
 
 
 def insertString(ctx, string):
