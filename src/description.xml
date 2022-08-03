@@ -9,7 +9,7 @@
 	<publisher>
 		<name lang="en" xlink:href="https://github.com/jeremymarch/HopliteKB-LibreOffice">jeremymarch</name>
 	</publisher>
-	<version value="2.0-beta3" />
+	<version value="2.0" />
 	<extension-description>
 		<src lang="en" xlink:href="descriptions/description_en.txt" />
 	</extension-description>
