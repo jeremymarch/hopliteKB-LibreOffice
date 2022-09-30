@@ -20,6 +20,34 @@
 			<prop
 				oor:name="UnicodeMode"
 				oor:type="xs:string" />
+			
+			<prop
+			        oor:name="roughKey"
+				oor:type="xs:string" />
+			<prop
+			        oor:name="smoothKey"
+				oor:type="xs:string" />
+			<prop
+			        oor:name="acuteKey"
+				oor:type="xs:string" />
+			<prop
+				oor:name="graveKey"
+				oor:type="xs:string" />
+			<prop
+				oor:name="circumflexKey"
+				oor:type="xs:string" />
+			<prop
+				oor:name="macronKey"
+				oor:type="xs:string" />
+			<prop
+				oor:name="breveKey"
+				oor:type="xs:string" />
+			<prop
+				oor:name="iotaKey"
+				oor:type="xs:string" />
+			<prop
+				oor:name="diaresisKey"
+				oor:type="xs:string" />
 			<group oor:name="Defaults">
 				<prop
 					oor:name="Width"
@@ -35,6 +63,51 @@
 					oor:name="UnicodeMode"
 					oor:type="xs:string">
 					<value>Precomposed</value>
+				</prop>
+				<prop
+					oor:name="roughKey"
+					oor:type="xs:string">
+					<value>1</value>
+				</prop>
+				<prop
+					oor:name="smoothKey"
+					oor:type="xs:string">
+					<value>2</value>
+				</prop>
+				<prop
+					oor:name="acuteKey"
+					oor:type="xs:string">
+					<value>3</value>
+				</prop>
+				<prop
+					oor:name="graveKey"
+					oor:type="xs:string">
+					<value>4</value>
+				</prop>
+				<prop
+					oor:name="circumflexKey"
+					oor:type="xs:string">
+					<value>5</value>
+				</prop>
+				<prop
+					oor:name="macronKey"
+					oor:type="xs:string">
+					<value>6</value>
+				</prop>
+				<prop
+					oor:name="breveKey"
+					oor:type="xs:string">
+					<value>7</value>
+				</prop>
+				<prop
+					oor:name="iotaKey"
+					oor:type="xs:string">
+					<value>8</value>
+				</prop>
+				<prop
+					oor:name="diaresisKey"
+					oor:type="xs:string">
+					<value>9</value>
 				</prop>
 			</group>
 		</group>

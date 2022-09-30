@@ -13,50 +13,40 @@
 	dlg:withtitlebar="false">
 <dlg:styles>
   <dlg:style dlg:style-id="0" dlg:font-weight="150"/>
-</dlg:styles>
-<dlg:bulletinboard>
-	<!--
-	<dlg:combobox dlg:id="UnicodeMode" dlg:left="8" dlg:top="63" dlg:width="158" dlg:height="51" dlg:help-text="Unicode Help">
-   <dlg:menupopup>
-    <dlg:menuitem dlg:value="Precomposed"/>
-    <dlg:menuitem dlg:value="Precomposed with PUA"/>
-    <dlg:menuitem dlg:value="Combining-Only"/>
-   </dlg:menupopup>
-  </dlg:combobox>
--->
-
-<dlg:text dlg:id="HKBTitle" dlg:style-id="0" dlg:left="3" dlg:top="3" dlg:width="155" dlg:height="8" dlg:value="Hoplite Polytonic Greek Keyboard Settings"/>
-
-<dlg:titledbox dlg:id="options" dlg:left="3" dlg:top="18" dlg:width="90" dlg:height="50">
-<dlg:title dlg:value="Unicode Mode"/>
-</dlg:titledbox>
-
-<dlg:radiogroup>
-   <dlg:radio dlg:id="PrecomposedOption" dlg:tab-index="1" dlg:left="8" dlg:top="23" dlg:width="232" dlg:height="21" dlg:value="Precomposed" dlg:multiline="true" dlg:valign="center" dlg:help-text="Use precomposed unicode characters where possible.">
-   </dlg:radio>
-   <dlg:radio dlg:id="PrecomposedPUAOption" dlg:tab-index="2" dlg:left="8" dlg:top="35" dlg:width="232" dlg:height="21" dlg:value="Precomposed with PUA" dlg:multiline="true" dlg:valign="center" dlg:help-text="Use precomposed unicode characters including private use area characters where possible.">
-   </dlg:radio>
-   <dlg:radio dlg:id="CombiningOption" dlg:tab-index="3" dlg:left="8" dlg:top="47" dlg:width="232" dlg:height="21" dlg:value="Combining-Only" dlg:multiline="true" dlg:valign="center" dlg:help-text="Use combining characters for diacritics.">
-   </dlg:radio>
-</dlg:radiogroup>
-
-
-<dlg:titledbox dlg:id="InstructionsBox" dlg:left="3" dlg:top="80" dlg:width="90" dlg:height="122">
-<dlg:title dlg:value="Diacritic Keys"/>
-</dlg:titledbox>
-
-<dlg:text dlg:id="rough" dlg:left="8" dlg:top="92" dlg:width="232" dlg:height="8" dlg:value="1 - Rough breathing"/>
-<dlg:text dlg:id="smooth" dlg:left="8" dlg:top="104" dlg:width="232" dlg:height="8" dlg:value="2 - Smooth breathing"/>
-<dlg:text dlg:id="acute" dlg:left="8" dlg:top="116" dlg:width="232" dlg:height="8" dlg:value="3 - Acute"/>
-<dlg:text dlg:id="grave" dlg:left="8" dlg:top="128" dlg:width="232" dlg:height="8" dlg:value="4 - Grave"/>
-<dlg:text dlg:id="circumflex" dlg:left="8" dlg:top="140" dlg:width="232" dlg:height="8" dlg:value="5 - Circumflex"/>
-<dlg:text dlg:id="macron" dlg:left="8" dlg:top="152" dlg:width="232" dlg:height="8" dlg:value="6 - Macron"/>
-<dlg:text dlg:id="breve" dlg:left="8" dlg:top="164" dlg:width="232" dlg:height="8" dlg:value="7 - Breve"/>
-<dlg:text dlg:id="iota" dlg:left="8" dlg:top="176" dlg:width="232" dlg:height="8" dlg:value="8 - Iota subscript"/>
-<dlg:text dlg:id="diaeresis" dlg:left="8" dlg:top="188" dlg:width="232" dlg:height="8" dlg:value="9 - Diaeresis"/>
-<!--<dlg:text dlg:id="underdot" dlg:left="8" dlg:top="104" dlg:width="232" dlg:height="8" dlg:value="0"/>-->
-
- 
-
+ </dlg:styles>
+ <dlg:bulletinboard>
+  <dlg:text dlg:style-id="0" dlg:id="HKBTitle" dlg:tab-index="0" dlg:left="3" dlg:top="3" dlg:width="155" dlg:height="8" dlg:value="Hoplite Polytonic Greek Keyboard Settings"/>
+  <dlg:titledbox dlg:id="options" dlg:tab-index="1" dlg:left="3" dlg:top="18" dlg:width="90" dlg:height="50">
+   <dlg:title dlg:value="Unicode Mode"/>
+  </dlg:titledbox>
+  <dlg:radiogroup>
+   <dlg:radio dlg:id="PrecomposedOption" dlg:tab-index="12" dlg:left="8" dlg:top="23" dlg:width="232" dlg:height="21" dlg:help-text="Use precomposed unicode characters where possible." dlg:value="Precomposed" dlg:valign="center" dlg:multiline="true"/>
+   <dlg:radio dlg:id="PrecomposedPUAOption" dlg:tab-index="13" dlg:left="8" dlg:top="35" dlg:width="232" dlg:height="21" dlg:help-text="Use precomposed unicode characters including private use area characters where possible." dlg:value="Precomposed with PUA" dlg:valign="center" dlg:multiline="true"/>
+   <dlg:radio dlg:id="CombiningOption" dlg:tab-index="14" dlg:left="8" dlg:top="47" dlg:width="232" dlg:height="21" dlg:help-text="Use combining characters for diacritics." dlg:value="Combining-Only" dlg:valign="center" dlg:multiline="true"/>
+  </dlg:radiogroup>
+  <dlg:titledbox dlg:id="InstructionsBox" dlg:tab-index="2" dlg:left="3" dlg:top="80" dlg:width="90" dlg:height="122">
+   <dlg:title dlg:value="Diacritic Keys"/>
+  </dlg:titledbox>
+  <dlg:text dlg:id="rough" dlg:tab-index="3" dlg:left="16" dlg:top="92" dlg:width="224" dlg:height="8" dlg:value="- Rough breathing"/>
+  <dlg:text dlg:id="smooth" dlg:tab-index="4" dlg:left="16" dlg:top="104" dlg:width="224" dlg:height="8" dlg:value="- Smooth breathing"/>
+  <dlg:text dlg:id="acute" dlg:tab-index="5" dlg:left="16" dlg:top="116" dlg:width="224" dlg:height="8" dlg:value="- Acute"/>
+  <dlg:text dlg:id="grave" dlg:tab-index="6" dlg:left="16" dlg:top="128" dlg:width="226" dlg:height="8" dlg:value="- Grave"/>
+  <dlg:text dlg:id="circumflex" dlg:tab-index="7" dlg:left="16" dlg:top="140" dlg:width="232" dlg:height="8" dlg:value="- Circumflex"/>
+  <dlg:text dlg:id="macron" dlg:tab-index="8" dlg:left="16" dlg:top="152" dlg:width="232" dlg:height="8" dlg:value="- Macron"/>
+  <dlg:text dlg:id="breve" dlg:tab-index="9" dlg:left="16" dlg:top="164" dlg:width="232" dlg:height="8" dlg:value="- Breve"/>
+  <dlg:text dlg:id="iota" dlg:tab-index="10" dlg:left="16" dlg:top="176" dlg:width="232" dlg:height="8" dlg:value="- Iota subscript"/>
+  <dlg:text dlg:id="diaeresis" dlg:tab-index="11" dlg:left="16" dlg:top="188" dlg:width="232" dlg:height="8" dlg:value="- Diaeresis"/>
+  <!--<dlg:text dlg:id="underdot" dlg:left="8" dlg:top="104" dlg:width="232" dlg:height="8" dlg:value="0"/>-->
+  
+  <dlg:textfield dlg:id="roughKey" dlg:tab-index="15" dlg:left="8" dlg:top="92" dlg:width="7" dlg:height="8" dlg:maxlength="1" dlg:value="1"/>
+  <dlg:textfield dlg:id="smoothKey" dlg:tab-index="16" dlg:left="8" dlg:top="104" dlg:width="7" dlg:height="8" dlg:maxlength="1" dlg:value="2"/>
+  <dlg:textfield dlg:id="acuteKey" dlg:tab-index="17" dlg:left="8" dlg:top="116" dlg:width="7" dlg:height="8" dlg:maxlength="1" dlg:value="3"/>
+  <dlg:textfield dlg:id="graveKey" dlg:tab-index="18" dlg:left="8" dlg:top="128" dlg:width="7" dlg:height="8" dlg:maxlength="1" dlg:value="4"/>
+  <dlg:textfield dlg:id="circumflexKey" dlg:tab-index="19" dlg:left="8" dlg:top="140" dlg:width="7" dlg:height="8" dlg:maxlength="1" dlg:value="5"/>
+  <dlg:textfield dlg:id="macronKey" dlg:tab-index="20" dlg:left="8" dlg:top="152" dlg:width="7" dlg:height="8" dlg:maxlength="1" dlg:value="6"/>
+  <dlg:textfield dlg:id="breveKey" dlg:tab-index="21" dlg:left="8" dlg:top="164" dlg:width="7" dlg:height="8" dlg:maxlength="1" dlg:value="7"/>
+  <dlg:textfield dlg:id="iotaKey" dlg:tab-index="22" dlg:left="8" dlg:top="176" dlg:width="7" dlg:height="8" dlg:maxlength="1" dlg:value="8"/>
+  <dlg:textfield dlg:id="diaresisKey" dlg:tab-index="23" dlg:left="8" dlg:top="188" dlg:width="7" dlg:height="8" dlg:maxlength="1" dlg:value="9"/>
+  <!--<dlg:textfield dlg:id="debug" dlg:tab-index="24" dlg:left="8" dlg:top="200" dlg:width="230" dlg:height="8" dlg:maxlength="0" dlg:value=""/>-->
 </dlg:bulletinboard>
 </dlg:window>
