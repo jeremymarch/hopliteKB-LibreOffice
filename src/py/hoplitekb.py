@@ -143,7 +143,9 @@ transliterateLetters = {
   "F": "Φ",
   "X": "Χ",
   "C": "Ψ",
-  "V": "Ω"
+  "V": "Ω",
+  "?": ";",
+  ";": "·"
 }
 
 def transliterate(s):
