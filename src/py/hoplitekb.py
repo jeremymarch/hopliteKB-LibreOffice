@@ -370,10 +370,10 @@ def loadDiacriticsKeys():
     ctx = uno.getComponentContext()
     smgr = ctx.getServiceManager()
     readConfig, writeConfig = optionsdialog.createConfigAccessor(ctx, smgr, "/com.philolog.hoplitekb.ExtensionData/Leaves/HKBSettingsNode")
-    defaults = readConfig("Defaults/Width", "Defaults/Height", "Defaults/UnicodeMode", "Defaults/roughKey", "Defaults/smoothKey", "Defaults/acuteKey", "Defaults/graveKey", "Defaults/circumflexKey", "Defaults/macronKey", "Defaults/breveKey", "Defaults/iotaKey", "Defaults/diaresisKey")
+    defaults = readConfig("Defaults/Width", "Defaults/Height", "Defaults/UnicodeMode", "Defaults/roughKey", "Defaults/smoothKey", "Defaults/acuteKey", "Defaults/graveKey", "Defaults/circumflexKey", "Defaults/macronKey", "Defaults/breveKey", "Defaults/iotaKey", "Defaults/diaeresisKey")
     #set current value
-    cfgnames = "Width", "Height", "UnicodeMode", "roughKey", "smoothKey", "acuteKey", "graveKey", "circumflexKey", "macronKey", "breveKey", "iotaKey", "diaresisKey"
-    maxwidth, maxheight, umode, roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaresisKey  = readConfig(*cfgnames)
+    cfgnames = "Width", "Height", "UnicodeMode", "roughKey", "smoothKey", "acuteKey", "graveKey", "circumflexKey", "macronKey", "breveKey", "iotaKey", "diaeresisKey"
+    maxwidth, maxheight, umode, roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaeresisKey  = readConfig(*cfgnames)
     roughKey = roughKey or defaults[3]
     smoothKey = smoothKey or defaults[4]
     acuteKey = acuteKey or defaults[5]
@@ -382,8 +382,8 @@ def loadDiacriticsKeys():
     macronKey = macronKey or defaults[8]
     breveKey = breveKey or defaults[9]
     iotaKey = iotaKey or defaults[10]
-    diaresisKey = diaresisKey or defaults[11]
-    setDiacriticsKeys([roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaresisKey])
+    diaeresisKey = diaeresisKey or defaults[11]
+    setDiacriticsKeys([roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaeresisKey])
 
 initializeOptionsOnce()
 loadDiacriticsKeys()

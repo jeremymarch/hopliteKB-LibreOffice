@@ -46,7 +46,7 @@
 				oor:name="iotaKey"
 				oor:type="xs:string" />
 			<prop
-				oor:name="diaresisKey"
+				oor:name="diaeresisKey"
 				oor:type="xs:string" />
 			<group oor:name="Defaults">
 				<prop
@@ -105,7 +105,7 @@
 					<value>8</value>
 				</prop>
 				<prop
-					oor:name="diaresisKey"
+					oor:name="diaeresisKey"
 					oor:type="xs:string">
 					<value>9</value>
 				</prop>

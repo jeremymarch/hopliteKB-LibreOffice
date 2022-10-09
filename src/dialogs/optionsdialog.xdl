@@ -46,7 +46,7 @@
   <dlg:textfield dlg:id="macronKey" dlg:tab-index="20" dlg:left="8" dlg:top="152" dlg:width="7" dlg:height="8" dlg:maxlength="1" dlg:value="6"/>
   <dlg:textfield dlg:id="breveKey" dlg:tab-index="21" dlg:left="8" dlg:top="164" dlg:width="7" dlg:height="8" dlg:maxlength="1" dlg:value="7"/>
   <dlg:textfield dlg:id="iotaKey" dlg:tab-index="22" dlg:left="8" dlg:top="176" dlg:width="7" dlg:height="8" dlg:maxlength="1" dlg:value="8"/>
-  <dlg:textfield dlg:id="diaresisKey" dlg:tab-index="23" dlg:left="8" dlg:top="188" dlg:width="7" dlg:height="8" dlg:maxlength="1" dlg:value="9"/>
+  <dlg:textfield dlg:id="diaeresisKey" dlg:tab-index="23" dlg:left="8" dlg:top="188" dlg:width="7" dlg:height="8" dlg:maxlength="1" dlg:value="9"/>
   <!--<dlg:textfield dlg:id="debug" dlg:tab-index="24" dlg:left="8" dlg:top="200" dlg:width="230" dlg:height="8" dlg:maxlength="0" dlg:value=""/>-->
 </dlg:bulletinboard>
 </dlg:window>

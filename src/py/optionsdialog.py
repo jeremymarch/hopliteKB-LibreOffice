@@ -25,15 +25,15 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 		self.reload_diacritics_keys = reload_diacritics_keys
 		self.smgr = ctx.getServiceManager()
 		self.readConfig, self.writeConfig = createConfigAccessor(ctx, self.smgr, "/com.philolog.hoplitekb.ExtensionData/Leaves/HKBSettingsNode")  # config.xcsに定義していあるコンポーネントデータノードへのパス。
-		self.cfgnames = "Width", "Height", "UnicodeMode", "roughKey", "smoothKey", "acuteKey", "graveKey", "circumflexKey", "macronKey", "breveKey", "iotaKey", "diaresisKey"
-		self.defaults = self.readConfig("Defaults/Width", "Defaults/Height", "Defaults/UnicodeMode", "Defaults/roughKey", "Defaults/smoothKey", "Defaults/acuteKey", "Defaults/graveKey", "Defaults/circumflexKey", "Defaults/macronKey", "Defaults/breveKey", "Defaults/iotaKey", "Defaults/diaresisKey")
+		self.cfgnames = "Width", "Height", "UnicodeMode", "roughKey", "smoothKey", "acuteKey", "graveKey", "circumflexKey", "macronKey", "breveKey", "iotaKey", "diaeresisKey"
+		self.defaults = self.readConfig("Defaults/Width", "Defaults/Height", "Defaults/UnicodeMode", "Defaults/roughKey", "Defaults/smoothKey", "Defaults/acuteKey", "Defaults/graveKey", "Defaults/circumflexKey", "Defaults/macronKey", "Defaults/breveKey", "Defaults/iotaKey", "Defaults/diaeresisKey")
 
 	# XContainerWindowEventHandler
 	def callHandlerMethod(self, dialog, eventname, methodname):  # ブーリアンを返す必要あり。dialogはUnoControlDialog。 eventnameは文字列initialize, ok, backのいずれか。methodnameは文字列external_event。
 		if methodname==self.METHODNAME:  # Falseのときがありうる?
 			try:
 				if eventname=="initialize":  # オプションダイアログがアクティブになった時
-					maxwidth, maxheight, umode, roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaresisKey  = self.readConfig(*self.cfgnames)  # コンポーネントデータノードの値を取得。取得した値は文字列。
+					maxwidth, maxheight, umode, roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaeresisKey  = self.readConfig(*self.cfgnames)  # コンポーネントデータノードの値を取得。取得した値は文字列。
 					umode = umode or self.defaults[2]
 					maxwidth = maxwidth or self.defaults[0]
 					maxheight = maxheight or self.defaults[1]
@@ -45,7 +45,7 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 					macronKey = macronKey or self.defaults[8]
 					breveKey = breveKey or self.defaults[9]
 					iotaKey = iotaKey or self.defaults[10]
-					diaresisKey = diaresisKey or self.defaults[11]
+					diaeresisKey = diaeresisKey or self.defaults[11]
 
 					if umode == "PrecomposedPUA":
 						dialog.getControl("PrecomposedOption").getModel().State = False
@@ -68,8 +68,8 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 					dialog.getControl("macronKey").getModel().Text = macronKey
 					dialog.getControl("breveKey").getModel().Text = breveKey
 					dialog.getControl("iotaKey").getModel().Text = iotaKey
-					dialog.getControl("diaresisKey").getModel().Text = diaresisKey
-					#dialog.getControl("debug").getModel().Text = roughKey + " ciao ciao " + smoothKey + " ciao ciao " + acuteKey + " ciao ciao " + graveKey + " ciao ciao " + circumflexKey + " ciao ciao " + macronKey + " ciao ciao " + breveKey + " ciao ciao " + iotaKey + " ciao ciao " + diaresisKey 
+					dialog.getControl("diaeresisKey").getModel().Text = diaeresisKey
+					#dialog.getControl("debug").getModel().Text = roughKey + " ciao ciao " + smoothKey + " ciao ciao " + acuteKey + " ciao ciao " + graveKey + " ciao ciao " + circumflexKey + " ciao ciao " + macronKey + " ciao ciao " + breveKey + " ciao ciao " + iotaKey + " ciao ciao " + diaeresisKey 
 
 				elif eventname=="ok":  # OKボタンが押された時
 					if dialog.getControl("PrecomposedPUAOption").getModel().State == True:
@@ -90,12 +90,12 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 					macronKey_new = dialog.getControl("macronKey").getModel().Text
 					breveKey_new = dialog.getControl("breveKey").getModel().Text
 					iotaKey_new = dialog.getControl("iotaKey").getModel().Text
-					diaresisKey_new = dialog.getControl("diaresisKey").getModel().Text
+					diaeresisKey_new = dialog.getControl("diaeresisKey").getModel().Text
 						
-					self.writeConfig(self.cfgnames, (str("300"), str("300"), str(umode), str(roughKey_new), str(smoothKey_new), str(acuteKey_new), str(graveKey_new), str(circumflexKey_new), str(macronKey_new), str(breveKey_new), str(iotaKey_new), str(diaresisKey_new)))  # 取得した値を文字列にしてコンポーネントデータノードに保存。
+					self.writeConfig(self.cfgnames, (str("300"), str("300"), str(umode), str(roughKey_new), str(smoothKey_new), str(acuteKey_new), str(graveKey_new), str(circumflexKey_new), str(macronKey_new), str(breveKey_new), str(iotaKey_new), str(diaeresisKey_new)))  # 取得した値を文字列にしてコンポーネントデータノードに保存。
 					self.reload_diacritics_keys()
 				elif eventname=="back":  # 元に戻すボタンが押された時
-					maxwidth, maxheight, umode, roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaresisKey  = self.readConfig(*self.cfgnames)
+					maxwidth, maxheight, umode, roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaeresisKey  = self.readConfig(*self.cfgnames)
 					umode = umode or self.defaults[2]
 					maxwidth = maxwidth or self.defaults[0]
 					maxheight = maxheight or self.defaults[1]
@@ -107,7 +107,7 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 					macronKey = macronKey or self.defaults[8]
 					breveKey = breveKey or self.defaults[9]
 					iotaKey = iotaKey or self.defaults[10]
-					diaresisKey = diaresisKey or self.defaults[11]
+					diaeresisKey = diaeresisKey or self.defaults[11]
 					if umode == "PrecomposedPUA":
 						dialog.getControl("PrecomposedOption").getModel().State = False
 						dialog.getControl("PrecomposedPUAOption").getModel().State = True
@@ -129,7 +129,7 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 					dialog.getControl("macronKey").getModel().Text = macronKey
 					dialog.getControl("breveKey").getModel().Text = breveKey
 					dialog.getControl("iotaKey").getModel().Text = iotaKey
-					dialog.getControl("diaresisKey").getModel().Text = diaresisKey
+					dialog.getControl("diaeresisKey").getModel().Text = diaeresisKey
 
 			except:
 				#traceback.print_exc()  # トレースバックはimport pydevd; pydevd.settrace(stdoutToServer=True, stderrToServer=True)でブレークして取得できるようになる。
