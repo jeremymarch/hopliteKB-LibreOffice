@@ -25,7 +25,7 @@ The extension is contained in the file hoplitekb.oxt.  Download this file from t
 To build the extension from source code, clone this repository.  Run the build.sh script to build the extension.  Install hoplitekb.oxt in LibreOffice as above.
 
 ## Use:
-Use your usual Greek keyboard to type base letters.  Use this extension to add diacritics.  After typing a vowel, while holding Control (Command on Mac), press a key 1-9 to toggle on/off diacritics.  The 1-9 keys are bound to: 
+Toggle on the extension by pressing the icon installed in the toolbar. The letters a-z and A-Z will be automatically transliterated into Greek characters. To add diacritics, after typing a vowel, press a key 1-9 to toggle on/off diacritics.  The 1-9 keys, by default, are bound to: 
 1. rough breathing 
 2. smooth breathing
 3. acute
@@ -36,7 +36,7 @@ Use your usual Greek keyboard to type base letters.  Use this extension to add d
 8. iota subscript
 9. diaeresis
 
-The key bindings can be changed in the file Accelerators.xcu.  Then rebuild the extension and reinstall.
+The default key bindings can be changed in the extension preferences.
 
 ## Options:
 The options menu can be accessed on Mac from LibreOffice -> Preferences -> LibreOffice Writer -> Hoplite Keyboard.  On Linux and Windows it can be accessed from Tools -> Options -> LibreOffice Writer -> Hoplite Keyboard.  On all platforms it can also be accessed from Tools -> Extension Manager; then select the extension and click the Options button.  
@@ -47,6 +47,8 @@ From the options menu you can select the Unicode mode.
 * **Combining-only** mode uses combining diacritics to type decomposed characters.  Few fonts handle combining diacritics well at this point; New Athena Unicode is currently the best.  
 
 There is a detailed discussion of these differences [here](https://apagreekkeys.org/technicalDetails.html).
+
+From the options menu you can also define different key bindings for adding diacritics.
 
 ## Why a LibreOffice extension?  Why not offer this functionality system-wide?
 The Linux, Mac, and Windows operating systems do not provide the keyboard with the information necessary to toggle on/off diacritics.  The Hoplite Keyboard started on [iOS](https://github.com/jeremymarch/HopliteKB-iOS) and [Android](https://github.com/jeremymarch/HopliteKB-Android) where this information *is* provided to the keyboard.  So for Linux, Mac, and Windows the only way to implement this is inside applications.
