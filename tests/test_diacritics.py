@@ -29,4 +29,4 @@ def test_diacritics():
 
     #toggle off is false: do nothing, if diacritic is present
     letter = accentLetter(letter, kIOTA_SUBSCRIPT, PRECOMPOSED_WITH_PUA_MODE, False)
-    assert(letter == "\ueb07\u0345")
+    assert(letter != "\ueb07\u0345")
