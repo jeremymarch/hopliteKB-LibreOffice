@@ -26,7 +26,6 @@ class UnicodeMode(IntEnum):
 
 # key codes, also indexes in cancelDiacritics array
 class DiacriticKey(IntEnum):
-    # NO_ACCENT       = 0
     ACUTE = 1
     CIRCUMFLEX = 2
     GRAVE = 3
@@ -67,9 +66,9 @@ cancelDiacritics[DiacriticKey.BREVE] = ~(_CIRCUMFLEX | _MACRON)
 
 # diacritic indices in letters array
 class DiacriticIdx(IntEnum):
-    NORMAL = 0
-    PSILI = 1                               # smooth
-    DASIA = 2                               # rough
+    NO_DIACRITICS = 0
+    PSILI = 1  # smooth
+    DASIA = 2  # rough
     OXIA = 3
     PSILI_AND_OXIA = 4
     DASIA_AND_OXIA = 5
@@ -167,7 +166,7 @@ def getPrecomposedLetter(letterIndex, diacriticBits):
     accentIndex = 0
 
     if diacriticBits == 0:
-        accentIndex = DiacriticIdx.NORMAL
+        accentIndex = DiacriticIdx.NO_DIACRITICS
     elif diacriticBits == (_SMOOTH):
         accentIndex = DiacriticIdx.PSILI
     elif diacriticBits == (_ROUGH):
@@ -241,7 +240,7 @@ def getPrecomposedLetter(letterIndex, diacriticBits):
     elif diacriticBits == (_MACRON | _GRAVE):
         accentIndex = DiacriticIdx.MACRON_AND_GRAVE
     else:
-        accentIndex = DiacriticIdx.NORMAL  # or set accent = 0 if none of these?
+        accentIndex = DiacriticIdx.NO_DIACRITICS  # or set accent = 0 if none of these?
 
     return letters[letterIndex][accentIndex]
 

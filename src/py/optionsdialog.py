@@ -74,10 +74,10 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
                     # dialog.getControl("debug").getModel().Text = roughKey + " ciao ciao " + smoothKey + " ciao ciao " + acuteKey + " ciao ciao " + graveKey + " ciao ciao " + circumflexKey + " ciao ciao " + macronKey + " ciao ciao " + breveKey + " ciao ciao " + iotaKey + " ciao ciao " + diaeresisKey
 
                 elif eventname == "ok":
-                    if dialog.getControl("PrecomposedPUAOption").getModel().State == True:
+                    if dialog.getControl("PrecomposedPUAOption").getModel().State == 1:  # == 1 instead of True to satisfy flake8
                         umode = "PrecomposedPUA"
                         self.on_options_changed(1)  # hopliteaccent.UnicodeMode.PRECOMPOSED_WITH_PUA
-                    elif dialog.getControl("CombiningOption").getModel().State == True:
+                    elif dialog.getControl("CombiningOption").getModel().State == 1:  # == 1 instead of True to satisfy flake8
                         umode = "CombiningOnly"
                         self.on_options_changed(2)  # hopliteaccent.UnicodeMode.COMBINING_ONLY
                     else:
@@ -133,7 +133,9 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
                     dialog.getControl("iotaKey").getModel().Text = iotaKey
                     dialog.getControl("diaeresisKey").getModel().Text = diaeresisKey
 
-            except:
+            except Exception as e:
+                if False:
+                    print(e)
                 # traceback.print_exc()
                 return False
         return True
@@ -170,7 +172,9 @@ def createConfigAccessor(ctx, smgr, rootpath):
             else:
                 root.setHierarchicalPropertyValue(names, values)
             root.commitChanges()
-        except:
+        except Exception as e:
+            if False:
+                print(e)
             pass
             # traceback.print_exc()
     return readConfig, writeConfig

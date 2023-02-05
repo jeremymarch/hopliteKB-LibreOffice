@@ -231,8 +231,8 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
             desktop = self.ctx.ServiceManager.createInstanceWithContext("com.sun.star.frame.Desktop", self.ctx)
 
             doc = desktop.getCurrentComponent()
-            text = doc.Text
-            cursor = text.createTextCursor()
+            # text = doc.Text
+            # cursor = text.createTextCursor()
 
             if args == diacriticsKeys[2]:  # "3": #"acute":
                 diacriticToAdd = hopliteaccent.DiacriticKey.ACUTE
@@ -287,6 +287,8 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
                     xWordCursor.setString(newLetter)
 
         except Exception as e:
+            if False:
+                print(e)
             # text.insertString( cursor, str(e), 0 ) #print exception
             # print('hello python to console')
             pass
@@ -401,7 +403,7 @@ SERVICE_NAME = "com.philolog.hoplitekb.OptionsDialog"
 
 
 def create(ctx, *args):
-    return optionsdialog.create(ctx, *args, imple_name = IMPLE_NAME, service_name = SERVICE_NAME, on_options_changed = setUnicodeMode, reload_diacritics_keys = loadDiacriticsKeys)
+    return optionsdialog.create(ctx, *args, imple_name=IMPLE_NAME, service_name=SERVICE_NAME, on_options_changed=setUnicodeMode, reload_diacritics_keys=loadDiacriticsKeys)
 
 
 g_ImplementationHelper.addImplementation(create, IMPLE_NAME, (SERVICE_NAME,),)
