@@ -11,7 +11,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 
-#toggle button modeled after: https://forum.openoffice.org/en/forum/viewtopic.php?p=200474#p200474
+# toggle button modeled after: https://forum.openoffice.org/en/forum/viewtopic.php?p=200474#p200474
 
 import sys
 import os
@@ -19,22 +19,19 @@ import inspect
 import uno
 import unohelper
 from com.sun.star.lang import XServiceInfo
-from com.sun.star.frame import XDispatchProvider
-from com.sun.star.frame import XDispatch
 from com.sun.star.awt import XKeyHandler
 
-from com.sun.star.frame import (XStatusListener, 
-	XDispatchProvider, 
-	XDispatch, XControlNotificationListener, FeatureStateEvent)
-from com.sun.star.lang import XInitialization, XServiceInfo
+from com.sun.star.frame import (XDispatchProvider,
+                                XDispatch, XControlNotificationListener, FeatureStateEvent)
+# from com.sun.star.lang import XInitialization, XServiceInfo
 
-#import gettext
-#_ = gettext.gettext
+# import gettext
+# _ = gettext.gettext
 
 # Add current directory to path to import local modules
 cmd_folder = os.path.realpath(os.path.abspath
-                                  (os.path.split(inspect.getfile
-                                                 ( inspect.currentframe() ))[0]))
+                              (os.path.split(inspect.getfile(inspect.currentframe()))[0]))
+
 if cmd_folder not in sys.path:
     sys.path.insert(0, cmd_folder)
 
@@ -62,7 +59,7 @@ def getTextRange(controller):
     #     return textrange
     # else:
     #     return None
-    return textrange #allow ranges with length greater than zero: will replace whole range with character
+    return textrange  # allow ranges with length greater than zero: will replace whole range with character
 
 
 def insertString(ctx, string):
@@ -82,16 +79,21 @@ def insertString(ctx, string):
     except Exception:
         pass
 
-#set default
+
+# set default
 vUnicodeMode = hopliteaccent.UnicodeMode.PRECOMPOSED
 diacriticsKeys = []
+
+
 def setDiacriticsKeys(val):
     global diacriticsKeys
     diacriticsKeys = val
 
+
 def setUnicodeMode(mode):
     global vUnicodeMode
     vUnicodeMode = mode
+
 
 transliterateLetters = {
   "a": "α",
@@ -147,38 +149,41 @@ transliterateLetters = {
   ";": "·"
 }
 
+
 def transliterate(s):
     return transliterateLetters.get(s)
+
 
 class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
     def __init__(self, parent):
         self.state = False
         self.listener = None
         self.parent = parent
-	
-	# XDispatch
+
+    # XDispatch
     def dispatch(self, url, args):
         self.state = not self.state
         ev = self.create_simple_event(url, self.state)
-        self.listener.statusChanged(ev) #this shades the button to indicate toggled state
+        self.listener.statusChanged(ev)  # this shades the button to indicate toggled state
         self.toggle_action()
-	
+
     def addStatusListener(self, listener, url):
         self.listener = listener
-	
+
     def removeStatusListener(self, listener, url): pass
-	
-	# XControlNotificationListener
+
+    # XControlNotificationListener
     def controlEvent(self, ev): pass
-	
+
     def create_simple_event(self, url, state, enabled=True):
         return FeatureStateEvent(self, url, "", enabled, False, state)
-	
+
     def toggle_action(self):
-        if self.state == False:
+        if self.state is False:
             self.parent.stopkb()
         else:
             self.parent.startkb()
+
 
 class KeyHandler(unohelper.Base, XKeyHandler):
 
@@ -187,11 +192,11 @@ class KeyHandler(unohelper.Base, XKeyHandler):
         self.ctx = ctx
 
     def keyPressed(self, oEvent):
-        #do not interfere with modified keys except shift
-        #1 shift                SHIFT
-        #2 control/command      MOD1
-        #4 alt                  MOD2
-        #8 control on macOS     MOD3
+        # do not interfere with modified keys except shift
+        # 1 shift                SHIFT
+        # 2 control/command      MOD1
+        # 4 alt                  MOD2
+        # 8 control on macOS     MOD3
         if oEvent.Modifiers != 0 and oEvent.Modifiers != 1:
             return False
         letter = oEvent.KeyChar.value
@@ -199,7 +204,7 @@ class KeyHandler(unohelper.Base, XKeyHandler):
             self.parent.toggleDiacritic(letter)
             return True
         a = transliterate(letter)
-        if a != None:
+        if a is not None:
             insertString(self.ctx, a)
             return True
         return False
@@ -209,6 +214,7 @@ class KeyHandler(unohelper.Base, XKeyHandler):
 
     def disposing(self, source):
         pass
+
 
 class ToolbarHandler(unohelper.Base, XServiceInfo,
                      XDispatchProvider, XDispatch):
@@ -222,58 +228,58 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
             if args is None or len(args) < 1:
                 return
 
-            desktop = self.ctx.ServiceManager.createInstanceWithContext( "com.sun.star.frame.Desktop", self.ctx )
+            desktop = self.ctx.ServiceManager.createInstanceWithContext("com.sun.star.frame.Desktop", self.ctx)
 
             doc = desktop.getCurrentComponent()
             text = doc.Text
             cursor = text.createTextCursor()
 
-            if args == diacriticsKeys[2]: #"3":#"acute":
+            if args == diacriticsKeys[2]:  # "3": #"acute":
                 diacriticToAdd = hopliteaccent.DiacriticKey.ACUTE
-            elif args == diacriticsKeys[4]: #"5":#"circumflex":
+            elif args == diacriticsKeys[4]:  # "5": #"circumflex":
                 diacriticToAdd = hopliteaccent.DiacriticKey.CIRCUMFLEX
-            elif args == diacriticsKeys[3]: #"4":#"grave":
+            elif args == diacriticsKeys[3]:  # "4": #"grave":
                 diacriticToAdd = hopliteaccent.DiacriticKey.GRAVE
-            elif args == diacriticsKeys[5]: #"6":#"macron":
+            elif args == diacriticsKeys[5]:  # "6": #"macron":
                 diacriticToAdd = hopliteaccent.DiacriticKey.MACRON
-            elif args == diacriticsKeys[0]: #"1":#"rough":
+            elif args == diacriticsKeys[0]:  # "1": #"rough":
                 diacriticToAdd = hopliteaccent.DiacriticKey.ROUGH_BREATHING
-            elif args == diacriticsKeys[1]: #"2":#"smooth":
+            elif args == diacriticsKeys[1]:  # "2": #"smooth":
                 diacriticToAdd = hopliteaccent.DiacriticKey.SMOOTH_BREATHING
-            elif args == diacriticsKeys[7]: #"8":#"iotasub":
+            elif args == diacriticsKeys[7]:  # "8": #"iotasub":
                 diacriticToAdd = hopliteaccent.DiacriticKey.IOTA_SUBSCRIPT
-            elif args == diacriticsKeys[8]: #"9":#"diaeresis":
+            elif args == diacriticsKeys[8]:  # "9": #"diaeresis":
                 diacriticToAdd = hopliteaccent.DiacriticKey.DIAERESIS
-            elif args == diacriticsKeys[6]: #"7":#"breve":
+            elif args == diacriticsKeys[6]:  # "7": #"breve":
                 diacriticToAdd = hopliteaccent.DiacriticKey.BREVE
             else:
                 return
 
             xIndexAccess = doc.getCurrentSelection()
-            xTextRange = xIndexAccess.getByIndex(0) #just the first selection
+            xTextRange = xIndexAccess.getByIndex(0)  # just the first selection
             xText = xTextRange.getText()
             xWordCursor = xText.createTextCursorByRange(xTextRange)
             xWordCursor.collapseToEnd()
 
-            #go right to be sure the cursor we don't miss any combining chars, in case cursor is between them and letter; max 6
+            # go right to be sure the cursor we don't miss any combining chars, in case cursor is between them and letter; max 6
             n = 0
             for i in range(0, 6):
                 xWordCursor.goRight(1, True)
                 s = xWordCursor.getString()
                 if s is not None and len(s) > 0 and s[-1] not in hopliteaccent.combiningAccents:
-                    xWordCursor.collapseToStart() #roll back one
+                    xWordCursor.collapseToStart()  # roll back one
                     break
                 n = n + 1
-                xWordCursor.collapseToEnd() #go one by one
+                xWordCursor.collapseToEnd()  # go one by one
 
-            #leave right fixed and go left until no more combining chars
+            # leave right fixed and go left until no more combining chars
             for j in range(0, 6 + n):
                 xWordCursor.goLeft(1, True)
                 s = xWordCursor.getString()
-                if s is not None and len(s) > 0 and s[0] not in hopliteaccent.combiningAccents: #when != "a" this puts us one further past the comb. chars.
+                if s is not None and len(s) > 0 and s[0] not in hopliteaccent.combiningAccents:  # when != "a" this puts us one further past the comb. chars.
                     break
 
-            #get letter with any following combining chars, we decide what to do inside accentLetter
+            # get letter with any following combining chars, we decide what to do inside accentLetter
             letterToAccent = xWordCursor.getString()
             if letterToAccent is not None and len(letterToAccent) > 0:
                 newLetter = hopliteaccent.accentLetter(letterToAccent, diacriticToAdd, vUnicodeMode, True)
@@ -281,8 +287,8 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
                     xWordCursor.setString(newLetter)
 
         except Exception as e:
-            #text.insertString( cursor, str(e), 0 ) #print exception
-            #print('hello python to console')
+            # text.insertString( cursor, str(e), 0 ) #print exception
+            # print('hello python to console')
             pass
 
     # XServiceInfo
@@ -297,17 +303,17 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
 
     # XDispatchProvider
     def queryDispatch(self, url, name, flag):
-            dispatch = None
-            if url.Protocol == Protocol:
-                try:
-                    dispatch = Dispatcher(self)
-                except Exception as e:
-                    print(e)
-                    #insertString(self.ctx, str(e))
-            return dispatch
+        dispatch = None
+        if url.Protocol == Protocol:
+            try:
+                dispatch = Dispatcher(self)
+            except Exception as e:
+                print(e)
+                # insertString(self.ctx, str(e))
+        return dispatch
 
     def queryDispatches(self, requests):
-        #never called
+        # never called
         dispatches = \
             [self.queryDispatch(r.FeatureURL, r.FrameName, r.SearchFlags)
                 for r in requests]
@@ -319,7 +325,7 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
             "com.sun.star.frame.Desktop", self.ctx)
         doc = self.desktop.getCurrentComponent()
         controller = doc.getCurrentController()
-        #controller.removeKeyHandler(self.key_handler) #be sure there is only
+        # controller.removeKeyHandler(self.key_handler) #be sure there is only
         controller.addKeyHandler(self.key_handler)
 
     def stopkb(self):
@@ -339,6 +345,7 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
     #             else:
     #                 self.startkb()
 
+
 # uno implementation
 g_ImplementationHelper = unohelper.ImplementationHelper()
 
@@ -347,14 +354,14 @@ g_ImplementationHelper.addImplementation(
     ImplementationName,
     (ServiceName,),)
 
-    
+
 # Settings
 def initializeOptionsOnce():
     ctx = uno.getComponentContext()
     smgr = ctx.getServiceManager()
     readConfig, writeConfig = optionsdialog.createConfigAccessor(ctx, smgr, "/com.philolog.hoplitekb.ExtensionData/Leaves/HKBSettingsNode")
     defaults = readConfig("Defaults/Width", "Defaults/Height", "Defaults/UnicodeMode")
-    #set current value
+    # set current value
     cfgnames = "Width", "Height", "UnicodeMode"
     maxwidth, maxheight, umode = readConfig(*cfgnames)
     umode = umode or defaults[2]
@@ -365,14 +372,15 @@ def initializeOptionsOnce():
     else:
         setUnicodeMode(0)
 
+
 def loadDiacriticsKeys():
     ctx = uno.getComponentContext()
     smgr = ctx.getServiceManager()
     readConfig, writeConfig = optionsdialog.createConfigAccessor(ctx, smgr, "/com.philolog.hoplitekb.ExtensionData/Leaves/HKBSettingsNode")
     defaults = readConfig("Defaults/Width", "Defaults/Height", "Defaults/UnicodeMode", "Defaults/roughKey", "Defaults/smoothKey", "Defaults/acuteKey", "Defaults/graveKey", "Defaults/circumflexKey", "Defaults/macronKey", "Defaults/breveKey", "Defaults/iotaKey", "Defaults/diaeresisKey")
-    #set current value
+    # set current value
     cfgnames = "Width", "Height", "UnicodeMode", "roughKey", "smoothKey", "acuteKey", "graveKey", "circumflexKey", "macronKey", "breveKey", "iotaKey", "diaeresisKey"
-    maxwidth, maxheight, umode, roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaeresisKey  = readConfig(*cfgnames)
+    maxwidth, maxheight, umode, roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaeresisKey = readConfig(*cfgnames)
     roughKey = roughKey or defaults[3]
     smoothKey = smoothKey or defaults[4]
     acuteKey = acuteKey or defaults[5]
@@ -384,12 +392,16 @@ def loadDiacriticsKeys():
     diaeresisKey = diaeresisKey or defaults[11]
     setDiacriticsKeys([roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaeresisKey])
 
+
 initializeOptionsOnce()
 loadDiacriticsKeys()
 
 IMPLE_NAME = "com.philolog.hoplitekb.OptionsDialog"
 SERVICE_NAME = "com.philolog.hoplitekb.OptionsDialog"
+
+
 def create(ctx, *args):
-    return optionsdialog.create(ctx, *args, imple_name=IMPLE_NAME, service_name=SERVICE_NAME, on_options_changed=setUnicodeMode, reload_diacritics_keys = loadDiacriticsKeys)
+    return optionsdialog.create(ctx, *args, imple_name = IMPLE_NAME, service_name = SERVICE_NAME, on_options_changed = setUnicodeMode, reload_diacritics_keys = loadDiacriticsKeys)
+
 
 g_ImplementationHelper.addImplementation(create, IMPLE_NAME, (SERVICE_NAME,),)

@@ -1,13 +1,13 @@
-#!
 # -*- coding: utf-8 -*-
 import unohelper
 from com.sun.star.awt import XContainerWindowEventHandler
 from com.sun.star.lang import XServiceInfo
-from com.sun.star.awt import XActionListener
+# from com.sun.star.awt import XActionListener
 from com.sun.star.beans import PropertyValue
 
 # from com.sun.star.awt.PosSize import POSSIZE
-#import traceback
+# import traceback
+
 
 def create(ctx, *args, imple_name, service_name, on_options_changed, reload_diacritics_keys):
     global IMPLE_NAME
@@ -17,8 +17,10 @@ def create(ctx, *args, imple_name, service_name, on_options_changed, reload_diac
     dh = DilaogHandler(ctx, on_options_changed, reload_diacritics_keys, *args)
     return dh
 
+
 class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
     METHODNAME = "external_event"
+
     def __init__(self, ctx, on_options_changed, reload_diacritics_keys, *args):
         self.ctx = ctx
         self.on_options_changed = on_options_changed
@@ -33,7 +35,7 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
         if methodname == self.METHODNAME:
             try:
                 if eventname == "initialize":
-                    maxwidth, maxheight, umode, roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaeresisKey  = self.readConfig(*self.cfgnames)
+                    maxwidth, maxheight, umode, roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaeresisKey = self.readConfig(*self.cfgnames)
                     umode = umode or self.defaults[2]
                     maxwidth = maxwidth or self.defaults[0]
                     maxheight = maxheight or self.defaults[1]
@@ -69,18 +71,18 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
                     dialog.getControl("breveKey").getModel().Text = breveKey
                     dialog.getControl("iotaKey").getModel().Text = iotaKey
                     dialog.getControl("diaeresisKey").getModel().Text = diaeresisKey
-                    #dialog.getControl("debug").getModel().Text = roughKey + " ciao ciao " + smoothKey + " ciao ciao " + acuteKey + " ciao ciao " + graveKey + " ciao ciao " + circumflexKey + " ciao ciao " + macronKey + " ciao ciao " + breveKey + " ciao ciao " + iotaKey + " ciao ciao " + diaeresisKey 
+                    # dialog.getControl("debug").getModel().Text = roughKey + " ciao ciao " + smoothKey + " ciao ciao " + acuteKey + " ciao ciao " + graveKey + " ciao ciao " + circumflexKey + " ciao ciao " + macronKey + " ciao ciao " + breveKey + " ciao ciao " + iotaKey + " ciao ciao " + diaeresisKey
 
                 elif eventname == "ok":
                     if dialog.getControl("PrecomposedPUAOption").getModel().State == True:
                         umode = "PrecomposedPUA"
-                        self.on_options_changed(1) #hopliteaccent.UnicodeMode.PRECOMPOSED_WITH_PUA
+                        self.on_options_changed(1)  # hopliteaccent.UnicodeMode.PRECOMPOSED_WITH_PUA
                     elif dialog.getControl("CombiningOption").getModel().State == True:
                         umode = "CombiningOnly"
-                        self.on_options_changed(2) #hopliteaccent.UnicodeMode.COMBINING_ONLY
+                        self.on_options_changed(2)  # hopliteaccent.UnicodeMode.COMBINING_ONLY
                     else:
                         umode = "Precomposed"
-                        self.on_options_changed(0) #hopliteaccent.UnicodeMode.PRECOMPOSED
+                        self.on_options_changed(0)  # hopliteaccent.UnicodeMode.PRECOMPOSED
 
                     roughKey_new = dialog.getControl("roughKey").getModel().Text
                     smoothKey_new = dialog.getControl("smoothKey").getModel().Text
@@ -91,11 +93,11 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
                     breveKey_new = dialog.getControl("breveKey").getModel().Text
                     iotaKey_new = dialog.getControl("iotaKey").getModel().Text
                     diaeresisKey_new = dialog.getControl("diaeresisKey").getModel().Text
-                        
+
                     self.writeConfig(self.cfgnames, (str("300"), str("300"), str(umode), str(roughKey_new), str(smoothKey_new), str(acuteKey_new), str(graveKey_new), str(circumflexKey_new), str(macronKey_new), str(breveKey_new), str(iotaKey_new), str(diaeresisKey_new)))
                     self.reload_diacritics_keys()
                 elif eventname == "back":
-                    maxwidth, maxheight, umode, roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaeresisKey  = self.readConfig(*self.cfgnames)
+                    maxwidth, maxheight, umode, roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaeresisKey = self.readConfig(*self.cfgnames)
                     umode = umode or self.defaults[2]
                     maxwidth = maxwidth or self.defaults[0]
                     maxheight = maxheight or self.defaults[1]
@@ -132,7 +134,7 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
                     dialog.getControl("diaeresisKey").getModel().Text = diaeresisKey
 
             except:
-                #traceback.print_exc()
+                # traceback.print_exc()
                 return False
         return True
 
@@ -142,8 +144,10 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
     # XServiceInfo
     def getImplementationName(self):
         return IMPLE_NAME
+
     def supportsService(self, name):
         return name == SERVICE_NAME
+
     def getSupportedServiceNames(self):
         return (SERVICE_NAME,)
 
@@ -152,11 +156,13 @@ def createConfigAccessor(ctx, smgr, rootpath):
     cp = smgr.createInstanceWithContext("com.sun.star.configuration.ConfigurationProvider", ctx)
     node = PropertyValue(Name="nodepath", Value=rootpath)
     root = cp.createInstanceWithArguments("com.sun.star.configuration.ConfigurationUpdateAccess", (node,))
+
     def readConfig(*args):
-        if len(args)==1:
+        if len(args) == 1:
             return root.getHierarchicalPropertyValue(*args)
-        elif len(args)>1:
+        elif len(args) > 1:
             return root.getHierarchicalPropertyValues(args)
+
     def writeConfig(names, values):
         try:
             if isinstance(names, tuple):
@@ -166,5 +172,5 @@ def createConfigAccessor(ctx, smgr, rootpath):
             root.commitChanges()
         except:
             pass
-            #traceback.print_exc()
+            # traceback.print_exc()
     return readConfig, writeConfig
