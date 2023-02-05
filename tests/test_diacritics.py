@@ -30,3 +30,13 @@ def test_diacritics():
     #toggle off is false: do nothing, if diacritic is present
     letter = accentLetter(letter, kIOTA_SUBSCRIPT, PRECOMPOSED_WITH_PUA_MODE, False)
     assert(letter == "\ueb07\u0345")
+
+    #combining mode
+    letter = accentLetter("α", kACUTE, COMBINING_ONLY_MODE, True)
+    assert(letter == "α\u0301")
+
+    letter = accentLetter(letter, kROUGH_BREATHING, COMBINING_ONLY_MODE, True)
+    assert(letter == "α\u0314\u0301")
+
+    letter = accentLetter(letter, kIOTA_SUBSCRIPT, COMBINING_ONLY_MODE, True)
+    assert(letter == "α\u0314\u0301\u0345")
