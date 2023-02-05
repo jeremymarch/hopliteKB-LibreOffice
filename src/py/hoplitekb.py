@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 #
 #  hoplitekb.py
 #  HopliteKB-LibreOffice
@@ -84,7 +83,7 @@ def insertString(ctx, string):
         pass
 
 #set default
-vUnicodeMode = hopliteaccent.PRECOMPOSED_MODE 
+vUnicodeMode = hopliteaccent.UnicodeMode.PRECOMPOSED
 diacriticsKeys = []
 def setDiacriticsKeys(val):
     global diacriticsKeys
@@ -230,23 +229,23 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
             cursor = text.createTextCursor()
 
             if args == diacriticsKeys[2]: #"3":#"acute":
-                diacriticToAdd = hopliteaccent.kACUTE
+                diacriticToAdd = hopliteaccent.DiacriticKey.ACUTE
             elif args == diacriticsKeys[4]: #"5":#"circumflex":
-                diacriticToAdd = hopliteaccent.kCIRCUMFLEX
+                diacriticToAdd = hopliteaccent.DiacriticKey.CIRCUMFLEX
             elif args == diacriticsKeys[3]: #"4":#"grave":
-                diacriticToAdd = hopliteaccent.kGRAVE
+                diacriticToAdd = hopliteaccent.DiacriticKey.GRAVE
             elif args == diacriticsKeys[5]: #"6":#"macron":
-                diacriticToAdd = hopliteaccent.kMACRON
+                diacriticToAdd = hopliteaccent.DiacriticKey.MACRON
             elif args == diacriticsKeys[0]: #"1":#"rough":
-                diacriticToAdd = hopliteaccent.kROUGH_BREATHING
+                diacriticToAdd = hopliteaccent.DiacriticKey.ROUGH_BREATHING
             elif args == diacriticsKeys[1]: #"2":#"smooth":
-                diacriticToAdd = hopliteaccent.kSMOOTH_BREATHING
+                diacriticToAdd = hopliteaccent.DiacriticKey.SMOOTH_BREATHING
             elif args == diacriticsKeys[7]: #"8":#"iotasub":
-                diacriticToAdd = hopliteaccent.kIOTA_SUBSCRIPT
+                diacriticToAdd = hopliteaccent.DiacriticKey.IOTA_SUBSCRIPT
             elif args == diacriticsKeys[8]: #"9":#"diaeresis":
-                diacriticToAdd = hopliteaccent.kDIAERESIS
+                diacriticToAdd = hopliteaccent.DiacriticKey.DIAERESIS
             elif args == diacriticsKeys[6]: #"7":#"breve":
-                diacriticToAdd = hopliteaccent.kBREVE
+                diacriticToAdd = hopliteaccent.DiacriticKey.BREVE
             else:
                 return
 
