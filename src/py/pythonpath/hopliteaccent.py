@@ -24,7 +24,7 @@ class UnicodeMode(IntEnum):
     PRECOMPOSED_HC = 3  # legacy private mode: do not use
 
 
-# key codes, also indexes in cancelDiacritics array
+# key codes, also indices in cancel_diacritics list
 class DiacriticKey(IntEnum):
     ACUTE = 1
     CIRCUMFLEX = 2
@@ -50,21 +50,21 @@ _DIAERESIS = 1 << 7
 _BREVE = 1 << 8
 
 # turn these diacritics off when adding index diacritic
-cancelDiacritics = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-cancelDiacritics[DiacriticKey.ACUTE] = ~(_GRAVE | _CIRCUMFLEX)
-cancelDiacritics[DiacriticKey.CIRCUMFLEX] = ~(_ACUTE | _GRAVE | _MACRON | _BREVE)
-cancelDiacritics[DiacriticKey.GRAVE] = ~(_ACUTE | _CIRCUMFLEX)
-cancelDiacritics[DiacriticKey.MACRON] = ~(_CIRCUMFLEX | _BREVE)
-cancelDiacritics[DiacriticKey.ROUGH_BREATHING] = ~(_SMOOTH | _DIAERESIS)
-cancelDiacritics[DiacriticKey.SMOOTH_BREATHING] = ~(_ROUGH | _DIAERESIS)
-cancelDiacritics[DiacriticKey.IOTA_SUBSCRIPT] = ~0  # nothing
-cancelDiacritics[DiacriticKey.DIAERESIS] = ~(_SMOOTH | _ROUGH)
-cancelDiacritics[DiacriticKey.BREVE] = ~(_CIRCUMFLEX | _MACRON)
+cancel_diacritics = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+cancel_diacritics[DiacriticKey.ACUTE] = ~(_GRAVE | _CIRCUMFLEX)
+cancel_diacritics[DiacriticKey.CIRCUMFLEX] = ~(_ACUTE | _GRAVE | _MACRON | _BREVE)
+cancel_diacritics[DiacriticKey.GRAVE] = ~(_ACUTE | _CIRCUMFLEX)
+cancel_diacritics[DiacriticKey.MACRON] = ~(_CIRCUMFLEX | _BREVE)
+cancel_diacritics[DiacriticKey.ROUGH_BREATHING] = ~(_SMOOTH | _DIAERESIS)
+cancel_diacritics[DiacriticKey.SMOOTH_BREATHING] = ~(_ROUGH | _DIAERESIS)
+cancel_diacritics[DiacriticKey.IOTA_SUBSCRIPT] = ~0  # nothing
+cancel_diacritics[DiacriticKey.DIAERESIS] = ~(_SMOOTH | _ROUGH)
+cancel_diacritics[DiacriticKey.BREVE] = ~(_CIRCUMFLEX | _MACRON)
 
 # END Public
 
 
-# diacritic indices in letters array
+# diacritic indices in letters list
 class DiacriticIdx(IntEnum):
     NO_DIACRITICS = 0
     PSILI = 1  # smooth
@@ -126,24 +126,24 @@ class LetterIdx(IntEnum):
 
 COMBINING_GRAVE = '\u0300'
 COMBINING_ACUTE = '\u0301'
-COMBINING_CIRCUMFLEX = '\u0342'  # do not use 0x0302
+COMBINING_CIRCUMFLEX = '\u0342'  # do not use \u0302
 COMBINING_MACRON = '\u0304'
 COMBINING_BREVE = '\u0306'
 COMBINING_DIAERESIS = '\u0308'
 COMBINING_SMOOTH_BREATHING = '\u0313'
 COMBINING_ROUGH_BREATHING = '\u0314'
 COMBINING_IOTA_SUBSCRIPT = '\u0345'
-# EM_DASH                         0x2014
-# LEFT_PARENTHESIS                0x0028
-# RIGHT_PARENTHESIS               0x0029
-# SPACE                           0x0020
-# EN_DASH                         0x2013
-# HYPHEN                          0x2010
-# COMMA                           0x002C
+# EM_DASH = '\u2014'
+# LEFT_PARENTHESIS = '\u0028'
+# RIGHT_PARENTHESIS = '\u0029'
+# SPACE = '\u0020'
+# EN_DASH = '\u2013'
+# HYPHEN = '\u2010'
+# COMMA = '\u002C'
 
 
 # this list determines the order of combining diacritics:
-combiningAccents = [COMBINING_MACRON, COMBINING_BREVE, COMBINING_DIAERESIS, COMBINING_ROUGH_BREATHING, COMBINING_SMOOTH_BREATHING, COMBINING_ACUTE, COMBINING_GRAVE, COMBINING_CIRCUMFLEX, COMBINING_IOTA_SUBSCRIPT]
+combining_diacritics = [COMBINING_MACRON, COMBINING_BREVE, COMBINING_DIAERESIS, COMBINING_ROUGH_BREATHING, COMBINING_SMOOTH_BREATHING, COMBINING_ACUTE, COMBINING_GRAVE, COMBINING_CIRCUMFLEX, COMBINING_IOTA_SUBSCRIPT]
 
 letters = [
     ['\u03B1', '\u1F00', '\u1F01', '\u1F71', '\u1F04', '\u1F05', '\u1F70', '\u1F02', '\u1F03', '\u1FB6', '\u1F06', '\u1F07', '\u1FB3', '\u1F80', '\u1F81', '\u1FB4', '\u1F84', '\u1F85', '\u1FB2', '\u1F82', '\u1F83', '\u1FB7', '\u1F86', '\u1F87', '\u0000', '\u0000', '\u0000', '\u0000', '\u1FB1', '\uEB04', '\uEB07', '\uEAF3', '\uEB05', '\uEB09', '\uEAF4', '\uEB00', '\uEAF0', '\u03AC'],
@@ -162,380 +162,384 @@ letters = [
     ['\u03A9', '\u1F68', '\u1F69', '\u1FFB', '\u1F6C', '\u1F6D', '\u1FFA', '\u1F6A', '\u1F6B', '\u0000', '\u1F6E', '\u1F6F', '\u1FFC', '\u1FA8', '\u1FA9', '\u0000', '\u1FAC', '\u1FAD', '\u0000', '\u1FAA', '\u1FAB', '\u0000', '\u1FAE', '\u1FAF', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u038F']]
 
 
-def getPrecomposedLetter(letterIndex, diacriticBits):
-    accentIndex = 0
+def get_precomposed_letter(letter_idx, diacritic_bits):
+    diacritic_idx = 0
 
-    if diacriticBits == 0:
-        accentIndex = DiacriticIdx.NO_DIACRITICS
-    elif diacriticBits == (_SMOOTH):
-        accentIndex = DiacriticIdx.PSILI
-    elif diacriticBits == (_ROUGH):
-        accentIndex = DiacriticIdx.DASIA
-    elif diacriticBits == (_ACUTE):
-        accentIndex = DiacriticIdx.TONOS  # OXIA: tonos is preferred: https://apagreekkeys.org/technicalDetails.html#problems
-    elif diacriticBits == (_SMOOTH | _ACUTE):
-        accentIndex = DiacriticIdx.PSILI_AND_OXIA
-    elif diacriticBits == (_ROUGH | _ACUTE):
-        accentIndex = DiacriticIdx.DASIA_AND_OXIA
-    elif diacriticBits == (_GRAVE):
-        accentIndex = DiacriticIdx.VARIA
-    elif diacriticBits == (_SMOOTH | _GRAVE):
-        accentIndex = DiacriticIdx.PSILI_AND_VARIA
-    elif diacriticBits == (_ROUGH | _GRAVE):
-        accentIndex = DiacriticIdx.DASIA_AND_VARIA
-    elif diacriticBits == (_CIRCUMFLEX):
-        accentIndex = DiacriticIdx.PERISPOMENI
-    elif diacriticBits == (_SMOOTH | _CIRCUMFLEX):
-        accentIndex = DiacriticIdx.PSILI_AND_PERISPOMENI
-    elif diacriticBits == (_ROUGH | _CIRCUMFLEX):
-        accentIndex = DiacriticIdx.DASIA_AND_PERISPOMENI
-    elif diacriticBits == (_IOTA_SUB):
-        accentIndex = DiacriticIdx.YPOGEGRAMMENI
-    elif diacriticBits == (_SMOOTH | _IOTA_SUB):
-        accentIndex = DiacriticIdx.PSILI_AND_YPOGEGRAMMENI
-    elif diacriticBits == (_ROUGH | _IOTA_SUB):
-        accentIndex = DiacriticIdx.DASIA_AND_YPOGEGRAMMENI
-    elif diacriticBits == (_ACUTE | _IOTA_SUB):
-        accentIndex = DiacriticIdx.OXIA_AND_YPOGEGRAMMENI
-    elif diacriticBits == (_SMOOTH | _ACUTE | _IOTA_SUB):
-        accentIndex = DiacriticIdx.PSILI_AND_OXIA_AND_YPOGEGRAMMENI
-    elif diacriticBits == (_ROUGH | _ACUTE | _IOTA_SUB):
-        accentIndex = DiacriticIdx.DASIA_AND_OXIA_AND_YPOGEGRAMMENI
-    elif diacriticBits == (_GRAVE | _IOTA_SUB):
-        accentIndex = DiacriticIdx.VARIA_AND_YPOGEGRAMMENI
-    elif diacriticBits == (_SMOOTH | _GRAVE | _IOTA_SUB):
-        accentIndex = DiacriticIdx.PSILI_AND_VARIA_AND_YPOGEGRAMMENI
-    elif diacriticBits == (_ROUGH | _GRAVE | _IOTA_SUB):
-        accentIndex = DiacriticIdx.DASIA_AND_VARIA_AND_YPOGEGRAMMENI
-    elif diacriticBits == (_CIRCUMFLEX | _IOTA_SUB):
-        accentIndex = DiacriticIdx.PERISPOMENI_AND_YPOGEGRAMMENI
-    elif diacriticBits == (_SMOOTH | _CIRCUMFLEX | _IOTA_SUB):
-        accentIndex = DiacriticIdx.PSILI_AND_PERISPOMENI_AND_YPOGEGRAMMENI
-    elif diacriticBits == (_ROUGH | _CIRCUMFLEX | _IOTA_SUB):
-        accentIndex = DiacriticIdx.DASIA_AND_PERISPOMENI_AND_YPOGEGRAMMENI
-    elif diacriticBits == (_DIAERESIS):
-        accentIndex = DiacriticIdx.DIALYTIKA
-    elif diacriticBits == (_ACUTE | _DIAERESIS):
-        accentIndex = DiacriticIdx.DIALYTIKA_AND_OXIA
-    elif diacriticBits == (_GRAVE | _DIAERESIS):
-        accentIndex = DiacriticIdx.DIALYTIKA_AND_VARIA
-    elif diacriticBits == (_CIRCUMFLEX | _DIAERESIS):
-        accentIndex = DiacriticIdx.DIALYTIKA_AND_PERISPOMENON
-    elif diacriticBits == (_MACRON):
-        accentIndex = DiacriticIdx.MACRON_PRECOMPOSED
-    elif diacriticBits == (_MACRON | _SMOOTH):
-        accentIndex = DiacriticIdx.MACRON_AND_SMOOTH
-    elif diacriticBits == (_MACRON | _SMOOTH | _ACUTE):
-        accentIndex = DiacriticIdx.MACRON_AND_SMOOTH_AND_ACUTE
-    elif diacriticBits == (_MACRON | _SMOOTH | _GRAVE):
-        accentIndex = DiacriticIdx.MACRON_AND_SMOOTH_AND_GRAVE
-    elif diacriticBits == (_MACRON | _ROUGH):
-        accentIndex = DiacriticIdx.MACRON_AND_ROUGH
-    elif diacriticBits == (_MACRON | _ROUGH | _ACUTE):
-        accentIndex = DiacriticIdx.MACRON_AND_ROUGH_AND_ACUTE
-    elif diacriticBits == (_MACRON | _ROUGH | _GRAVE):
-        accentIndex = DiacriticIdx.MACRON_AND_ROUGH_AND_GRAVE
-    elif diacriticBits == (_MACRON | _ACUTE):
-        accentIndex = DiacriticIdx.MACRON_AND_ACUTE
-    elif diacriticBits == (_MACRON | _GRAVE):
-        accentIndex = DiacriticIdx.MACRON_AND_GRAVE
+    if diacritic_bits == 0:
+        diacritic_idx = DiacriticIdx.NO_DIACRITICS
+    elif diacritic_bits == (_SMOOTH):
+        diacritic_idx = DiacriticIdx.PSILI
+    elif diacritic_bits == (_ROUGH):
+        diacritic_idx = DiacriticIdx.DASIA
+    elif diacritic_bits == (_ACUTE):
+        diacritic_idx = DiacriticIdx.TONOS  # OXIA: tonos is preferred: https://apagreekkeys.org/technicalDetails.html#problems
+    elif diacritic_bits == (_SMOOTH | _ACUTE):
+        diacritic_idx = DiacriticIdx.PSILI_AND_OXIA
+    elif diacritic_bits == (_ROUGH | _ACUTE):
+        diacritic_idx = DiacriticIdx.DASIA_AND_OXIA
+    elif diacritic_bits == (_GRAVE):
+        diacritic_idx = DiacriticIdx.VARIA
+    elif diacritic_bits == (_SMOOTH | _GRAVE):
+        diacritic_idx = DiacriticIdx.PSILI_AND_VARIA
+    elif diacritic_bits == (_ROUGH | _GRAVE):
+        diacritic_idx = DiacriticIdx.DASIA_AND_VARIA
+    elif diacritic_bits == (_CIRCUMFLEX):
+        diacritic_idx = DiacriticIdx.PERISPOMENI
+    elif diacritic_bits == (_SMOOTH | _CIRCUMFLEX):
+        diacritic_idx = DiacriticIdx.PSILI_AND_PERISPOMENI
+    elif diacritic_bits == (_ROUGH | _CIRCUMFLEX):
+        diacritic_idx = DiacriticIdx.DASIA_AND_PERISPOMENI
+    elif diacritic_bits == (_IOTA_SUB):
+        diacritic_idx = DiacriticIdx.YPOGEGRAMMENI
+    elif diacritic_bits == (_SMOOTH | _IOTA_SUB):
+        diacritic_idx = DiacriticIdx.PSILI_AND_YPOGEGRAMMENI
+    elif diacritic_bits == (_ROUGH | _IOTA_SUB):
+        diacritic_idx = DiacriticIdx.DASIA_AND_YPOGEGRAMMENI
+    elif diacritic_bits == (_ACUTE | _IOTA_SUB):
+        diacritic_idx = DiacriticIdx.OXIA_AND_YPOGEGRAMMENI
+    elif diacritic_bits == (_SMOOTH | _ACUTE | _IOTA_SUB):
+        diacritic_idx = DiacriticIdx.PSILI_AND_OXIA_AND_YPOGEGRAMMENI
+    elif diacritic_bits == (_ROUGH | _ACUTE | _IOTA_SUB):
+        diacritic_idx = DiacriticIdx.DASIA_AND_OXIA_AND_YPOGEGRAMMENI
+    elif diacritic_bits == (_GRAVE | _IOTA_SUB):
+        diacritic_idx = DiacriticIdx.VARIA_AND_YPOGEGRAMMENI
+    elif diacritic_bits == (_SMOOTH | _GRAVE | _IOTA_SUB):
+        diacritic_idx = DiacriticIdx.PSILI_AND_VARIA_AND_YPOGEGRAMMENI
+    elif diacritic_bits == (_ROUGH | _GRAVE | _IOTA_SUB):
+        diacritic_idx = DiacriticIdx.DASIA_AND_VARIA_AND_YPOGEGRAMMENI
+    elif diacritic_bits == (_CIRCUMFLEX | _IOTA_SUB):
+        diacritic_idx = DiacriticIdx.PERISPOMENI_AND_YPOGEGRAMMENI
+    elif diacritic_bits == (_SMOOTH | _CIRCUMFLEX | _IOTA_SUB):
+        diacritic_idx = DiacriticIdx.PSILI_AND_PERISPOMENI_AND_YPOGEGRAMMENI
+    elif diacritic_bits == (_ROUGH | _CIRCUMFLEX | _IOTA_SUB):
+        diacritic_idx = DiacriticIdx.DASIA_AND_PERISPOMENI_AND_YPOGEGRAMMENI
+    elif diacritic_bits == (_DIAERESIS):
+        diacritic_idx = DiacriticIdx.DIALYTIKA
+    elif diacritic_bits == (_ACUTE | _DIAERESIS):
+        diacritic_idx = DiacriticIdx.DIALYTIKA_AND_OXIA
+    elif diacritic_bits == (_GRAVE | _DIAERESIS):
+        diacritic_idx = DiacriticIdx.DIALYTIKA_AND_VARIA
+    elif diacritic_bits == (_CIRCUMFLEX | _DIAERESIS):
+        diacritic_idx = DiacriticIdx.DIALYTIKA_AND_PERISPOMENON
+    elif diacritic_bits == (_MACRON):
+        diacritic_idx = DiacriticIdx.MACRON_PRECOMPOSED
+    elif diacritic_bits == (_MACRON | _SMOOTH):
+        diacritic_idx = DiacriticIdx.MACRON_AND_SMOOTH
+    elif diacritic_bits == (_MACRON | _SMOOTH | _ACUTE):
+        diacritic_idx = DiacriticIdx.MACRON_AND_SMOOTH_AND_ACUTE
+    elif diacritic_bits == (_MACRON | _SMOOTH | _GRAVE):
+        diacritic_idx = DiacriticIdx.MACRON_AND_SMOOTH_AND_GRAVE
+    elif diacritic_bits == (_MACRON | _ROUGH):
+        diacritic_idx = DiacriticIdx.MACRON_AND_ROUGH
+    elif diacritic_bits == (_MACRON | _ROUGH | _ACUTE):
+        diacritic_idx = DiacriticIdx.MACRON_AND_ROUGH_AND_ACUTE
+    elif diacritic_bits == (_MACRON | _ROUGH | _GRAVE):
+        diacritic_idx = DiacriticIdx.MACRON_AND_ROUGH_AND_GRAVE
+    elif diacritic_bits == (_MACRON | _ACUTE):
+        diacritic_idx = DiacriticIdx.MACRON_AND_ACUTE
+    elif diacritic_bits == (_MACRON | _GRAVE):
+        diacritic_idx = DiacriticIdx.MACRON_AND_GRAVE
     else:
-        accentIndex = DiacriticIdx.NO_DIACRITICS  # or set accent = 0 if none of these?
+        diacritic_idx = DiacriticIdx.NO_DIACRITICS  # or set accent = 0 if none of these?
 
-    return letters[letterIndex][accentIndex]
+    return letters[letter_idx][diacritic_idx]
 
 
-def letterCodeToUCS2(letter_idx):
+def letter_idx_to_UCS2(letter_idx):
     return letters[letter_idx][0]  # first col of each row has base vowels
 
 
-def makeLetter(letterIndex, diacriticBits, unicodeMode):
+def make_letter(letter_idx, diacritic_bits, unicode_mode):
     # Use PUA, - almost all precomposing except alpha macron, breathing, accent, iota_sub, if iota_sub use combining
     # Use both, if macron use combining
     # Use only combining accents
 
-    newLetter = ""
+    new_letter = ""
     # fallback if macron + one more diacritic
-    precomposingFallbackToComposing = False
-    # breveAndMacron = False
-    if (unicodeMode == UnicodeMode.PRECOMPOSED and (diacriticBits & _MACRON) == _MACRON) or (unicodeMode == UnicodeMode.PRECOMPOSED_WITH_PUA and (diacriticBits & (_MACRON | _DIAERESIS)) == (_MACRON | _DIAERESIS)):
-        if (diacriticBits & ~_MACRON) != 0:  # if any other bits set besides macron
-            precomposingFallbackToComposing = True
-    # elif (letterCodeAndBitMask[1] & (_BREVE | _MACRON)) == (_BREVE | _MACRON):
-    #     breveAndMacron = True
-    elif (diacriticBits & _BREVE) == _BREVE:
-        precomposingFallbackToComposing = True
-    elif unicodeMode == UnicodeMode.PRECOMPOSED_HC and (diacriticBits & _MACRON) == _MACRON:
+    precomposing_fallback_to_composing = False
+    # breve_and_macron = False
+    if (unicode_mode == UnicodeMode.PRECOMPOSED and (diacritic_bits & _MACRON) == _MACRON) or (unicode_mode == UnicodeMode.PRECOMPOSED_WITH_PUA and (diacritic_bits & (_MACRON | _DIAERESIS)) == (_MACRON | _DIAERESIS)):
+        if (diacritic_bits & ~_MACRON) != 0:  # if any other bits set besides macron
+            precomposing_fallback_to_composing = True
+    # elif (diacritic_bits & (_BREVE | _MACRON)) == (_BREVE | _MACRON):
+    #     breve_and_macron = True
+    elif (diacritic_bits & _BREVE) == _BREVE:
+        precomposing_fallback_to_composing = True
+    elif unicode_mode == UnicodeMode.PRECOMPOSED_HC and (diacritic_bits & _MACRON) == _MACRON:
         # this is legacy for the hoplite challenge app which uses combining macron even if no other diacritics
-        precomposingFallbackToComposing = True
+        precomposing_fallback_to_composing = True
 
     # special case for breve + macron: use precomposed macron with combining breve - font still doesn't look good
-    # if breveAndMacron == True:
-    #     letterCodeAndBitMask[1] &= ~_BREVE #turn off
-    #     newLetter = getPrecomposedLetter(letterCodeAndBitMask) #get with precomposed macron
-    #     newLetter += COMBINING_BREVE
-    #     return newLetter
+    # if breve_and_macron == True:
+    #     diacritic_bits &= ~_BREVE  # turn off
+    #     new_letter = get_precomposed_letter(letter_idx, diacritic_bits)  # get with precomposed macron
+    #     new_letter += COMBINING_BREVE
+    #     return new_letter
     # elif...
-    if unicodeMode == UnicodeMode.COMBINING_ONLY or precomposingFallbackToComposing:
+    if unicode_mode == UnicodeMode.COMBINING_ONLY or precomposing_fallback_to_composing:
 
-        newLetter = letterCodeToUCS2(letterIndex)  # set base letter
+        new_letter = letter_idx_to_UCS2(letter_idx)  # set base letter
 
-        # loop so that order is determined by combiningAccents array
-        for k in combiningAccents:
-            if k == COMBINING_MACRON and (diacriticBits & _MACRON) == _MACRON:
-                newLetter += k
-            elif k == COMBINING_BREVE and (diacriticBits & _BREVE) == _BREVE:
-                newLetter += k
-            elif k == COMBINING_ROUGH_BREATHING and (diacriticBits & _ROUGH) == _ROUGH:
-                newLetter += k
-            elif k == COMBINING_SMOOTH_BREATHING and (diacriticBits & _SMOOTH) == _SMOOTH:
-                newLetter += k
-            elif k == COMBINING_ACUTE and (diacriticBits & _ACUTE) == _ACUTE:
-                newLetter += k
-            elif k == COMBINING_GRAVE and (diacriticBits & _GRAVE) == _GRAVE:
-                newLetter += k
-            elif k == COMBINING_CIRCUMFLEX and (diacriticBits & _CIRCUMFLEX) == _CIRCUMFLEX:
-                newLetter += k
-            elif k == COMBINING_IOTA_SUBSCRIPT and (diacriticBits & _IOTA_SUB) == _IOTA_SUB:
-                newLetter += k
-            elif k == COMBINING_DIAERESIS and (diacriticBits & _DIAERESIS) == _DIAERESIS:
-                newLetter += k
-        return newLetter
+        # loop so that order is determined by combining_diacritics list
+        for combining_diacritic in combining_diacritics:
+            if combining_diacritic == COMBINING_MACRON and (diacritic_bits & _MACRON) == _MACRON:
+                new_letter += combining_diacritic
+            elif combining_diacritic == COMBINING_BREVE and (diacritic_bits & _BREVE) == _BREVE:
+                new_letter += combining_diacritic
+            elif combining_diacritic == COMBINING_ROUGH_BREATHING and (diacritic_bits & _ROUGH) == _ROUGH:
+                new_letter += combining_diacritic
+            elif combining_diacritic == COMBINING_SMOOTH_BREATHING and (diacritic_bits & _SMOOTH) == _SMOOTH:
+                new_letter += combining_diacritic
+            elif combining_diacritic == COMBINING_ACUTE and (diacritic_bits & _ACUTE) == _ACUTE:
+                new_letter += combining_diacritic
+            elif combining_diacritic == COMBINING_GRAVE and (diacritic_bits & _GRAVE) == _GRAVE:
+                new_letter += combining_diacritic
+            elif combining_diacritic == COMBINING_CIRCUMFLEX and (diacritic_bits & _CIRCUMFLEX) == _CIRCUMFLEX:
+                new_letter += combining_diacritic
+            elif combining_diacritic == COMBINING_IOTA_SUBSCRIPT and (diacritic_bits & _IOTA_SUB) == _IOTA_SUB:
+                new_letter += combining_diacritic
+            elif combining_diacritic == COMBINING_DIAERESIS and (diacritic_bits & _DIAERESIS) == _DIAERESIS:
+                new_letter += combining_diacritic
+        return new_letter
     else:
-        addIotaSubscript = False
-        if unicodeMode == UnicodeMode.PRECOMPOSED_WITH_PUA and (diacriticBits & (_IOTA_SUB | _MACRON)) == (_IOTA_SUB | _MACRON):
-            diacriticBits &= ~_IOTA_SUB  # so we don't get two iota subscripts
-            addIotaSubscript = True
+        add_iota_subscript = False
+        if unicode_mode == UnicodeMode.PRECOMPOSED_WITH_PUA and (diacritic_bits & (_IOTA_SUB | _MACRON)) == (_IOTA_SUB | _MACRON):
+            diacritic_bits &= ~_IOTA_SUB  # so we don't get two iota subscripts
+            add_iota_subscript = True
 
-        newLetter = getPrecomposedLetter(letterIndex, diacriticBits)
+        new_letter = get_precomposed_letter(letter_idx, diacritic_bits)
 
-        if addIotaSubscript is True:
-            newLetter += COMBINING_IOTA_SUBSCRIPT
+        if add_iota_subscript is True:
+            new_letter += COMBINING_IOTA_SUBSCRIPT
 
-        if len(newLetter) > 0:
-            return newLetter
+        if len(new_letter) > 0:
+            return new_letter
         else:
             return None
 
 
 # adjusts existing diacritics based on one being added
-def updateDiacritics(letterIndex, diacriticBits, accentToAdd, toggleOff):
+def update_diacritics(letter_idx, diacritic_bits, diacritic_to_add, toggle_off):
     # keep in order of enum so compiler can optimize switch
-    if accentToAdd == DiacriticKey.ACUTE:
-        if toggleOff and (diacriticBits & _ACUTE) == _ACUTE:
-            diacriticBits &= ~_ACUTE
+    if diacritic_to_add == DiacriticKey.ACUTE:
+        if toggle_off and (diacritic_bits & _ACUTE) == _ACUTE:
+            diacritic_bits &= ~_ACUTE
         else:
-            diacriticBits |= _ACUTE
-        diacriticBits &= cancelDiacritics[DiacriticKey.ACUTE]  # turn off
-    elif accentToAdd == DiacriticKey.CIRCUMFLEX:
-        if toggleOff and (diacriticBits & _CIRCUMFLEX) == _CIRCUMFLEX:
-            diacriticBits &= ~_CIRCUMFLEX
+            diacritic_bits |= _ACUTE
+        diacritic_bits &= cancel_diacritics[DiacriticKey.ACUTE]  # turn off
+    elif diacritic_to_add == DiacriticKey.CIRCUMFLEX:
+        if toggle_off and (diacritic_bits & _CIRCUMFLEX) == _CIRCUMFLEX:
+            diacritic_bits &= ~_CIRCUMFLEX
         else:
-            diacriticBits |= _CIRCUMFLEX
-        diacriticBits &= cancelDiacritics[DiacriticKey.CIRCUMFLEX]  # turn off. fix me in c version, replace breve
-    elif accentToAdd == DiacriticKey.GRAVE:
-        if toggleOff and (diacriticBits & _GRAVE) == _GRAVE:
-            diacriticBits &= ~_GRAVE
+            diacritic_bits |= _CIRCUMFLEX
+        diacritic_bits &= cancel_diacritics[DiacriticKey.CIRCUMFLEX]  # turn off
+    elif diacritic_to_add == DiacriticKey.GRAVE:
+        if toggle_off and (diacritic_bits & _GRAVE) == _GRAVE:
+            diacritic_bits &= ~_GRAVE
         else:
-            diacriticBits |= _GRAVE
-        diacriticBits &= cancelDiacritics[DiacriticKey.GRAVE]
-    elif accentToAdd == DiacriticKey.MACRON:
-        if toggleOff and (diacriticBits & _MACRON) == _MACRON:
-            diacriticBits &= ~_MACRON
+            diacritic_bits |= _GRAVE
+        diacritic_bits &= cancel_diacritics[DiacriticKey.GRAVE]
+    elif diacritic_to_add == DiacriticKey.MACRON:
+        if toggle_off and (diacritic_bits & _MACRON) == _MACRON:
+            diacritic_bits &= ~_MACRON
         else:
-            diacriticBits |= _MACRON
-        diacriticBits &= cancelDiacritics[DiacriticKey.MACRON]
-    elif accentToAdd == DiacriticKey.BREVE:
-        if toggleOff and (diacriticBits & _BREVE) == _BREVE:
-            diacriticBits &= ~_BREVE
+            diacritic_bits |= _MACRON
+        diacritic_bits &= cancel_diacritics[DiacriticKey.MACRON]
+    elif diacritic_to_add == DiacriticKey.BREVE:
+        if toggle_off and (diacritic_bits & _BREVE) == _BREVE:
+            diacritic_bits &= ~_BREVE
         else:
-            diacriticBits |= _BREVE
-        diacriticBits &= cancelDiacritics[DiacriticKey.BREVE]
-    elif accentToAdd == DiacriticKey.ROUGH_BREATHING:
-        if toggleOff and (diacriticBits & _ROUGH) == _ROUGH:
-            diacriticBits &= ~_ROUGH
+            diacritic_bits |= _BREVE
+        diacritic_bits &= cancel_diacritics[DiacriticKey.BREVE]
+    elif diacritic_to_add == DiacriticKey.ROUGH_BREATHING:
+        if toggle_off and (diacritic_bits & _ROUGH) == _ROUGH:
+            diacritic_bits &= ~_ROUGH
         else:
-            diacriticBits |= _ROUGH
-        diacriticBits &= cancelDiacritics[DiacriticKey.ROUGH_BREATHING]
-    elif accentToAdd == DiacriticKey.SMOOTH_BREATHING:
-        if toggleOff and (diacriticBits & _SMOOTH) == _SMOOTH:
-            diacriticBits &= ~_SMOOTH
+            diacritic_bits |= _ROUGH
+        diacritic_bits &= cancel_diacritics[DiacriticKey.ROUGH_BREATHING]
+    elif diacritic_to_add == DiacriticKey.SMOOTH_BREATHING:
+        if toggle_off and (diacritic_bits & _SMOOTH) == _SMOOTH:
+            diacritic_bits &= ~_SMOOTH
         else:
-            diacriticBits |= _SMOOTH
-        diacriticBits &= cancelDiacritics[DiacriticKey.SMOOTH_BREATHING]
-    elif accentToAdd == DiacriticKey.IOTA_SUBSCRIPT:
-        if toggleOff and (diacriticBits & _IOTA_SUB) == _IOTA_SUB:
-            diacriticBits &= ~_IOTA_SUB
+            diacritic_bits |= _SMOOTH
+        diacritic_bits &= cancel_diacritics[DiacriticKey.SMOOTH_BREATHING]
+    elif diacritic_to_add == DiacriticKey.IOTA_SUBSCRIPT:
+        if toggle_off and (diacritic_bits & _IOTA_SUB) == _IOTA_SUB:
+            diacritic_bits &= ~_IOTA_SUB
         else:
-            diacriticBits |= _IOTA_SUB
-        diacriticBits &= cancelDiacritics[DiacriticKey.IOTA_SUBSCRIPT]
-    elif accentToAdd == DiacriticKey.DIAERESIS:
-        if letterIndex == LetterIdx.IOTA_CAP or letterIndex == LetterIdx.UPSILON_CAP:
-            diacriticBits &= ~(_ACUTE | _GRAVE | _CIRCUMFLEX | _MACRON)
+            diacritic_bits |= _IOTA_SUB
+        diacritic_bits &= cancel_diacritics[DiacriticKey.IOTA_SUBSCRIPT]
+    elif diacritic_to_add == DiacriticKey.DIAERESIS:
+        if letter_idx == LetterIdx.IOTA_CAP or letter_idx == LetterIdx.UPSILON_CAP:
+            diacritic_bits &= ~(_ACUTE | _GRAVE | _CIRCUMFLEX | _MACRON)
 
-        if toggleOff and (diacriticBits & _DIAERESIS) == _DIAERESIS:
-            diacriticBits &= ~_DIAERESIS
+        if toggle_off and (diacritic_bits & _DIAERESIS) == _DIAERESIS:
+            diacritic_bits &= ~_DIAERESIS
         else:
-            diacriticBits |= _DIAERESIS
-        diacriticBits &= cancelDiacritics[DiacriticKey.DIAERESIS]
+            diacritic_bits |= _DIAERESIS
+        diacritic_bits &= cancel_diacritics[DiacriticKey.DIAERESIS]
 
-    return diacriticBits
+    return diacritic_bits
 
 
-def isLegalDiacriticForLetter(letterCode, accentToAdd):
+def is_legal_diacritic_for_letter(letter_idx, diacritic):
     # match these strings to the arguments in the accelerators
-    if accentToAdd == DiacriticKey.CIRCUMFLEX:
-        if letterCode != LetterIdx.ALPHA and letterCode != LetterIdx.ETA and letterCode != LetterIdx.IOTA and letterCode != LetterIdx.UPSILON and letterCode != LetterIdx.OMEGA:  # and letterCode != LetterIdx.ALPHA_CAP and letterCode != LetterIdx.ETA_CAP and letterCode != LetterIdx.IOTA_CAP and letterCode != LetterIdx.UPSILON_CAP and letterCode != LetterIdx.OMEGA_CAP:
+    if diacritic == DiacriticKey.CIRCUMFLEX:
+        if letter_idx != LetterIdx.ALPHA and letter_idx != LetterIdx.ETA and letter_idx != LetterIdx.IOTA and letter_idx != LetterIdx.UPSILON and letter_idx != LetterIdx.OMEGA:  # and letter_idx != LetterIdx.ALPHA_CAP and letter_idx != LetterIdx.ETA_CAP and letter_idx != LetterIdx.IOTA_CAP and letter_idx != LetterIdx.UPSILON_CAP and letter_idx != LetterIdx.OMEGA_CAP:
             return False
-    elif accentToAdd == DiacriticKey.MACRON:
-        if letterCode != LetterIdx.ALPHA and letterCode != LetterIdx.IOTA and letterCode != LetterIdx.UPSILON and letterCode != LetterIdx.ALPHA_CAP and letterCode != LetterIdx.IOTA_CAP and letterCode != LetterIdx.UPSILON_CAP:
+    elif diacritic == DiacriticKey.MACRON:
+        if letter_idx != LetterIdx.ALPHA and letter_idx != LetterIdx.IOTA and letter_idx != LetterIdx.UPSILON and letter_idx != LetterIdx.ALPHA_CAP and letter_idx != LetterIdx.IOTA_CAP and letter_idx != LetterIdx.UPSILON_CAP:
             return False
-    elif accentToAdd == DiacriticKey.BREVE:
-        if letterCode != LetterIdx.ALPHA and letterCode != LetterIdx.IOTA and letterCode != LetterIdx.UPSILON and letterCode != LetterIdx.ALPHA_CAP and letterCode != LetterIdx.IOTA_CAP and letterCode != LetterIdx.UPSILON_CAP:
+    elif diacritic == DiacriticKey.BREVE:
+        if letter_idx != LetterIdx.ALPHA and letter_idx != LetterIdx.IOTA and letter_idx != LetterIdx.UPSILON and letter_idx != LetterIdx.ALPHA_CAP and letter_idx != LetterIdx.IOTA_CAP and letter_idx != LetterIdx.UPSILON_CAP:
             return False
-    elif accentToAdd == DiacriticKey.IOTA_SUBSCRIPT:
-        if letterCode != LetterIdx.ALPHA and letterCode != LetterIdx.ETA and letterCode != LetterIdx.OMEGA and letterCode != LetterIdx.ALPHA_CAP and letterCode != LetterIdx.ETA_CAP and letterCode != LetterIdx.OMEGA_CAP:
+    elif diacritic == DiacriticKey.IOTA_SUBSCRIPT:
+        if letter_idx != LetterIdx.ALPHA and letter_idx != LetterIdx.ETA and letter_idx != LetterIdx.OMEGA and letter_idx != LetterIdx.ALPHA_CAP and letter_idx != LetterIdx.ETA_CAP and letter_idx != LetterIdx.OMEGA_CAP:
             return False
-    elif accentToAdd == DiacriticKey.DIAERESIS:
-        if letterCode != LetterIdx.IOTA and letterCode != LetterIdx.UPSILON and letterCode != LetterIdx.IOTA_CAP and letterCode != LetterIdx.UPSILON_CAP:
+    elif diacritic == DiacriticKey.DIAERESIS:
+        if letter_idx != LetterIdx.IOTA and letter_idx != LetterIdx.UPSILON and letter_idx != LetterIdx.IOTA_CAP and letter_idx != LetterIdx.UPSILON_CAP:
             return False
     return True
 
 
 # a hash table could save us from looping through all this
 # we don't want to analyze via canonical decomposition because PUA characters are not canonical
-def analyzePrecomposedLetter(letter):
-    for vidx in range(0, len(LetterIdx)):
-        for aidx in range(0, len(DiacriticIdx)):
-            if letter[0] == letters[vidx][aidx]:
-                return (vidx, aidx)
+def analyze_precomposed_letter(letter):
+    for letter_idx in range(0, len(LetterIdx)):
+        for diacritic_idx in range(0, len(DiacriticIdx)):
+            if letter[0] == letters[letter_idx][diacritic_idx]:
+                return (letter_idx, diacritic_idx)
     return (None, None)
 
 
-def precomposedIndexToBitMask(diacriticIndex, diacriticBits):
+def precomposed_index_to_bitmask(diacritic_idx, diacritic_bits):
     # don't initialize to false here because diacriticMask could have combining accents already set to true
     # make sure this is in order of enum so compiler can optimize switch
-    if diacriticIndex == DiacriticIdx.PSILI:
-        diacriticBits |= _SMOOTH
-    elif diacriticIndex == DiacriticIdx.DASIA:
-        diacriticBits |= _ROUGH
-    elif diacriticIndex == DiacriticIdx.OXIA:
-        diacriticBits |= _ACUTE
-    elif diacriticIndex == DiacriticIdx.PSILI_AND_OXIA:
-        diacriticBits |= (_SMOOTH | _ACUTE)
-    elif diacriticIndex == DiacriticIdx.DASIA_AND_OXIA:
-        diacriticBits |= (_ROUGH | _ACUTE)
-    elif diacriticIndex == DiacriticIdx.VARIA:
-        diacriticBits |= _GRAVE
-    elif diacriticIndex == DiacriticIdx.PSILI_AND_VARIA:
-        diacriticBits |= (_SMOOTH | _GRAVE)
-    elif diacriticIndex == DiacriticIdx.DASIA_AND_VARIA:
-        diacriticBits |= (_ROUGH | _GRAVE)
-    elif diacriticIndex == DiacriticIdx.PERISPOMENI:
-        diacriticBits |= _CIRCUMFLEX
-    elif diacriticIndex == DiacriticIdx.PSILI_AND_PERISPOMENI:
-        diacriticBits |= (_SMOOTH | _CIRCUMFLEX)
-    elif diacriticIndex == DiacriticIdx.DASIA_AND_PERISPOMENI:
-        diacriticBits |= (_ROUGH | _CIRCUMFLEX)
-    elif diacriticIndex == DiacriticIdx.YPOGEGRAMMENI:
-        diacriticBits |= _IOTA_SUB
-    elif diacriticIndex == DiacriticIdx.PSILI_AND_YPOGEGRAMMENI:
-        diacriticBits |= (_SMOOTH | _IOTA_SUB)
-    elif diacriticIndex == DiacriticIdx.DASIA_AND_YPOGEGRAMMENI:
-        diacriticBits |= (_ROUGH | _IOTA_SUB)
-    elif diacriticIndex == DiacriticIdx.OXIA_AND_YPOGEGRAMMENI:
-        diacriticBits |= (_ACUTE | _IOTA_SUB)
-    elif diacriticIndex == DiacriticIdx.PSILI_AND_OXIA_AND_YPOGEGRAMMENI:
-        diacriticBits |= (_SMOOTH | _ACUTE | _IOTA_SUB)
-    elif diacriticIndex == DiacriticIdx.DASIA_AND_OXIA_AND_YPOGEGRAMMENI:
-        diacriticBits |= (_ROUGH | _ACUTE | _IOTA_SUB)
-    elif diacriticIndex == DiacriticIdx.VARIA_AND_YPOGEGRAMMENI:
-        diacriticBits |= (_GRAVE | _IOTA_SUB)
-    elif diacriticIndex == DiacriticIdx.PSILI_AND_VARIA_AND_YPOGEGRAMMENI:
-        diacriticBits |= (_SMOOTH | _GRAVE | _IOTA_SUB)
-    elif diacriticIndex == DiacriticIdx.DASIA_AND_VARIA_AND_YPOGEGRAMMENI:
-        diacriticBits |= (_ROUGH | _GRAVE | _IOTA_SUB)
-    elif diacriticIndex == DiacriticIdx.PERISPOMENI_AND_YPOGEGRAMMENI:
-        diacriticBits |= (_CIRCUMFLEX | _IOTA_SUB)
-    elif diacriticIndex == DiacriticIdx.PSILI_AND_PERISPOMENI_AND_YPOGEGRAMMENI:
-        diacriticBits |= (_SMOOTH | _CIRCUMFLEX | _IOTA_SUB)
-    elif diacriticIndex == DiacriticIdx.DASIA_AND_PERISPOMENI_AND_YPOGEGRAMMENI:
-        diacriticBits |= (_ROUGH | _CIRCUMFLEX | _IOTA_SUB)
-    elif diacriticIndex == DiacriticIdx.DIALYTIKA:
-        diacriticBits |= _DIAERESIS
-    elif diacriticIndex == DiacriticIdx.DIALYTIKA_AND_OXIA:
-        diacriticBits |= (_DIAERESIS | _ACUTE)
-    elif diacriticIndex == DiacriticIdx.DIALYTIKA_AND_VARIA:
-        diacriticBits |= (_DIAERESIS | _GRAVE)
-    elif diacriticIndex == DiacriticIdx.DIALYTIKA_AND_PERISPOMENON:
-        diacriticBits |= (_DIAERESIS | _CIRCUMFLEX)
-    elif diacriticIndex == DiacriticIdx.MACRON_PRECOMPOSED:
-        diacriticBits |= _MACRON
-    elif diacriticIndex == DiacriticIdx.MACRON_AND_SMOOTH:
-        diacriticBits |= (_MACRON | _SMOOTH)
-    elif diacriticIndex == DiacriticIdx.MACRON_AND_SMOOTH_AND_ACUTE:
-        diacriticBits |= (_MACRON | _SMOOTH | _ACUTE)
-    elif diacriticIndex == DiacriticIdx.MACRON_AND_SMOOTH_AND_GRAVE:
-        diacriticBits |= (_MACRON | _SMOOTH | _GRAVE)
-    elif diacriticIndex == DiacriticIdx.MACRON_AND_ROUGH:
-        diacriticBits |= (_MACRON | _ROUGH)
-    elif diacriticIndex == DiacriticIdx.MACRON_AND_ROUGH_AND_ACUTE:
-        diacriticBits |= (_MACRON | _ROUGH | _ACUTE)
-    elif diacriticIndex == DiacriticIdx.MACRON_AND_ROUGH_AND_GRAVE:
-        diacriticBits |= (_MACRON | _ROUGH | _GRAVE)
-    elif diacriticIndex == DiacriticIdx.MACRON_AND_ACUTE:
-        diacriticBits |= (_MACRON | _ACUTE)
-    elif diacriticIndex == DiacriticIdx.MACRON_AND_GRAVE:
-        diacriticBits |= (_MACRON | _GRAVE)
-    elif diacriticIndex == DiacriticIdx.TONOS:  # we conflate tonos and acute
-        diacriticBits |= _ACUTE
-    return diacriticBits
+    if diacritic_idx == DiacriticIdx.PSILI:
+        diacritic_bits |= _SMOOTH
+    elif diacritic_idx == DiacriticIdx.DASIA:
+        diacritic_bits |= _ROUGH
+    elif diacritic_idx == DiacriticIdx.OXIA:
+        diacritic_bits |= _ACUTE
+    elif diacritic_idx == DiacriticIdx.PSILI_AND_OXIA:
+        diacritic_bits |= (_SMOOTH | _ACUTE)
+    elif diacritic_idx == DiacriticIdx.DASIA_AND_OXIA:
+        diacritic_bits |= (_ROUGH | _ACUTE)
+    elif diacritic_idx == DiacriticIdx.VARIA:
+        diacritic_bits |= _GRAVE
+    elif diacritic_idx == DiacriticIdx.PSILI_AND_VARIA:
+        diacritic_bits |= (_SMOOTH | _GRAVE)
+    elif diacritic_idx == DiacriticIdx.DASIA_AND_VARIA:
+        diacritic_bits |= (_ROUGH | _GRAVE)
+    elif diacritic_idx == DiacriticIdx.PERISPOMENI:
+        diacritic_bits |= _CIRCUMFLEX
+    elif diacritic_idx == DiacriticIdx.PSILI_AND_PERISPOMENI:
+        diacritic_bits |= (_SMOOTH | _CIRCUMFLEX)
+    elif diacritic_idx == DiacriticIdx.DASIA_AND_PERISPOMENI:
+        diacritic_bits |= (_ROUGH | _CIRCUMFLEX)
+    elif diacritic_idx == DiacriticIdx.YPOGEGRAMMENI:
+        diacritic_bits |= _IOTA_SUB
+    elif diacritic_idx == DiacriticIdx.PSILI_AND_YPOGEGRAMMENI:
+        diacritic_bits |= (_SMOOTH | _IOTA_SUB)
+    elif diacritic_idx == DiacriticIdx.DASIA_AND_YPOGEGRAMMENI:
+        diacritic_bits |= (_ROUGH | _IOTA_SUB)
+    elif diacritic_idx == DiacriticIdx.OXIA_AND_YPOGEGRAMMENI:
+        diacritic_bits |= (_ACUTE | _IOTA_SUB)
+    elif diacritic_idx == DiacriticIdx.PSILI_AND_OXIA_AND_YPOGEGRAMMENI:
+        diacritic_bits |= (_SMOOTH | _ACUTE | _IOTA_SUB)
+    elif diacritic_idx == DiacriticIdx.DASIA_AND_OXIA_AND_YPOGEGRAMMENI:
+        diacritic_bits |= (_ROUGH | _ACUTE | _IOTA_SUB)
+    elif diacritic_idx == DiacriticIdx.VARIA_AND_YPOGEGRAMMENI:
+        diacritic_bits |= (_GRAVE | _IOTA_SUB)
+    elif diacritic_idx == DiacriticIdx.PSILI_AND_VARIA_AND_YPOGEGRAMMENI:
+        diacritic_bits |= (_SMOOTH | _GRAVE | _IOTA_SUB)
+    elif diacritic_idx == DiacriticIdx.DASIA_AND_VARIA_AND_YPOGEGRAMMENI:
+        diacritic_bits |= (_ROUGH | _GRAVE | _IOTA_SUB)
+    elif diacritic_idx == DiacriticIdx.PERISPOMENI_AND_YPOGEGRAMMENI:
+        diacritic_bits |= (_CIRCUMFLEX | _IOTA_SUB)
+    elif diacritic_idx == DiacriticIdx.PSILI_AND_PERISPOMENI_AND_YPOGEGRAMMENI:
+        diacritic_bits |= (_SMOOTH | _CIRCUMFLEX | _IOTA_SUB)
+    elif diacritic_idx == DiacriticIdx.DASIA_AND_PERISPOMENI_AND_YPOGEGRAMMENI:
+        diacritic_bits |= (_ROUGH | _CIRCUMFLEX | _IOTA_SUB)
+    elif diacritic_idx == DiacriticIdx.DIALYTIKA:
+        diacritic_bits |= _DIAERESIS
+    elif diacritic_idx == DiacriticIdx.DIALYTIKA_AND_OXIA:
+        diacritic_bits |= (_DIAERESIS | _ACUTE)
+    elif diacritic_idx == DiacriticIdx.DIALYTIKA_AND_VARIA:
+        diacritic_bits |= (_DIAERESIS | _GRAVE)
+    elif diacritic_idx == DiacriticIdx.DIALYTIKA_AND_PERISPOMENON:
+        diacritic_bits |= (_DIAERESIS | _CIRCUMFLEX)
+    elif diacritic_idx == DiacriticIdx.MACRON_PRECOMPOSED:
+        diacritic_bits |= _MACRON
+    elif diacritic_idx == DiacriticIdx.MACRON_AND_SMOOTH:
+        diacritic_bits |= (_MACRON | _SMOOTH)
+    elif diacritic_idx == DiacriticIdx.MACRON_AND_SMOOTH_AND_ACUTE:
+        diacritic_bits |= (_MACRON | _SMOOTH | _ACUTE)
+    elif diacritic_idx == DiacriticIdx.MACRON_AND_SMOOTH_AND_GRAVE:
+        diacritic_bits |= (_MACRON | _SMOOTH | _GRAVE)
+    elif diacritic_idx == DiacriticIdx.MACRON_AND_ROUGH:
+        diacritic_bits |= (_MACRON | _ROUGH)
+    elif diacritic_idx == DiacriticIdx.MACRON_AND_ROUGH_AND_ACUTE:
+        diacritic_bits |= (_MACRON | _ROUGH | _ACUTE)
+    elif diacritic_idx == DiacriticIdx.MACRON_AND_ROUGH_AND_GRAVE:
+        diacritic_bits |= (_MACRON | _ROUGH | _GRAVE)
+    elif diacritic_idx == DiacriticIdx.MACRON_AND_ACUTE:
+        diacritic_bits |= (_MACRON | _ACUTE)
+    elif diacritic_idx == DiacriticIdx.MACRON_AND_GRAVE:
+        diacritic_bits |= (_MACRON | _GRAVE)
+    elif diacritic_idx == DiacriticIdx.TONOS:  # we conflate tonos and acute
+        diacritic_bits |= _ACUTE
+    return diacritic_bits
 
 
-# returns a tuple (letterIndex, diacriticsBits) or (None,None)
-def analyzeLetter(letter):
+# returns a tuple (letter_idx, diacritics_bits) or (None, None)
+def analyze_letter(letter):
     # fix me in c version, better here
-    diacriticBits = 0
+    diacritic_bits = 0
 
-    letterLen = len(letter)
-    if letterLen > 1:
+    letter_len = len(letter)
+    if letter_len > 1:
         for le in letter:  # (int j = 1; j <= MAX_COMBINING && i + j < len; j++)
             if le == COMBINING_ROUGH_BREATHING:
-                diacriticBits |= _ROUGH
+                diacritic_bits |= _ROUGH
             elif le == COMBINING_SMOOTH_BREATHING:
-                diacriticBits |= _SMOOTH
+                diacritic_bits |= _SMOOTH
             elif le == COMBINING_ACUTE:
-                diacriticBits |= _ACUTE
+                diacritic_bits |= _ACUTE
             elif le == COMBINING_GRAVE:
-                diacriticBits |= _GRAVE
+                diacritic_bits |= _GRAVE
             elif le == COMBINING_CIRCUMFLEX:
-                diacriticBits |= _CIRCUMFLEX
+                diacritic_bits |= _CIRCUMFLEX
             elif le == COMBINING_MACRON:
-                diacriticBits |= _MACRON
+                diacritic_bits |= _MACRON
             elif le == COMBINING_BREVE:
-                diacriticBits |= _BREVE
+                diacritic_bits |= _BREVE
             elif le == COMBINING_IOTA_SUBSCRIPT:
-                diacriticBits |= _IOTA_SUB
+                diacritic_bits |= _IOTA_SUB
             elif le == COMBINING_DIAERESIS:
-                diacriticBits |= _DIAERESIS
+                diacritic_bits |= _DIAERESIS
             else:
                 continue  # continue, not break because first letter is not combining
 
-    (letterIndex, diacriticIndex) = analyzePrecomposedLetter(letter)
-    if letterIndex is None:
+    (letter_idx, diacritic_idx) = analyze_precomposed_letter(letter)
+    if letter_idx is None:
         return (None, None)
 
-    diacriticBits = precomposedIndexToBitMask(diacriticIndex, diacriticBits)
+    diacritic_bits = precomposed_index_to_bitmask(diacritic_idx, diacritic_bits)
 
-    return (letterIndex, diacriticBits)
+    return (letter_idx, diacritic_bits)
 
 
-def accentLetter(letter, diacritic, vUnicodeMode, bToggleOff):
+# letter:       letter to which we are adding the diacritic
+# diacritic:    diacritic to add
+# unicode_mode: unicode mode to use
+# toggle_off:   whether we want to toggle off the diacritic if it is already present on the letter
+def accent_letter(letter, diacritic, unicode_mode, toggle_off):
     try:
-        if int(vUnicodeMode) < 0 or int(vUnicodeMode) > 3:
-            vUnicodeMode = UnicodeMode.PRECOMPOSED
+        if int(unicode_mode) < 0 or int(unicode_mode) > 3:
+            unicode_mode = UnicodeMode.PRECOMPOSED
     except ValueError:
-        vUnicodeMode = UnicodeMode.PRECOMPOSED
+        unicode_mode = UnicodeMode.PRECOMPOSED
 
     # bAddSpacingDiacriticIfNotLegal = False  # for now
 
@@ -564,20 +568,20 @@ def accentLetter(letter, diacritic, vUnicodeMode, bToggleOff):
         return rho_with_psili
 
     # 1. analyze the letter to be accented
-    (letterIndex, diacriticBits) = analyzeLetter(letter)
-    if letterIndex is None:
+    (letter_idx, diacritic_bits) = analyze_letter(letter)
+    if letter_idx is None:
         return None
 
     # 2. is it legal to add this diacritic?
-    if isLegalDiacriticForLetter(letterIndex, diacritic) is False:
+    if is_legal_diacritic_for_letter(letter_idx, diacritic) is False:
         return None
 
     # 3. add new diacritic to the existing diacritics, making adjustments accordingly
-    diacriticBits = updateDiacritics(letterIndex, diacriticBits, diacritic, bToggleOff)
+    diacritic_bits = update_diacritics(letter_idx, diacritic_bits, diacritic, toggle_off)
 
     # 4. make and return the new character
-    newLetter = makeLetter(letterIndex, diacriticBits, vUnicodeMode)
-    if newLetter is None:
+    new_letter = make_letter(letter_idx, diacritic_bits, unicode_mode)
+    if new_letter is None:
         return None
     else:
-        return newLetter
+        return new_letter

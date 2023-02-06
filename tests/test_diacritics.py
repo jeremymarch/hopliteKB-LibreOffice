@@ -4,51 +4,51 @@
 # now we set the path in pyproject.toml
 # sys.path.append(os.path.abspath("src/py/pythonpath"))
 
-from hopliteaccent import UnicodeMode, DiacriticKey, accentLetter
+from hopliteaccent import DiacriticKey, UnicodeMode, accent_letter
 
 
 def test_diacritics():
-    letter = accentLetter("α", DiacriticKey.ACUTE, UnicodeMode.PRECOMPOSED, True)
+    letter = accent_letter("α", DiacriticKey.ACUTE, UnicodeMode.PRECOMPOSED, True)
     assert letter == "ά"
 
-    letter = accentLetter(letter, DiacriticKey.SMOOTH_BREATHING, UnicodeMode.PRECOMPOSED, True)
+    letter = accent_letter(letter, DiacriticKey.SMOOTH_BREATHING, UnicodeMode.PRECOMPOSED, True)
     assert letter == "ἄ"
 
-    letter = accentLetter(letter, DiacriticKey.MACRON, UnicodeMode.PRECOMPOSED, True)
+    letter = accent_letter(letter, DiacriticKey.MACRON, UnicodeMode.PRECOMPOSED, True)
     assert letter == "α\u0304\u0313\u0301"
 
-    letter = accentLetter(letter, DiacriticKey.IOTA_SUBSCRIPT, UnicodeMode.PRECOMPOSED, True)
+    letter = accent_letter(letter, DiacriticKey.IOTA_SUBSCRIPT, UnicodeMode.PRECOMPOSED, True)
     assert letter == "α\u0304\u0313\u0301\u0345"
 
     # turn off iota subscript with toggle off == True
-    letter = accentLetter(letter, DiacriticKey.IOTA_SUBSCRIPT, UnicodeMode.PRECOMPOSED, True)
+    letter = accent_letter(letter, DiacriticKey.IOTA_SUBSCRIPT, UnicodeMode.PRECOMPOSED, True)
     assert letter == "α\u0304\u0313\u0301"
 
     # turn on iota subscript in PUA mode
-    letter = accentLetter(letter, DiacriticKey.IOTA_SUBSCRIPT, UnicodeMode.PRECOMPOSED_WITH_PUA, True)
+    letter = accent_letter(letter, DiacriticKey.IOTA_SUBSCRIPT, UnicodeMode.PRECOMPOSED_WITH_PUA, True)
     assert letter == "\ueb07\u0345"
 
     # toggle off is false: do nothing, if diacritic is present
-    letter = accentLetter(letter, DiacriticKey.IOTA_SUBSCRIPT, UnicodeMode.PRECOMPOSED_WITH_PUA, False)
+    letter = accent_letter(letter, DiacriticKey.IOTA_SUBSCRIPT, UnicodeMode.PRECOMPOSED_WITH_PUA, False)
     assert letter == "\ueb07\u0345"
 
     # combining mode
-    letter = accentLetter("α", DiacriticKey.ACUTE, UnicodeMode.COMBINING_ONLY, True)
+    letter = accent_letter("α", DiacriticKey.ACUTE, UnicodeMode.COMBINING_ONLY, True)
     assert letter == "α\u0301"
 
-    letter = accentLetter(letter, DiacriticKey.ROUGH_BREATHING, UnicodeMode.COMBINING_ONLY, True)
+    letter = accent_letter(letter, DiacriticKey.ROUGH_BREATHING, UnicodeMode.COMBINING_ONLY, True)
     assert letter == "α\u0314\u0301"
 
-    letter = accentLetter(letter, DiacriticKey.IOTA_SUBSCRIPT, UnicodeMode.COMBINING_ONLY, True)
+    letter = accent_letter(letter, DiacriticKey.IOTA_SUBSCRIPT, UnicodeMode.COMBINING_ONLY, True)
     assert letter == "α\u0314\u0301\u0345"
 
-    letter = accentLetter("ρ", DiacriticKey.ROUGH_BREATHING, UnicodeMode.PRECOMPOSED, True)
+    letter = accent_letter("ρ", DiacriticKey.ROUGH_BREATHING, UnicodeMode.PRECOMPOSED, True)
     assert letter == "ῥ"
 
     # illegal diacritic
-    letter = accentLetter("ρ", DiacriticKey.BREVE, UnicodeMode.PRECOMPOSED, True)
+    letter = accent_letter("ρ", DiacriticKey.BREVE, UnicodeMode.PRECOMPOSED, True)
     assert letter is None
 
     # illegal diacritic
-    letter = accentLetter("ε", DiacriticKey.MACRON, UnicodeMode.PRECOMPOSED, True)
+    letter = accent_letter("ε", DiacriticKey.MACRON, UnicodeMode.PRECOMPOSED, True)
     assert letter is None

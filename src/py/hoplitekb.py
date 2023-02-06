@@ -253,7 +253,7 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
             for i in range(0, 6):
                 xWordCursor.goRight(1, True)
                 s = xWordCursor.getString()
-                if s is not None and len(s) > 0 and s[-1] not in hopliteaccent.combiningAccents:
+                if s is not None and len(s) > 0 and s[-1] not in hopliteaccent.combining_accents:
                     xWordCursor.collapseToStart()  # roll back one
                     break
                 n = n + 1
@@ -263,13 +263,13 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
             for j in range(0, 6 + n):
                 xWordCursor.goLeft(1, True)
                 s = xWordCursor.getString()
-                if s is not None and len(s) > 0 and s[0] not in hopliteaccent.combiningAccents:  # when != "a" this puts us one further past the comb. chars.
+                if s is not None and len(s) > 0 and s[0] not in hopliteaccent.combining_accents:  # when != "a" this puts us one further past the comb. chars.
                     break
 
-            # get letter with any following combining chars, we decide what to do inside accentLetter
+            # get letter with any following combining chars, we decide what to do inside accent_letter
             letterToAccent = xWordCursor.getString()
             if letterToAccent is not None and len(letterToAccent) > 0:
-                newLetter = hopliteaccent.accentLetter(letterToAccent, diacriticToAdd, vUnicodeMode, True)
+                newLetter = hopliteaccent.accent_letter(letterToAccent, diacriticToAdd, vUnicodeMode, True)
                 if newLetter is not None:
                     xWordCursor.setString(newLetter)
 
@@ -355,11 +355,11 @@ def initializeOptionsOnce():
     maxwidth, maxheight, umode = readConfig(*cfgnames)
     umode = umode or defaults[2]
     if umode == "PrecomposedPUA":
-        setUnicodeMode(1)
+        setUnicodeMode(hopliteaccent.UnicodeMode.PRECOMPOSED_WITH_PUA)  # 1
     elif umode == "CombiningOnly":
-        setUnicodeMode(2)
+        setUnicodeMode(hopliteaccent.UnicodeMode.COMBINING_ONLY)  # 2
     else:
-        setUnicodeMode(0)
+        setUnicodeMode(hopliteaccent.UnicodeMode.PRECOMPOSED)  # 0
 
 
 def loadDiacriticsKeys():
