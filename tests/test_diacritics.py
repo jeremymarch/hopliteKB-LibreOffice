@@ -1,8 +1,8 @@
 # import pytest
-import sys
-import os
-
-sys.path.append(os.path.abspath("src/py"))
+# import sys
+# import os
+# now we set the path in pyproject.toml
+# sys.path.append(os.path.abspath("src/py/pythonpath"))
 
 from hopliteaccent import UnicodeMode, DiacriticKey, accentLetter
 

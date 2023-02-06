@@ -13,9 +13,6 @@
 
 # toggle button modeled after: https://forum.openoffice.org/en/forum/viewtopic.php?p=200474#p200474
 
-import sys
-import os
-import inspect
 import uno
 import unohelper
 from com.sun.star.lang import XServiceInfo
@@ -23,18 +20,8 @@ from com.sun.star.awt import XKeyHandler
 
 from com.sun.star.frame import (XDispatchProvider,
                                 XDispatch, XControlNotificationListener, FeatureStateEvent)
-# from com.sun.star.lang import XInitialization, XServiceInfo
 
-# import gettext
-# _ = gettext.gettext
-
-# Add current directory to path to import local modules
-cmd_folder = os.path.realpath(os.path.abspath
-                              (os.path.split(inspect.getfile(inspect.currentframe()))[0]))
-
-if cmd_folder not in sys.path:
-    sys.path.insert(0, cmd_folder)
-
+# put these two modules in subdirectory called pythonpath
 import hopliteaccent
 import optionsdialog
 

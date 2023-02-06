@@ -1,0 +1,4 @@
+# this lets pytest find hopliteaccent module
+
+[tool.pytest.ini_options]
+pythonpath = "src/py/pythonpath"

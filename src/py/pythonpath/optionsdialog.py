@@ -2,11 +2,10 @@
 import unohelper
 from com.sun.star.awt import XContainerWindowEventHandler
 from com.sun.star.lang import XServiceInfo
-# from com.sun.star.awt import XActionListener
 from com.sun.star.beans import PropertyValue
 
-# from com.sun.star.awt.PosSize import POSSIZE
 # import traceback
+import hopliteaccent
 
 
 def create(ctx, *args, imple_name, service_name, on_options_changed, reload_diacritics_keys):
@@ -76,13 +75,13 @@ class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
                 elif eventname == "ok":
                     if dialog.getControl("PrecomposedPUAOption").getModel().State == 1:  # == 1 instead of True to satisfy flake8
                         umode = "PrecomposedPUA"
-                        self.on_options_changed(1)  # hopliteaccent.UnicodeMode.PRECOMPOSED_WITH_PUA
+                        self.on_options_changed(hopliteaccent.UnicodeMode.PRECOMPOSED_WITH_PUA)  # 1
                     elif dialog.getControl("CombiningOption").getModel().State == 1:  # == 1 instead of True to satisfy flake8
                         umode = "CombiningOnly"
-                        self.on_options_changed(2)  # hopliteaccent.UnicodeMode.COMBINING_ONLY
+                        self.on_options_changed(hopliteaccent.UnicodeMode.COMBINING_ONLY)  # 2
                     else:
                         umode = "Precomposed"
-                        self.on_options_changed(0)  # hopliteaccent.UnicodeMode.PRECOMPOSED
+                        self.on_options_changed(hopliteaccent.UnicodeMode.PRECOMPOSED)  # 0
 
                     roughKey_new = dialog.getControl("roughKey").getModel().Text
                     smoothKey_new = dialog.getControl("smoothKey").getModel().Text
