@@ -34,10 +34,21 @@ def test_diacritics():
 
     # combining mode
     letter = accentLetter("α", DiacriticKey.ACUTE, UnicodeMode.COMBINING_ONLY, True)
-    assert (letter == "α\u0301")
+    assert letter == "α\u0301"
 
     letter = accentLetter(letter, DiacriticKey.ROUGH_BREATHING, UnicodeMode.COMBINING_ONLY, True)
     assert letter == "α\u0314\u0301"
 
     letter = accentLetter(letter, DiacriticKey.IOTA_SUBSCRIPT, UnicodeMode.COMBINING_ONLY, True)
     assert letter == "α\u0314\u0301\u0345"
+
+    letter = accentLetter("ρ", DiacriticKey.ROUGH_BREATHING, UnicodeMode.PRECOMPOSED, True)
+    assert letter == "ῥ"
+
+    # illegal diacritic
+    letter = accentLetter("ρ", DiacriticKey.BREVE, UnicodeMode.PRECOMPOSED, True)
+    assert letter == None
+
+    # illegal diacritic
+    letter = accentLetter("ε", DiacriticKey.MACRON, UnicodeMode.PRECOMPOSED, True)
+    assert letter == None
