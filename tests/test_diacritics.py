@@ -47,8 +47,8 @@ def test_diacritics():
 
     # illegal diacritic
     letter = accentLetter("ρ", DiacriticKey.BREVE, UnicodeMode.PRECOMPOSED, True)
-    assert letter == None
+    assert letter is None
 
     # illegal diacritic
     letter = accentLetter("ε", DiacriticKey.MACRON, UnicodeMode.PRECOMPOSED, True)
-    assert letter == None
+    assert letter is None
