@@ -253,7 +253,7 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
             for i in range(0, 6):
                 xWordCursor.goRight(1, True)
                 s = xWordCursor.getString()
-                if s is not None and len(s) > 0 and s[-1] not in hopliteaccent.combining_accents:
+                if s is not None and len(s) > 0 and s[-1] not in hopliteaccent.combining_diacritics:
                     xWordCursor.collapseToStart()  # roll back one
                     break
                 n = n + 1
@@ -263,7 +263,7 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
             for j in range(0, 6 + n):
                 xWordCursor.goLeft(1, True)
                 s = xWordCursor.getString()
-                if s is not None and len(s) > 0 and s[0] not in hopliteaccent.combining_accents:  # when != "a" this puts us one further past the comb. chars.
+                if s is not None and len(s) > 0 and s[0] not in hopliteaccent.combining_diacritics:  # when != "a" this puts us one further past the comb. chars.
                     break
 
             # get letter with any following combining chars, we decide what to do inside accent_letter
