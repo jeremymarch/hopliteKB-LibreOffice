@@ -8,16 +8,17 @@ from com.sun.star.beans import PropertyValue
 import hopliteaccent
 
 
+# on_options_changed and reload_diacritics_keys are functions passed in from hoplitekb.py
 def create(ctx, *args, imple_name, service_name, on_options_changed, reload_diacritics_keys):
     global IMPLE_NAME
     global SERVICE_NAME
     IMPLE_NAME = imple_name
     SERVICE_NAME = service_name
-    dh = DilaogHandler(ctx, on_options_changed, reload_diacritics_keys, *args)
+    dh = DialogHandler(ctx, on_options_changed, reload_diacritics_keys, *args)
     return dh
 
 
-class DilaogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
+class DialogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
     METHODNAME = "external_event"
 
     def __init__(self, ctx, on_options_changed, reload_diacritics_keys, *args):

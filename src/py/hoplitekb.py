@@ -22,6 +22,7 @@ from com.sun.star.frame import (XDispatchProvider,
                                 XDispatch, XControlNotificationListener, FeatureStateEvent)
 
 # put these two modules in subdirectory called pythonpath
+# pythonpath is added to sys.path by LibreOffice uno
 import hopliteaccent
 import optionsdialog
 
@@ -30,7 +31,7 @@ ServiceName = "com.sun.star.frame.ProtocolHandler"
 Protocol = "com.philolog.hoplitekb:"
 
 
-def getTextRange(controller):
+def get_text_range(controller):
     xSelectionSupplier = controller
 
     xIndexAccess = xSelectionSupplier.getSelection()
@@ -49,40 +50,40 @@ def getTextRange(controller):
     return textrange  # allow ranges with length greater than zero: will replace whole range with character
 
 
-def insertString(ctx, string):
+# insert a string at the selected text range
+def insert_string(ctx, string):
     smgr = ctx.getServiceManager()
     desktop = smgr.createInstanceWithContext(
             "com.sun.star.frame.Desktop", ctx)
     doc = desktop.getCurrentComponent()
     controller = doc.getCurrentController()
-    textrange = getTextRange(controller)
+    textrange = get_text_range(controller)
     if (textrange is None):
         return
 
     try:
-        timestamp = string
-        if timestamp is not None:
-            textrange.setString(timestamp)
+        if string is not None:
+            textrange.setString(string)
     except Exception:
         pass
 
 
 # set default
-vUnicodeMode = hopliteaccent.UnicodeMode.PRECOMPOSED
-diacriticsKeys = []
+unicode_mode = hopliteaccent.UnicodeMode.PRECOMPOSED
+diacritics_keys = []
 
 
-def setDiacriticsKeys(val):
-    global diacriticsKeys
-    diacriticsKeys = val
+def set_diacritic_keys(val):
+    global diacritics_keys
+    diacritics_keys = val
 
 
-def setUnicodeMode(mode):
-    global vUnicodeMode
-    vUnicodeMode = mode
+def set_unicode_mode(mode):
+    global unicode_mode
+    unicode_mode = mode
 
 
-transliterateLetters = {
+transliterate_letters = {
   "a": "α",
   "b": "β",
   "g": "γ",
@@ -138,7 +139,7 @@ transliterateLetters = {
 
 
 def transliterate(s):
-    return transliterateLetters.get(s)
+    return transliterate_letters.get(s)
 
 
 class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
@@ -187,12 +188,12 @@ class KeyHandler(unohelper.Base, XKeyHandler):
         if oEvent.Modifiers != 0 and oEvent.Modifiers != 1:
             return False
         letter = oEvent.KeyChar.value
-        if letter in diacriticsKeys:
-            self.parent.toggleDiacritic(letter)
+        if letter in diacritics_keys:
+            self.parent.toggle_diacritic(letter)
             return True
         a = transliterate(letter)
         if a is not None:
-            insertString(self.ctx, a)
+            insert_string(self.ctx, a)
             return True
         return False
 
@@ -210,7 +211,7 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
         self.ctx = ctx
         self.key_handler = KeyHandler(self, self.ctx)
 
-    def toggleDiacritic(self, args):
+    def toggle_diacritic(self, args):
         try:
             if args is None or len(args) < 1:
                 return
@@ -221,24 +222,24 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
             # text = doc.Text
             # cursor = text.createTextCursor()
 
-            if args == diacriticsKeys[2]:  # "3": #"acute":
-                diacriticToAdd = hopliteaccent.DiacriticKey.ACUTE
-            elif args == diacriticsKeys[4]:  # "5": #"circumflex":
-                diacriticToAdd = hopliteaccent.DiacriticKey.CIRCUMFLEX
-            elif args == diacriticsKeys[3]:  # "4": #"grave":
-                diacriticToAdd = hopliteaccent.DiacriticKey.GRAVE
-            elif args == diacriticsKeys[5]:  # "6": #"macron":
-                diacriticToAdd = hopliteaccent.DiacriticKey.MACRON
-            elif args == diacriticsKeys[0]:  # "1": #"rough":
-                diacriticToAdd = hopliteaccent.DiacriticKey.ROUGH_BREATHING
-            elif args == diacriticsKeys[1]:  # "2": #"smooth":
-                diacriticToAdd = hopliteaccent.DiacriticKey.SMOOTH_BREATHING
-            elif args == diacriticsKeys[7]:  # "8": #"iotasub":
-                diacriticToAdd = hopliteaccent.DiacriticKey.IOTA_SUBSCRIPT
-            elif args == diacriticsKeys[8]:  # "9": #"diaeresis":
-                diacriticToAdd = hopliteaccent.DiacriticKey.DIAERESIS
-            elif args == diacriticsKeys[6]:  # "7": #"breve":
-                diacriticToAdd = hopliteaccent.DiacriticKey.BREVE
+            if args == diacritics_keys[0]:  # "1": #"rough":
+                diacritic_to_add = hopliteaccent.DiacriticKey.ROUGH_BREATHING
+            elif args == diacritics_keys[1]:  # "2": #"smooth":
+                diacritic_to_add = hopliteaccent.DiacriticKey.SMOOTH_BREATHING
+            elif args == diacritics_keys[2]:  # "3": #"acute":
+                diacritic_to_add = hopliteaccent.DiacriticKey.ACUTE
+            elif args == diacritics_keys[3]:  # "4": #"grave":
+                diacritic_to_add = hopliteaccent.DiacriticKey.GRAVE
+            elif args == diacritics_keys[4]:  # "5": #"circumflex":
+                diacritic_to_add = hopliteaccent.DiacriticKey.CIRCUMFLEX
+            elif args == diacritics_keys[5]:  # "6": #"macron":
+                diacritic_to_add = hopliteaccent.DiacriticKey.MACRON
+            elif args == diacritics_keys[6]:  # "7": #"breve":
+                diacritic_to_add = hopliteaccent.DiacriticKey.BREVE
+            elif args == diacritics_keys[7]:  # "8": #"iotasub":
+                diacritic_to_add = hopliteaccent.DiacriticKey.IOTA_SUBSCRIPT
+            elif args == diacritics_keys[8]:  # "9": #"diaeresis":
+                diacritic_to_add = hopliteaccent.DiacriticKey.DIAERESIS
             else:
                 return
 
@@ -267,16 +268,16 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
                     break
 
             # get letter with any following combining chars, we decide what to do inside accent_letter
-            letterToAccent = xWordCursor.getString()
-            if letterToAccent is not None and len(letterToAccent) > 0:
-                newLetter = hopliteaccent.accent_letter(letterToAccent, diacriticToAdd, vUnicodeMode, True)
-                if newLetter is not None:
-                    xWordCursor.setString(newLetter)
+            letter_to_accent = xWordCursor.getString()
+            if letter_to_accent is not None and len(letter_to_accent) > 0:
+                new_letter = hopliteaccent.accent_letter(letter_to_accent, diacritic_to_add, unicode_mode, True)
+                if new_letter is not None:
+                    xWordCursor.setString(new_letter)
 
         except Exception as e:
             if False:
                 print(e)
-            # text.insertString( cursor, str(e), 0 ) #print exception
+            # text.insert_string( cursor, str(e), 0 ) #print exception
             # print('hello python to console')
             pass
 
@@ -298,7 +299,7 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
                 dispatch = Dispatcher(self)
             except Exception as e:
                 print(e)
-                # insertString(self.ctx, str(e))
+                # insert_string(self.ctx, str(e))
         return dispatch
 
     def queryDispatches(self, requests):
@@ -345,7 +346,7 @@ g_ImplementationHelper.addImplementation(
 
 
 # Settings
-def initializeOptionsOnce():
+def initialize_options_once():
     ctx = uno.getComponentContext()
     smgr = ctx.getServiceManager()
     readConfig, writeConfig = optionsdialog.createConfigAccessor(ctx, smgr, "/com.philolog.hoplitekb.ExtensionData/Leaves/HKBSettingsNode")
@@ -355,14 +356,14 @@ def initializeOptionsOnce():
     maxwidth, maxheight, umode = readConfig(*cfgnames)
     umode = umode or defaults[2]
     if umode == "PrecomposedPUA":
-        setUnicodeMode(hopliteaccent.UnicodeMode.PRECOMPOSED_WITH_PUA)  # 1
+        set_unicode_mode(hopliteaccent.UnicodeMode.PRECOMPOSED_WITH_PUA)  # 1
     elif umode == "CombiningOnly":
-        setUnicodeMode(hopliteaccent.UnicodeMode.COMBINING_ONLY)  # 2
+        set_unicode_mode(hopliteaccent.UnicodeMode.COMBINING_ONLY)  # 2
     else:
-        setUnicodeMode(hopliteaccent.UnicodeMode.PRECOMPOSED)  # 0
+        set_unicode_mode(hopliteaccent.UnicodeMode.PRECOMPOSED)  # 0
 
 
-def loadDiacriticsKeys():
+def load_diacritic_keys():
     ctx = uno.getComponentContext()
     smgr = ctx.getServiceManager()
     readConfig, writeConfig = optionsdialog.createConfigAccessor(ctx, smgr, "/com.philolog.hoplitekb.ExtensionData/Leaves/HKBSettingsNode")
@@ -379,18 +380,19 @@ def loadDiacriticsKeys():
     breveKey = breveKey or defaults[9]
     iotaKey = iotaKey or defaults[10]
     diaeresisKey = diaeresisKey or defaults[11]
-    setDiacriticsKeys([roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaeresisKey])
+    set_diacritic_keys([roughKey, smoothKey, acuteKey, graveKey, circumflexKey, macronKey, breveKey, iotaKey, diaeresisKey])
 
 
-initializeOptionsOnce()
-loadDiacriticsKeys()
+initialize_options_once()
+load_diacritic_keys()
 
 IMPLE_NAME = "com.philolog.hoplitekb.OptionsDialog"
 SERVICE_NAME = "com.philolog.hoplitekb.OptionsDialog"
 
 
+# set_unicode_mode() and load_diacritic_keys() are passed into optionsdialog.py here
 def create(ctx, *args):
-    return optionsdialog.create(ctx, *args, imple_name=IMPLE_NAME, service_name=SERVICE_NAME, on_options_changed=setUnicodeMode, reload_diacritics_keys=loadDiacriticsKeys)
+    return optionsdialog.create(ctx, *args, imple_name=IMPLE_NAME, service_name=SERVICE_NAME, on_options_changed=set_unicode_mode, reload_diacritics_keys=load_diacritic_keys)
 
 
 g_ImplementationHelper.addImplementation(create, IMPLE_NAME, (SERVICE_NAME,),)
