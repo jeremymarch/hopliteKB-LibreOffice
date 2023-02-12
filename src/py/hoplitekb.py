@@ -223,23 +223,23 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
             # cursor = text.createTextCursor()
 
             if args == diacritics_keys[0]:  # "1": #"rough":
-                diacritic_to_add = hopliteaccent.DiacriticKey.ROUGH_BREATHING
+                diacritic_to_add = hopliteaccent.Diacritic.ROUGH_BREATHING
             elif args == diacritics_keys[1]:  # "2": #"smooth":
-                diacritic_to_add = hopliteaccent.DiacriticKey.SMOOTH_BREATHING
+                diacritic_to_add = hopliteaccent.Diacritic.SMOOTH_BREATHING
             elif args == diacritics_keys[2]:  # "3": #"acute":
-                diacritic_to_add = hopliteaccent.DiacriticKey.ACUTE
+                diacritic_to_add = hopliteaccent.Diacritic.ACUTE
             elif args == diacritics_keys[3]:  # "4": #"grave":
-                diacritic_to_add = hopliteaccent.DiacriticKey.GRAVE
+                diacritic_to_add = hopliteaccent.Diacritic.GRAVE
             elif args == diacritics_keys[4]:  # "5": #"circumflex":
-                diacritic_to_add = hopliteaccent.DiacriticKey.CIRCUMFLEX
+                diacritic_to_add = hopliteaccent.Diacritic.CIRCUMFLEX
             elif args == diacritics_keys[5]:  # "6": #"macron":
-                diacritic_to_add = hopliteaccent.DiacriticKey.MACRON
+                diacritic_to_add = hopliteaccent.Diacritic.MACRON
             elif args == diacritics_keys[6]:  # "7": #"breve":
-                diacritic_to_add = hopliteaccent.DiacriticKey.BREVE
+                diacritic_to_add = hopliteaccent.Diacritic.BREVE
             elif args == diacritics_keys[7]:  # "8": #"iotasub":
-                diacritic_to_add = hopliteaccent.DiacriticKey.IOTA_SUBSCRIPT
+                diacritic_to_add = hopliteaccent.Diacritic.IOTA_SUBSCRIPT
             elif args == diacritics_keys[8]:  # "9": #"diaeresis":
-                diacritic_to_add = hopliteaccent.DiacriticKey.DIAERESIS
+                diacritic_to_add = hopliteaccent.Diacritic.DIAERESIS
             else:
                 return
 
@@ -249,7 +249,7 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
             xWordCursor = xText.createTextCursorByRange(xTextRange)
             xWordCursor.collapseToEnd()
 
-            # go right to be sure the cursor we don't miss any combining chars, in case cursor is between them and letter; max 6
+            # go right to be sure the cursor we don't miss any combining chars, in case cursor is between a diacritic and the letter; max 6
             n = 0
             for i in range(0, 6):
                 xWordCursor.goRight(1, True)
