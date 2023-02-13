@@ -32,6 +32,11 @@ Protocol = "com.philolog.hoplitekb:"
 
 
 def get_text_range(controller):
+    """Get the selected range of text in the LibreOffice document.
+
+    If no text is currently selected, this will be the cursor position.
+    """
+
     xSelectionSupplier = controller
 
     xIndexAccess = xSelectionSupplier.getSelection()
@@ -52,6 +57,8 @@ def get_text_range(controller):
 
 # insert a string at the selected text range
 def insert_string(ctx, string):
+    """Insert the updated letter into the LibreOffice document."""
+
     smgr = ctx.getServiceManager()
     desktop = smgr.createInstanceWithContext(
             "com.sun.star.frame.Desktop", ctx)
@@ -74,11 +81,13 @@ diacritics_keys = []
 
 
 def set_diacritic_keys(val):
+    """Set which keys correspond to which diacritics."""
     global diacritics_keys
     diacritics_keys = val
 
 
 def set_unicode_mode(mode):
+    """Set the unicode mode."""
     global unicode_mode
     unicode_mode = mode
 
@@ -139,10 +148,13 @@ transliterate_letters = {
 
 
 def transliterate(s):
+    """Transliterate Roman letters and punctuation to Greek using the transliterate_letters dictionary."""
     return transliterate_letters.get(s)
 
 
 class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
+    """Called from LibreOffice uno to setup the keyboard listener."""
+
     def __init__(self, parent):
         self.state = False
         self.listener = None
@@ -174,12 +186,19 @@ class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
 
 
 class KeyHandler(unohelper.Base, XKeyHandler):
+    """Handle LibreOffice key presses."""
 
     def __init__(self, parent, ctx):
         self.parent = parent
         self.ctx = ctx
 
     def keyPressed(self, oEvent):
+        """Transliterates letters or toggles diacritics.
+
+        Returns True if the keypress is handled, else return False to pass it on to default handler.
+
+        """
+
         # do not interfere with modified keys except shift
         # 1 shift                SHIFT
         # 2 control/command      MOD1
@@ -187,10 +206,12 @@ class KeyHandler(unohelper.Base, XKeyHandler):
         # 8 control on macOS     MOD3
         if oEvent.Modifiers != 0 and oEvent.Modifiers != 1:
             return False
+
         letter = oEvent.KeyChar.value
         if letter in diacritics_keys:
             self.parent.toggle_diacritic(letter)
             return True
+
         a = transliterate(letter)
         if a is not None:
             insert_string(self.ctx, a)
@@ -212,6 +233,7 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
         self.key_handler = KeyHandler(self, self.ctx)
 
     def toggle_diacritic(self, args):
+        """Handle diacritic key press."""
         try:
             if args is None or len(args) < 1:
                 return
@@ -347,6 +369,8 @@ g_ImplementationHelper.addImplementation(
 
 # Settings
 def initialize_options_once():
+    """Set initial unicode mode."""
+
     ctx = uno.getComponentContext()
     smgr = ctx.getServiceManager()
     readConfig, writeConfig = options_dialog.createConfigAccessor(ctx, smgr, "/com.philolog.hoplitekb.ExtensionData/Leaves/HKBSettingsNode")
@@ -364,6 +388,8 @@ def initialize_options_once():
 
 
 def load_diacritic_keys():
+    """Set initial diacritic key mapping."""
+
     ctx = uno.getComponentContext()
     smgr = ctx.getServiceManager()
     readConfig, writeConfig = options_dialog.createConfigAccessor(ctx, smgr, "/com.philolog.hoplitekb.ExtensionData/Leaves/HKBSettingsNode")
@@ -392,6 +418,7 @@ SERVICE_NAME = "com.philolog.hoplitekb.OptionsDialog"
 
 # set_unicode_mode() and load_diacritic_keys() are passed into options_dialog.py here
 def create(ctx, *args):
+    """Create option dialog to set unicode mode and diacritic key mapping."""
     return options_dialog.create(ctx, *args, imple_name=IMPLE_NAME, service_name=SERVICE_NAME, on_options_changed=set_unicode_mode, reload_diacritics_keys=load_diacritic_keys)
 
 

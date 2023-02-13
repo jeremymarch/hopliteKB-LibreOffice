@@ -145,7 +145,7 @@ precomposed_idx_to_bitmask = [
 ]
 
 
-# dictionary with key: diacritic bitmask, value DiacriticIdx
+# dictionary with key: diacritic bitmask, value: DiacriticIdx
 bitmask_to_precomposed_idx = {
     _SMOOTH: DiacriticIdx.PSILI,
     _ROUGH: DiacriticIdx.DASIA,

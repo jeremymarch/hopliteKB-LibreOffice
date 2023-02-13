@@ -8,8 +8,13 @@ from com.sun.star.beans import PropertyValue
 import hoplite_accent
 
 
-# on_options_changed and reload_diacritics_keys are functions passed in from hoplitekb.py
 def create(ctx, *args, imple_name, service_name, on_options_changed, reload_diacritics_keys):
+    """Creates the options dialog handler.
+
+    on_options_changed() and reload_diacritics_keys() are functions which are passed in from hoplitekb.py
+
+    """
+
     global IMPLE_NAME
     global SERVICE_NAME
     IMPLE_NAME = imple_name
@@ -32,6 +37,8 @@ class DialogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
 
     # XContainerWindowEventHandler
     def callHandlerMethod(self, dialog, eventname, methodname):
+        """Handle initialize and button press events from the options dialog."""
+
         if methodname == self.METHODNAME:
             try:
                 if eventname == "initialize":
