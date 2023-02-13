@@ -5,7 +5,7 @@ from com.sun.star.lang import XServiceInfo
 from com.sun.star.beans import PropertyValue
 
 # import traceback
-import hopliteaccent
+import hoplite_accent
 
 
 # on_options_changed and reload_diacritics_keys are functions passed in from hoplitekb.py
@@ -76,13 +76,13 @@ class DialogHandler(unohelper.Base, XServiceInfo, XContainerWindowEventHandler):
                 elif eventname == "ok":
                     if dialog.getControl("PrecomposedPUAOption").getModel().State == 1:  # == 1 instead of True to satisfy flake8
                         umode = "PrecomposedPUA"
-                        self.on_options_changed(hopliteaccent.UnicodeMode.PRECOMPOSED_WITH_PUA)  # 1
+                        self.on_options_changed(hoplite_accent.UnicodeMode.PRECOMPOSED_WITH_PUA)  # 1
                     elif dialog.getControl("CombiningOption").getModel().State == 1:  # == 1 instead of True to satisfy flake8
                         umode = "CombiningOnly"
-                        self.on_options_changed(hopliteaccent.UnicodeMode.COMBINING_ONLY)  # 2
+                        self.on_options_changed(hoplite_accent.UnicodeMode.COMBINING_ONLY)  # 2
                     else:
                         umode = "Precomposed"
-                        self.on_options_changed(hopliteaccent.UnicodeMode.PRECOMPOSED)  # 0
+                        self.on_options_changed(hoplite_accent.UnicodeMode.PRECOMPOSED)  # 0
 
                     roughKey_new = dialog.getControl("roughKey").getModel().Text
                     smoothKey_new = dialog.getControl("smoothKey").getModel().Text

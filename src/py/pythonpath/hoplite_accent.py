@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-#  hopliteaccent.py
+#  hoplite_accent.py
 #  HopliteKB-LibreOffice
 #
 #  Created by Jeremy March on 12/06/18.

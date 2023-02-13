@@ -1,5 +1,5 @@
-# hopliteaccent is added to sys.path in pyproject.toml
-from hopliteaccent import accent_letter, Diacritic, UnicodeMode
+# hoplite_accent is added to sys.path in pyproject.toml
+from hoplite_accent import accent_letter, Diacritic, UnicodeMode
 
 
 def test_diacritics():
