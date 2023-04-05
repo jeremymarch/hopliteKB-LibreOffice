@@ -11,11 +11,17 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 
+"""The hoplite_accent module is used to toggle diacritics on/off
+polytonic Greek letters.  Call the function accent_letter() which is
+located at the bottom of this module.  The rest of the functions are
+helper functions for accent_letter()."""
+
 from enum import IntEnum
 
 
-# unicode modes
 class UnicodeMode(IntEnum):
+    """The UnicodeMode enum is used to specify whether the returned str will attempt to use precomposed codepoints,
+    precomposed with Private Use Area codepoints, or only use base letters with combining codepoints."""
     PRECOMPOSED = 0
     PRECOMPOSED_WITH_PUA = 1
     COMBINING_ONLY = 2

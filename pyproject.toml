@@ -2,3 +2,6 @@
 
 [tool.pytest.ini_options]
 pythonpath = "src/py/pythonpath"
+
+[tool.ruff]  # https://github.com/charliermarsh/ruff#configuration
+ignore = ["E501"]

@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-import unohelper
-from com.sun.star.awt import XContainerWindowEventHandler
-from com.sun.star.lang import XServiceInfo
-from com.sun.star.beans import PropertyValue
-
 # import traceback
 import hoplite_accent
+import unohelper
+from com.sun.star.awt import XContainerWindowEventHandler
+from com.sun.star.beans import PropertyValue
+from com.sun.star.lang import XServiceInfo
 
 
 def create(ctx, *args, imple_name, service_name, on_options_changed, reload_diacritics_keys):

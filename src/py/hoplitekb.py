@@ -13,18 +13,17 @@
 
 # toggle button modeled after: https://forum.openoffice.org/en/forum/viewtopic.php?p=200474#p200474
 
-import uno
-import unohelper
-from com.sun.star.lang import XServiceInfo
-from com.sun.star.awt import XKeyHandler
-
-from com.sun.star.frame import (XDispatchProvider,
-                                XDispatch, XControlNotificationListener, FeatureStateEvent)
-
 # put these two modules in subdirectory called pythonpath
 # pythonpath is added to sys.path by LibreOffice uno
 import hoplite_accent
 import options_dialog
+import uno
+import unohelper
+from com.sun.star.awt import XKeyHandler
+from com.sun.star.frame import (FeatureStateEvent,
+                                XControlNotificationListener, XDispatch,
+                                XDispatchProvider)
+from com.sun.star.lang import XServiceInfo
 
 ImplementationName = "com.philolog.hoplitekb.ProtocolHandler"
 ServiceName = "com.sun.star.frame.ProtocolHandler"
