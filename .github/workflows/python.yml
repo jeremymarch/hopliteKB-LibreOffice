@@ -4,13 +4,11 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        # 3.6 is not available for latest ubuntu
-        # 3.12 is not yet available
+        # 3.6 is not available for ubuntu-latest
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
