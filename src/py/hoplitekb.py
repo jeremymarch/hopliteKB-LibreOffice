@@ -151,39 +151,6 @@ def transliterate(s):
     return transliterate_letters.get(s)
 
 
-class Dispatcher(unohelper.Base, XDispatch, XControlNotificationListener):
-    """Called from LibreOffice uno to setup the keyboard listener."""
-
-    def __init__(self, parent):
-        self.state = False
-        self.listener = None
-        self.parent = parent
-
-    # XDispatch
-    def dispatch(self, url, args):
-        self.state = not self.state
-        ev = self.create_simple_event(url, self.state)
-        self.listener.statusChanged(ev)  # this shades the button to indicate toggled state
-        self.toggle_action()
-
-    def addStatusListener(self, listener, url):
-        self.listener = listener
-
-    def removeStatusListener(self, listener, url): pass
-
-    # XControlNotificationListener
-    def controlEvent(self, ev): pass
-
-    def create_simple_event(self, url, state, enabled=True):
-        return FeatureStateEvent(self, url, "", enabled, False, state)
-
-    def toggle_action(self):
-        if self.state is False:
-            self.parent.stopkb()
-        else:
-            self.parent.startkb()
-
-
 class KeyHandler(unohelper.Base, XKeyHandler):
     """Handle LibreOffice key presses."""
 
@@ -225,11 +192,23 @@ class KeyHandler(unohelper.Base, XKeyHandler):
 
 
 class ToolbarHandler(unohelper.Base, XServiceInfo,
-                     XDispatchProvider, XDispatch):
+                     XDispatchProvider, XDispatch, XControlNotificationListener):
 
     def __init__(self, ctx):
         self.ctx = ctx
         self.key_handler = KeyHandler(self, self.ctx)
+        self.kbOn = False
+        self.state = False
+        self.listener = None
+
+    def controlEvent(self, ev):
+        pass
+
+    def addStatusListener(self, listener, url):
+        self.listener = listener
+
+    def removeStatusListener(self, listener, url):
+        pass
 
     def toggle_diacritic(self, args):
         """Handle diacritic key press."""
@@ -316,11 +295,7 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
     def queryDispatch(self, url, name, flag):
         dispatch = None
         if url.Protocol == Protocol:
-            try:
-                dispatch = Dispatcher(self)
-            except Exception as e:
-                print(e)
-                # insert_string(self.ctx, str(e))
+            dispatch = self
         return dispatch
 
     def queryDispatches(self, requests):
@@ -338,6 +313,7 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
         controller = doc.getCurrentController()
         # controller.removeKeyHandler(self.key_handler) #be sure there is only
         controller.addKeyHandler(self.key_handler)
+        self.kbOn = True
 
     def stopkb(self):
         smgr = self.ctx.getServiceManager()
@@ -346,15 +322,39 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
         doc = self.desktop.getCurrentComponent()
         controller = doc.getCurrentController()
         controller.removeKeyHandler(self.key_handler)
+        self.kbOn = False
 
     # XDispatch
-    # def dispatch(self, url, args):
-    #     if url.Protocol == Protocol:
-    #         if url.Path == "open":
-    #             if self.kbOn:
-    #                 self.stopkb()
-    #             else:
-    #                 self.startkb()
+    def dispatch(self, url, args):
+        self.state = not self.state
+        if self.listener:
+            ev = FeatureStateEvent(self, url, "", True, False, self.state)
+            self.listener.statusChanged(ev)
+
+        if url.Protocol == Protocol:
+            if url.Path == "open":
+                if self.kbOn:
+                    self.stopkb()
+                else:
+                    self.startkb()
+
+                # Update icon
+                frame = self.ctx.ServiceManager.createInstanceWithContext("com.sun.star.frame.Desktop", self.ctx).getCurrentFrame()
+                dispatch_provider = frame.queryDispatchProvider(".uno:Data", "", 0)
+                if dispatch_provider:
+                    if self.kbOn:
+                        icon = "%origin%/images/hop500red.svg"
+                    else:
+                        icon = "%origin%/images/hop500.svg"
+
+                    properties = (
+                        uno.createUnoStruct(
+                            "com.sun.star.beans.PropertyValue",
+                            Name="ImageURL",
+                            Value=icon
+                        ),
+                    )
+                    dispatch_provider.dispatch(".uno:Data", properties)
 
 
 # uno implementation

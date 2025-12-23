@@ -1,21 +1,27 @@
-<?xml version='1.0' encoding='utf-8'?>
-<description xmlns="http://openoffice.org/extensions/description/2006"
-	xmlns:d="http://openoffice.org/extensions/description/2006" xmlns:l="http://libreoffice.org/extensions/description/2011"
-	xmlns:xlink="http://www.w3.org/1999/xlink">
+<?xml version='1.0' encoding='utf-8' ?>
+<description
+  xmlns="http://openoffice.org/extensions/description/2006"
+  xmlns:d="http://openoffice.org/extensions/description/2006"
+  xmlns:l="http://libreoffice.org/extensions/description/2011"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+>
 	<platform value="all" />
 	<display-name>
 		<name lang="en">Hoplite Polytonic Greek Keyboard</name>
 	</display-name>
 	<publisher>
-		<name lang="en" xlink:href="https://github.com/jeremymarch/HopliteKB-LibreOffice">jeremymarch</name>
+		<name
+      lang="en"
+      xlink:href="https://github.com/jeremymarch/HopliteKB-LibreOffice"
+    >jeremymarch</name>
 	</publisher>
-	<version value="2.2" />
+	<version value="2.4" />
 	<extension-description>
 		<src lang="en" xlink:href="descriptions/description_en.txt" />
 	</extension-description>
 	<identifier value="com.philolog.hoplitekb" />
 	<icon>
-		<default xlink:href="images/hop48.png" />
+		<default xlink:href="images/hop500red.svg" />
 	</icon>
 	<dependencies>
 		<l:LibreOffice-minimal-version d:name="LibreOffice 6.2" value="6.2" />
