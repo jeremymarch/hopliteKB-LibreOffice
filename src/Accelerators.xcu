@@ -1,15 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<oor:component-data xmlns:oor="http://openoffice.org/2001/registry"
-  xmlns:xs="http://www.w3.org/2001/XMLSchema" oor:name="Accelerators"
-  oor:package="org.openoffice.Office">
+<?xml version="1.0" encoding="UTF-8" ?>
+<oor:component-data
+  xmlns:oor="http://openoffice.org/2001/registry"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  oor:name="Accelerators"
+  oor:package="org.openoffice.Office"
+>
   <node oor:name="PrimaryKeys">
     <node oor:name="Modules">
       <node oor:name="com.sun.star.text.TextDocument">
-        <!--<node oor:name="0_MOD1" oor:op="replace">
+        <!-- <node oor:name="H_MOD1" oor:op="replace">
           <prop oor:name="Command">
-            <value xml:lang="en-US">com.philolog.hoplitekb:open</value>
+            <value xml:lang="en-US">service:com.philolog.hoplitekb?open</value>
           </prop>
-        </node>-->
+        </node>
+        <node oor:name="J_MOD1_SHIFT">
+          <prop oor:name="Command">
+            <value xml:lang="en-US">service:com.philolog.hoplitekb?open</value>
+          </prop>
+        </node> -->
       </node>
     </node>
   </node>

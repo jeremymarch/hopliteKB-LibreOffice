@@ -37,16 +37,10 @@
         </prop>
         <node oor:name="UserDefinedImages">
           <prop oor:name="ImageSmallURL" oor:type="xs:string">
-            <value>%origin%/images/hop500.svg</value>
+            <value>%origin%/images/hk.png</value>
           </prop>
           <prop oor:name="ImageBigURL" oor:type="xs:string">
-            <value>%origin%/images/hop500.svg</value>
-          </prop>
-          <prop oor:name="ImageSmallURLSelected" oor:type="xs:string">
-            <value>%origin%/images/hop500red.svg</value>
-          </prop>
-          <prop oor:name="ImageBigURLSelected" oor:type="xs:string">
-            <value>%origin%/images/hop500red.svg</value>
+            <value>%origin%/images/hk.png</value>
           </prop>
           <!--<prop oor:name="ImageSmallURLDark" oor:type="xs:string">
             <value>%origin%/images/hop500dark.svg</value>

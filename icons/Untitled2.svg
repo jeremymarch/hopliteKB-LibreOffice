@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+  fill: black;
+}
+rect {
+    fill: white;
+}
+/*@media (prefers-color-scheme: dark) {
+    text { 
+      fill: white; 
+    }
+    rect {
+        fill: black;
+    }
+}*/
+</style>
+  <rect width="500px" height="500px" />
+  <text style="white-space: pre; font-weight:bold; font-family: Arial, sans-serif; font-size: 18.3px;" x="161.256" y="138.82" transform="matrix(11.067912, 0, 0, 12.021024, -1755.793091, -1447.360962)">HOP<tspan x="161.25599670410156" dy="1em">​</tspan>LITE</text>
+</svg>

@@ -201,14 +201,34 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
         self.state = False
         self.listener = None
 
-    def controlEvent(self, ev):
-        pass
-
     def addStatusListener(self, listener, url):
         self.listener = listener
 
     def removeStatusListener(self, listener, url):
         pass
+
+    def controlEvent(self, ev):
+        pass
+
+    def dispatch(self, url, args):
+        self.state = not self.state
+        if self.listener:
+            ev = FeatureStateEvent(self, url, "", True, False, self.state)
+            # button = ev.source.model
+            # button.backgroundcolor = 432686 if self.state else 16711680
+            self.listener.statusChanged(ev)
+
+        if url.Protocol == Protocol:
+            if url.Path == "open":
+                if self.state:
+                    self.startkb()
+                else:
+                    self.stopkb()
+
+    def queryDispatch(self, url, name, flag):
+        if url.Protocol == Protocol:
+            return self
+        return None
 
     def toggle_diacritic(self, args):
         """Handle diacritic key press."""
@@ -281,23 +301,6 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
             # print('hello python to console')
             pass
 
-    # XServiceInfo
-    def supportsService(self, name):
-        return (name == ServiceName)
-
-    def getImplementationName(self):
-        return ImplementationName
-
-    def getSupportedServiceNames(self):
-        return (ServiceName,)
-
-    # XDispatchProvider
-    def queryDispatch(self, url, name, flag):
-        dispatch = None
-        if url.Protocol == Protocol:
-            dispatch = self
-        return dispatch
-
     def queryDispatches(self, requests):
         # never called
         dispatches = \
@@ -313,7 +316,6 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
         controller = doc.getCurrentController()
         # controller.removeKeyHandler(self.key_handler) #be sure there is only
         controller.addKeyHandler(self.key_handler)
-        self.kbOn = True
 
     def stopkb(self):
         smgr = self.ctx.getServiceManager()
@@ -322,39 +324,15 @@ class ToolbarHandler(unohelper.Base, XServiceInfo,
         doc = self.desktop.getCurrentComponent()
         controller = doc.getCurrentController()
         controller.removeKeyHandler(self.key_handler)
-        self.kbOn = False
 
     # XDispatch
-    def dispatch(self, url, args):
-        self.state = not self.state
-        if self.listener:
-            ev = FeatureStateEvent(self, url, "", True, False, self.state)
-            self.listener.statusChanged(ev)
-
-        if url.Protocol == Protocol:
-            if url.Path == "open":
-                if self.kbOn:
-                    self.stopkb()
-                else:
-                    self.startkb()
-
-                # Update icon
-                frame = self.ctx.ServiceManager.createInstanceWithContext("com.sun.star.frame.Desktop", self.ctx).getCurrentFrame()
-                dispatch_provider = frame.queryDispatchProvider(".uno:Data", "", 0)
-                if dispatch_provider:
-                    if self.kbOn:
-                        icon = "%origin%/images/hop500red.svg"
-                    else:
-                        icon = "%origin%/images/hop500.svg"
-
-                    properties = (
-                        uno.createUnoStruct(
-                            "com.sun.star.beans.PropertyValue",
-                            Name="ImageURL",
-                            Value=icon
-                        ),
-                    )
-                    dispatch_provider.dispatch(".uno:Data", properties)
+    # def dispatch(self, url, args):
+    #     if url.Protocol == Protocol:
+    #         if url.Path == "open":
+    #             if self.kbOn:
+    #                 self.stopkb()
+    #             else:
+    #                 self.startkb()
 
 
 # uno implementation
